@@ -12,16 +12,12 @@ jobs:
       SKILLS_SKIP_SUBMODULE: "1"
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile=false
+      - run: npm install --no-audit --no-fund
       - name: Validate frontmatter & relative links
-        run: pnpm run validate
+        run: npm run validate
       - name: MCP smoke (tools/list against http://mcp.bmobapp.com/mcp)
-        run: tsx tests/mcp-smoke.test.ts
+        run: npx tsx tests/mcp-smoke.test.ts
         continue-on-error: true
