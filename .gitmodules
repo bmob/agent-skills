@@ -1,0 +1,5 @@
+[submodule "vendor/BmobDocs"]
+	path = vendor/BmobDocs
+	url = https://github.com/bmob/BmobDocs.git
+	branch = master
+	shallow = true

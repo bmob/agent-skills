@@ -1,0 +1,27 @@
+name: validate-skills
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      SKILLS_SKIP_SUBMODULE: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile=false
+      - name: Validate frontmatter & relative links
+        run: pnpm run validate
+      - name: MCP smoke (tools/list against http://mcp.bmobapp.com/mcp)
+        run: tsx tests/mcp-smoke.test.ts
+        continue-on-error: true

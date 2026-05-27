@@ -1,0 +1,50 @@
+{
+  "name": "@bmob/agent-skills",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Open-standard Agent Skills for Bmob backend cloud (https://www.bmobapp.com/) — usable in Cursor, Claude Code, OpenAI Codex, Gemini CLI, GitHub Copilot and any other agentskills.io-compatible AI tool.",
+  "homepage": "https://github.com/bmob/agent-skills",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bmob/agent-skills.git"
+  },
+  "bugs": "https://github.com/bmob/agent-skills/issues",
+  "license": "MIT",
+  "author": "Bmob <support@bmobapp.com>",
+  "keywords": [
+    "agent-skills",
+    "agentskills",
+    "skills",
+    "bmob",
+    "baas",
+    "backend-cloud",
+    "cursor",
+    "claude-code",
+    "codex",
+    "mcp"
+  ],
+  "files": [
+    "skills",
+    "shared",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "prepare": "node scripts/prepare-submodule.mjs",
+    "validate": "tsx tests/frontmatter.test.ts && tsx tests/links.test.ts",
+    "extract:local": "tsx scripts/extract-from-docs.ts --mode=local",
+    "extract:remote": "tsx scripts/extract-from-docs.ts --mode=remote",
+    "new:skill": "tsx scripts/new-skill.ts",
+    "build:release": "tsx scripts/build-release.ts",
+    "test": "pnpm run validate"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0",
+    "yaml": "^2.5.0",
+    "zod": "^3.23.0"
+  }
+}
