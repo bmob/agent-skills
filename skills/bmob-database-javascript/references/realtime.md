@@ -52,9 +52,23 @@ BmobSocketIo.onDeleteRow = (tableName, objectId, data) => {
 
 ## 完整示例（浏览器聊天室）
 
+SDK 用 CDN 动态加载 latest，不要写死版本号（详见 [`platform-init.md`](platform-init.md) CDN 段）：
+
 ```html
-<script src="https://cdn.jsdelivr.net/npm/hydrogen-js-sdk@2.7.3/dist/Bmob-2.7.3.min.js"></script>
 <script>
+(async function () {
+  const { tags } = await fetch(
+    "https://data.jsdelivr.com/v1/package/npm/hydrogen-js-sdk"
+  ).then((r) => r.json());
+  const v = tags.latest;
+  await new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = `https://cdn.jsdelivr.net/npm/hydrogen-js-sdk@${v}/dist/Bmob-${v}.min.js`;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+
   Bmob.initialize("你的Secret Key", "你的API 安全码");
   const sock = new Bmob.Socket("你的Application ID");
 
@@ -65,12 +79,13 @@ BmobSocketIo.onDeleteRow = (tableName, objectId, data) => {
   };
 
   // 2. 发送消息（走普通的 Query 写入触发 socket 推送）
-  function send(text) {
+  window.send = function (text) {
     const q = Bmob.Query("Message");
     q.set("nickname", "Alice");
     q.set("content", text);
     return q.save();
-  }
+  };
+})();
 </script>
 ```
 

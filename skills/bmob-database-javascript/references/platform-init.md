@@ -1,7 +1,7 @@
 # hydrogen-js-sdk 在各种宿主环境下的初始化
 
-> 一份 SDK 文件 `Bmob-<version>.min.js`（例如 `Bmob-2.7.3.min.js`）适配以下所有环境。
-> 当前 npm 最新版：[`hydrogen-js-sdk@2.7.3`](https://www.npmjs.com/package/hydrogen-js-sdk)。
+> 一份 SDK 文件 `Bmob-<version>.min.js` 适配以下所有环境；`<version>` 与 npm 包版本一致。
+> **不要写死版本号**——用 npm 安装或 CDN 动态解析 latest（见下方 CDN 段）。
 
 ## 唯一初始化语句
 
@@ -16,42 +16,83 @@ Bmob.initialize("你的Secret Key", "你的API 安全码");
 
 ## CDN 直链（浏览器 / 小程序通用）
 
-不通过打包工具时优先用 CDN，文件已经是打包后的 dist：
+不通过打包工具时用 CDN 加载 dist 压缩包。**dist 文件名自带版本号**（`Bmob-<version>.min.js`），因此 URL 里 `@x.y.z` 与文件名中的版本必须一致——**示例和生成代码里不要写死具体版本**，按下面方式自动取 latest。
 
-```text
-# jsdelivr（推荐）
-https://cdn.jsdelivr.net/npm/hydrogen-js-sdk@2.7.3/dist/Bmob-2.7.3.min.js
+### 推荐：动态解析 latest（浏览器）
 
-# unpkg（备用）
-https://unpkg.com/hydrogen-js-sdk@2.7.3/dist/Bmob-2.7.3.min.js
+```html
+<script>
+(async function () {
+  const { tags } = await fetch(
+    "https://data.jsdelivr.com/v1/package/npm/hydrogen-js-sdk"
+  ).then((r) => r.json());
+  const v = tags.latest;
+  await new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = `https://cdn.jsdelivr.net/npm/hydrogen-js-sdk@${v}/dist/Bmob-${v}.min.js`;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+  Bmob.initialize("你的Secret Key", "你的API 安全码");
+})();
+</script>
 ```
 
-> 文件名里的版本号必须与 `@x.y.z` 一致。要升级时：
->
-> 1. 改 `@版本号` 这一处即可，文件名里的版本号同步改。
-> 2. 验证最新版：`npm view hydrogen-js-sdk version`。
+拼出的 URL 形如（版本随 npm latest 变化，**不要抄具体数字**）：
+
+```text
+https://cdn.jsdelivr.net/npm/hydrogen-js-sdk@<latest>/dist/Bmob-<latest>.min.js
+```
+
+### 备用：unpkg（同样需动态版本）
+
+```text
+https://unpkg.com/hydrogen-js-sdk@<latest>/dist/Bmob-<latest>.min.js
+```
+
+### 查当前 latest
+
+```bash
+npm view hydrogen-js-sdk version
+# 或
+curl -s https://data.jsdelivr.com/v1/package/npm/hydrogen-js-sdk | jq -r .tags.latest
+```
+
+### 生产环境要锁版本？
+
+- **有打包工具**：用 `npm install hydrogen-js-sdk`，靠 `package-lock.json` / `pnpm-lock.yaml` 锁版本，不要走 CDN。
+- **纯静态 HTML + CDN**：在 CI / 构建脚本里用上面的命令查出版本再注入 `<script src>`；需要 SRI 时必须锁版本并重新生成 hash。
+- **禁止**在 skill 示例或文档里写死 `@2.7.3` 这类具体号——会随 SDK 发布迅速过时。
 
 ## 1. 浏览器（原生 / 多页应用）
 
+用上方 **CDN 动态解析 latest** 片段；初始化完成后再调 API：
+
 ```html
-<script src="https://cdn.jsdelivr.net/npm/hydrogen-js-sdk@2.7.3/dist/Bmob-2.7.3.min.js"></script>
 <script>
+(async function () {
+  const { tags } = await fetch(
+    "https://data.jsdelivr.com/v1/package/npm/hydrogen-js-sdk"
+  ).then((r) => r.json());
+  const v = tags.latest;
+  await new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = `https://cdn.jsdelivr.net/npm/hydrogen-js-sdk@${v}/dist/Bmob-${v}.min.js`;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
   Bmob.initialize("你的Secret Key", "你的API 安全码");
   Bmob.Query("Article").find().then(console.log);
+})();
 </script>
 ```
 
 **坑点**：
 
-- 生产环境记得用具体版本号（不要用 `@latest`），否则升级会无感破坏。
-- 想要 SRI hash：
-
-  ```html
-  <script
-    src="https://cdn.jsdelivr.net/npm/hydrogen-js-sdk@2.7.3/dist/Bmob-2.7.3.min.js"
-    integrity="sha384-..."  <!-- 用 https://www.srihash.org/ 生成 -->
-    crossorigin="anonymous"></script>
-  ```
+- 需要 SRI 时必须在构建期锁死版本并生成 hash（见 CDN 段「生产环境要锁版本」）；运行时 `@latest` 与 SRI 不兼容。
+- `index.js` 是 CommonJS 入口，**不能**直接 `<script src=".../hydrogen-js-sdk@latest">` 当浏览器全局脚本用，必须用 `dist/Bmob-<version>.min.js`。
 
 ## 2. Node.js（服务端）
 
@@ -131,23 +172,33 @@ Bmob.initialize("你的Secret Key", "你的API 安全码");
 
 ## 7. 快应用
 
+快应用不支持 npm，需把 dist 拷到项目里（文件名随版本变，**不要写死**）：
+
+```bash
+# 在开发机取 latest dist，再拷到快应用 lib/
+npm pack hydrogen-js-sdk@latest
+tar -xOf hydrogen-js-sdk-*.tgz package/dist/Bmob-*.min.js > lib/Bmob.min.js
+# 或保留原名：cp node_modules/hydrogen-js-sdk/dist/Bmob-*.min.js lib/
+```
+
 ```js
-// 入口 app.ux 同层创建 lib/Bmob-2.7.3.min.js
-const Bmob = require("./lib/Bmob-2.7.3.min.js");
+// 入口 app.ux — require 路径与拷贝后的文件名一致
+const Bmob = require("./lib/Bmob.min.js");   // 或 ./lib/Bmob-x.y.z.min.js
 Bmob.initialize("你的Secret Key", "你的API 安全码");
 ```
 
 **坑点**：
 
-- 快应用网络模块不支持 npm，**必须**直接拷贝 dist 文件到 `lib/` 下，不能 `npm install`。
+- 快应用网络模块不支持 npm，**必须**直接拷贝 dist 文件到 `lib/` 下。
+- 升级 SDK 时重新 `npm pack hydrogen-js-sdk@latest` 覆盖即可。
 - `manifest.json` 的 `network.request` 节点要把 Bmob 域名加上。
 
 ## 8. Cocos Creator（JS）
 
-把 `Bmob-2.7.3.min.js` 拖到 `assets/Script/lib/` 目录下，然后在脚本里：
+从 `node_modules/hydrogen-js-sdk/dist/Bmob-*.min.js`（或 `npm pack` 解压）拷到 `assets/Script/lib/`，然后在脚本里：
 
 ```js
-const Bmob = require("Bmob-2.7.3.min");   // 资源名，去掉 .js 后缀
+const Bmob = require("Bmob-x.y.z.min");   // 资源名 = 文件名去掉 .js；升级后同步改 require 名
 cc.Class({
   onLoad() {
     Bmob.initialize("你的Secret Key", "你的API 安全码");

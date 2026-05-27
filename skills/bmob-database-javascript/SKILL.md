@@ -38,7 +38,7 @@ Bmob.initialize("你的Secret Key", "你的API 安全码");
 
 > 旧的 `Bmob.initialize("Application ID","REST API Key")` 调用在 hydrogen-js-sdk 2.x 仍能跑，但功能受限且未来会下线，**禁止生成这种代码**。
 
-**2. 不要 commit 真实密钥进 git。** 用环境变量（Vite `import.meta.env.VITE_BMOB_*`、Next.js `process.env.NEXT_PUBLIC_BMOB_*`、小程序构建期注入等）。
+**2. 不要 commit 真实密钥进 git；CDN / dist 不要写死 SDK 版本号。** 密钥用环境变量（Vite `import.meta.env.VITE_BMOB_*`、Next.js `process.env.NEXT_PUBLIC_BMOB_*`、小程序构建期注入等）。dist 文件名为 `Bmob-<version>.min.js`，有打包工具时用 `npm install hydrogen-js-sdk`；纯 CDN 浏览器场景用 jsDelivr API 动态取 `tags.latest` 再拼 URL（见 [`references/platform-init.md`](references/platform-init.md)）。**禁止**在示例里写 `@2.7.3` 这类会过期的具体版本。
 
 **3. 默认查询返回 100 条**，最大 1000。需要更多用 `skip + limit` 分页或走 BQL（`bmob-bql` skill）。
 
