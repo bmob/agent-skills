@@ -1,0 +1,275 @@
+---
+name: bmob-database-restful
+description: "Use when interacting with Bmob backend cloud over plain HTTP / curl from ANY language that lacks a Bmob SDK — Python (requests/httpx), Go (net/http), PHP (Guzzle), C# (HttpClient), Rust (reqwest), Ruby, Java backend, Bash, Deno, server-side scripting, data migration. Also use when the user explicitly wants curl or the raw REST API URL pattern. Triggers: /1/classes/, /1/users, /1/batch, /1/cloudQuery, /1/timestamp, /1/requestSmsCode, X-Bmob-Application-Id, X-Bmob-REST-API-Key, X-Bmob-Safe-Sign, simple auth, encrypted auth, MD5 signature, curl bmob, Bmob REST API, Bmob HTTP. NOT for JavaScript / Node / Web / Mini Program (use bmob-database-javascript), Android (use bmob-database-android), or iOS (use bmob-database-ios). If Bmob MCP is configured, generate_code MCP tool can emit ready-to-use curl for 13 operation types — prefer it over hand-writing curl."
+metadata:
+  author: bmob
+  version: "0.1.0"
+  docs: "https://github.com/bmob/BmobDocs/blob/master/mds/data/restful/develop_doc.md"
+  docs_raw: "https://raw.githubusercontent.com/bmob/BmobDocs/master/mds/data/restful/develop_doc.md"
+---
+
+# Bmob Database — REST API
+
+Bmob REST API 是 **跨语言、跨平台** 的通用接入方式：任何能发 HTTP 请求的环境都能用，不依赖任何 SDK。典型用法包括 Python/Go/PHP/C#/Rust/Ruby/Java 后端、数据迁移脚本、Bash one-liner、Deno Edge Functions、Serverless 函数等。
+
+## 核心原则
+
+**1. URL 形态固定：** 所有接口在 `https://your-api-domain/1/`（用户在控制台拿到，例如 `api.codenow.cn` / `restapi.bmob.cn` 等）。版本号 `/1/` 必须保留。
+
+```
+POST   /1/classes/<TableName>              # 新增
+GET    /1/classes/<TableName>/<objectId>   # 查单条
+GET    /1/classes/<TableName>              # 查列表 / 条件查询
+PUT    /1/classes/<TableName>/<objectId>   # 更新
+DELETE /1/classes/<TableName>/<objectId>   # 删除
+POST   /1/batch                            # 批量（≤ 50 条）
+GET    /1/cloudQuery                       # BQL 查询
+POST   /1/users                            # 注册
+POST   /1/login                            # 登录
+POST   /2/files/<fileName>                 # 上传文件
+GET    /1/timestamp                        # 服务器时间
+```
+
+完整快速参考见 [`references/url-cheatsheet.md`](references/url-cheatsheet.md)。
+
+**2. 两种鉴权方式，按场景选**：
+
+- **简易授权（服务端 / 不公开抓包的应用）**：HTTP 头加 `X-Bmob-Application-Id` + `X-Bmob-REST-API-Key`。详见 [shared/auth-headers.md](../../shared/auth-headers.md)。
+- **加密授权（公开客户端，浏览器/小程序）**：6 个头部 + MD5 签名。详见 [shared/md5-sign-algo.md](../../shared/md5-sign-algo.md)。
+
+**3. POST/PUT 必须 `Content-Type: application/json`**，body 用 JSON。Bmob REST 不支持 form-urlencoded。
+
+**4. GET 的 query 必须 URL encode**：`where` / `order` / `limit` / `skip` / `include` / `keys` / `count` 都通过 query string 传，含 `{` / `:` 等字符必须 encode。
+
+**5. 默认查询返回 10 条**，最大 1000。需要更多用 `skip` + `limit` 分页或 `count=1`。
+
+## 安全清单
+
+- [ ] **不要在前端 JS 调 REST**：浏览器抓包能看到 REST API Key。要么用 SDK（带加密授权），要么走自建 BFF。
+- [ ] **服务端代码里 Key 用环境变量**：不要硬编码到源码、不 commit 到公开仓库。
+- [ ] **Master Key 仅用于服务端**：通过 `X-Bmob-Master-Key` 头部使用，**不要**给前端。
+- [ ] **写操作的表必须配 ACL**：见 `bmob-acl-and-roles`（P1）；REST 创建对象时 body 里加 `"ACL": {...}` 即可。
+- [ ] **生产用 HTTPS**：你的 API domain 必须是 https，否则 Header 里的 Key 会明文传输。
+- [ ] **批量上限 50 条 / 请求**：`/1/batch` 单次最多 50 个子请求。
+
+## 五大基础操作（简易授权 + curl）
+
+公共头部（所有请求都要带，下方示例不再重复）：
+
+```
+X-Bmob-Application-Id: <your-application-id>
+X-Bmob-REST-API-Key:   <your-rest-api-key>
+Content-Type:          application/json
+```
+
+### 添加数据
+
+```bash
+curl -X POST 'https://your-api-domain/1/classes/GameScore' \
+  -H "X-Bmob-Application-Id: <id>" \
+  -H "X-Bmob-REST-API-Key:   <key>" \
+  -H "Content-Type: application/json" \
+  -d '{"score":1337,"playerName":"Sean Plott","cheatMode":false}'
+```
+
+成功 `201 Created` + body：
+
+```json
+{ "createdAt": "2011-08-20 02:06:57", "objectId": "e1kXT22L" }
+```
+
+### 查询单条
+
+```bash
+curl -X GET 'https://your-api-domain/1/classes/GameScore/e1kXT22L' \
+  -H "X-Bmob-Application-Id: <id>" \
+  -H "X-Bmob-REST-API-Key:   <key>"
+```
+
+### 查询列表（条件 + 分页 + 排序）
+
+```bash
+curl -X GET 'https://your-api-domain/1/classes/GameScore' \
+  -H "X-Bmob-Application-Id: <id>" \
+  -H "X-Bmob-REST-API-Key:   <key>" \
+  -G \
+  --data-urlencode 'where={"score":{"$gt":100}}' \
+  --data-urlencode 'limit=20' \
+  --data-urlencode 'skip=0' \
+  --data-urlencode 'order=-createdAt' \
+  --data-urlencode 'count=1'
+```
+
+返回：
+
+```json
+{
+  "results": [ /* ... */ ],
+  "count":   123
+}
+```
+
+完整 `where` 运算符列表（`$gt` / `$lt` / `$in` / `$nin` / `$exists` / `$regex` / `$inQuery` / `$or` …）见 [`references/query-where-syntax.md`](references/query-where-syntax.md)。
+
+### 更新
+
+```bash
+curl -X PUT 'https://your-api-domain/1/classes/GameScore/e1kXT22L' \
+  -H "X-Bmob-Application-Id: <id>" \
+  -H "X-Bmob-REST-API-Key:   <key>" \
+  -H "Content-Type: application/json" \
+  -d '{"score":73453}'
+```
+
+### 删除
+
+```bash
+curl -X DELETE 'https://your-api-domain/1/classes/GameScore/e1kXT22L' \
+  -H "X-Bmob-Application-Id: <id>" \
+  -H "X-Bmob-REST-API-Key:   <key>"
+```
+
+## 原子计数器
+
+```bash
+curl -X PUT 'https://your-api-domain/1/classes/Post/abc' \
+  -H "Content-Type: application/json" \
+  ...
+  -d '{"likes":{"__op":"Increment","amount":1}}'
+```
+
+`amount` 支持负数。
+
+## 批量操作（≤ 50）
+
+```bash
+curl -X POST 'https://your-api-domain/1/batch' \
+  -H "Content-Type: application/json" \
+  ...
+  -d '{
+    "requests": [
+      { "method": "POST",   "path": "/1/classes/GameScore",     "body": { "score": 1 } },
+      { "method": "PUT",    "path": "/1/classes/GameScore/aaa", "body": { "score": 9 } },
+      { "method": "DELETE", "path": "/1/classes/GameScore/bbb" }
+    ]
+  }'
+```
+
+每个子请求独立成功/失败，**不会回滚**。
+
+## 数据类型：Pointer / Relation / Date / File / GeoPoint
+
+REST 通过 `__type` 字段标识特殊类型：
+
+```jsonc
+{
+  // Pointer：一对多
+  "author":   { "__type": "Pointer",   "className": "_User",   "objectId": "abc" },
+
+  // Date：日期（注意服务器存的格式）
+  "publishedAt": { "__type": "Date",   "iso": "2024-08-21 18:02:52" },
+
+  // File：上传后返回的结构原样存
+  "cover":    { "__type": "File",      "group": "group1", "filename": "1.jpg", "url": "M00/01/14/x.jpg" },
+
+  // GeoPoint：地理位置
+  "location": { "__type": "GeoPoint",  "latitude": 23.05, "longitude": 113.40 },
+
+  // Relation：多对多（实际操作通过 __op AddRelation / RemoveRelation）
+  "likedBy":  { "__type": "Relation",  "className": "_User" }
+}
+```
+
+详见 [`references/data-types.md`](references/data-types.md)。
+
+## 用户系统
+
+```bash
+# 注册
+curl -X POST 'https://your-api-domain/1/users' \
+  -H "Content-Type: application/json" \
+  ... \
+  -d '{"username":"hello","password":"pwd123","email":"x@y.com"}'
+
+# 登录（必须用 GET，参数走 query）
+curl -X GET 'https://your-api-domain/1/login' \
+  -H "Content-Type: application/json" \
+  ... \
+  -G \
+  --data-urlencode 'username=hello' \
+  --data-urlencode 'password=pwd123'
+
+# 拿当前用户（带上 X-Bmob-Session-Token）
+curl -X GET 'https://your-api-domain/1/users/<objectId>' \
+  -H "X-Bmob-Session-Token: <session-token>" \
+  ...
+```
+
+完整用户系统接口见 [`references/users.md`](references/users.md)。
+
+## 文件上传
+
+走独立的 `/2/files/` 端点，body 是文件二进制：
+
+```bash
+curl -X POST 'https://your-api-domain/2/files/cover.jpg' \
+  -H "X-Bmob-Application-Id: <id>" \
+  -H "X-Bmob-REST-API-Key:   <key>" \
+  -H "Content-Type: image/jpeg" \
+  --data-binary @/path/to/cover.jpg
+```
+
+详见 [`references/files.md`](references/files.md)。
+
+## 加密授权
+
+公开客户端必须用加密授权，签名规则：
+
+```
+sign = md5(url + timeStamp + SecurityCode + noncestr + body + SDKVersion)
+```
+
+完整 6 个头部、签名拼接顺序、Node 参考实现见 [shared/md5-sign-algo.md](../../shared/md5-sign-algo.md)。
+
+## 多语言客户端示例
+
+| 语言 | 示例 |
+|---|---|
+| Python（requests） | [`references/lang-snippets/python.md`](references/lang-snippets/python.md) |
+| Go（net/http） | [`references/lang-snippets/go.md`](references/lang-snippets/go.md) |
+| PHP（Guzzle） | [`references/lang-snippets/php.md`](references/lang-snippets/php.md) |
+| C#（HttpClient） | [`references/lang-snippets/csharp.md`](references/lang-snippets/csharp.md) |
+
+## 与 MCP 联动
+
+如果用户配置了 [Bmob MCP](../bmob-mcp/SKILL.md)，**`generate_code` 工具能直接生成 curl**，覆盖 13 种 type（添加 / 删除 / 更新 / 条件查询 / 注册 / 登录 / SMS / 云函数 / 文件上传等）。优先调用它而不是手写 curl——这样能确保 URL pattern / Header / where 语法都是当前服务器最新版本。
+
+## 排错速查
+
+| HTTP | code | 含义 |
+|---|---|---|
+| 401 | — | App ID 或 REST API Key 错；或加密授权签名错 |
+| 400 | 101 | 对象不存在 / 用户名密码不正确 |
+| 400 | 105 | 字段名非法或是保留字段（`objectId`/`createdAt`/`updatedAt`/`ACL`） |
+| 400 | 106 | Pointer 格式不对 |
+| 400 | 107 | JSON 格式错 / Content-Type 不是 application/json |
+| 400 | 117 | 纬度 / 经度越界 |
+| 400 | 122 | 用户权限验证失败（ACL） |
+| 400 | 202 | username 已被使用 |
+| 400 | 209 | mobilePhoneNumber 已被使用 |
+| 400 | 211 | 用户未登录 / 登录已过期 |
+| 400 | 401 | 唯一索引重复值 |
+| 400 | 402 | where 超字节限制 |
+| 400 | 10076 | QPS 超限 |
+| 500 | — | 服务端临时故障，稍后重试 |
+
+完整错误码见 [`bmob-error-codes`](../bmob-error-codes/SKILL.md)。
+
+## 参考
+
+- 完整 REST 文档：[BmobDocs/mds/data/restful/develop_doc.md](https://github.com/bmob/BmobDocs/blob/master/mds/data/restful/develop_doc.md)
+- 鉴权约定：[shared/auth-headers.md](../../shared/auth-headers.md)
+- MD5 签名：[shared/md5-sign-algo.md](../../shared/md5-sign-algo.md)
+- BQL 语法：`bmob-bql`（P1）
+- MCP `generate_code` 工具：[`bmob-mcp`](../bmob-mcp/SKILL.md)
+- 错误码：[`bmob-error-codes`](../bmob-error-codes/SKILL.md)
