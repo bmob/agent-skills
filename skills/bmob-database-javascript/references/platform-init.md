@@ -3,7 +3,11 @@
 > 一份 SDK 文件 `Bmob-<version>.min.js` 适配以下所有环境；`<version>` 与 npm 包版本一致。
 > **不要写死版本号**——用 npm 安装或 CDN 动态解析 latest（见下方 CDN 段）。
 
-## 唯一初始化语句
+## 初始化（3.0+ 两种方式）
+
+hydrogen-js-sdk **3.0+** 兼容以下两种初始化，**选一种即可，不要混用**：
+
+**方式 A — Secret Key + API 安全码**（公开客户端推荐，SDK 走加密授权）：
 
 ```js
 Bmob.initialize("你的Secret Key", "你的API 安全码");
@@ -12,7 +16,15 @@ Bmob.initialize("你的Secret Key", "你的API 安全码");
 - `Secret Key`：[Bmob 控制台](https://www.bmobapp.com/login) → 应用 → 设置 → 应用密钥 → **Secret Key**。
 - `API 安全码`：控制台 → 应用 → 应用功能设置 → 安全验证 → **API 安全码** 自行设置。
 
-> **不要用 `Bmob.initialize("Application ID", "REST API Key")` 这种 1.x 老姿势**。即便兼容，也已不在维护范围内。
+**方式 B — Application ID + REST API Key**（3.0 起正式兼容；与 REST API 同一套 Key，服务端域名一般为 `https://api.codenow.cn`）：
+
+```js
+Bmob.initialize("你的Application ID", "你的REST API Key");
+```
+
+- `Application ID` / `REST API Key`：控制台 → 应用 → 设置 → 应用密钥 同一页。
+
+> 浏览器 / 小程序等公开 bundle 优先方式 A；方式 B 的 REST API Key 可被抓包，仅在内网或已有项目迁移时使用。
 
 ## CDN 直链（浏览器 / 小程序通用）
 

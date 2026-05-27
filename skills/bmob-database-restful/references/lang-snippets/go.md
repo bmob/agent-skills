@@ -16,7 +16,7 @@ import (
     "time"
 )
 
-const Base = "https://your-api-domain/1"
+const Base = "https://api.codenow.cn/1"
 
 var client = &http.Client{Timeout: 10 * time.Second}
 

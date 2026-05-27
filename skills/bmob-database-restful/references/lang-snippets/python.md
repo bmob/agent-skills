@@ -10,7 +10,7 @@ pip install requests
 import os
 import requests
 
-BASE  = "https://your-api-domain/1"
+BASE  = "https://api.codenow.cn/1"
 HEADERS = {
     "X-Bmob-Application-Id": os.environ["BMOB_APP_ID"],
     "X-Bmob-REST-API-Key":   os.environ["BMOB_REST_KEY"],

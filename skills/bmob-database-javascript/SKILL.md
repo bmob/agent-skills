@@ -1,6 +1,6 @@
 ---
 name: bmob-database-javascript
-description: "Use when implementing Bmob NoSQL database CRUD with the cross-platform hydrogen-js-sdk — ONE SDK file (Bmob-x.x.x.min.js) covers ALL of: browser, Node.js, WeChat Mini Program, Alipay / ByteDance / QQ / Baidu Mini Programs, Quick App 快应用, Cocos Creator JS, Electron, Tauri, hybrid apps, and any ES6 framework (Vue2 / Vue3 / React / Next.js / Vite / Nuxt). Triggers: Bmob.initialize, Bmob.Query, Bmob.User, Bmob.Pointer, Bmob.GeoPoint, Bmob.Relation, hydrogen-js-sdk, npm install hydrogen-js-sdk, import Bmob from 'hydrogen-js-sdk', 微信小程序 Bmob, Cocos Creator Bmob, query.find, query.set, query.save, query.destroy, query.equalTo. NOT for Android native (use bmob-database-android), iOS native (use bmob-database-ios), curl / Python / Go / PHP / C# (use bmob-database-restful), or C++ Cocos2d-x (separate skill). If Bmob MCP is configured in the project, call get_project_tables first via bmob-mcp before writing code."
+description: "Use when implementing Bmob NoSQL database CRUD with the cross-platform hydrogen-js-sdk (3.0+ supports both Secret Key + API 安全码 and Application ID + REST API Key init) — ONE SDK file (Bmob-x.x.x.min.js) covers ALL of: browser, Node.js, WeChat Mini Program, Alipay / ByteDance / QQ / Baidu Mini Programs, Quick App 快应用, Cocos Creator JS, Electron, Tauri, hybrid apps, and any ES6 framework (Vue2 / Vue3 / React / Next.js / Vite / Nuxt). Triggers: Bmob.initialize, Bmob.Query, Bmob.User, Bmob.Pointer, Bmob.GeoPoint, Bmob.Relation, hydrogen-js-sdk, npm install hydrogen-js-sdk, import Bmob from 'hydrogen-js-sdk', 微信小程序 Bmob, Cocos Creator Bmob, query.find, query.set, query.save, query.destroy, query.equalTo. NOT for Android native (use bmob-database-android), iOS native (use bmob-database-ios), curl / Python / Go / PHP / C# (use bmob-database-restful), or C++ Cocos2d-x (separate skill). If Bmob MCP is configured in the project, call get_project_tables first via bmob-mcp before writing code."
 metadata:
   author: bmob
   version: "0.1.0"
@@ -23,20 +23,31 @@ metadata:
 - Electron / Tauri
 - 任意混合 App（WebView 内嵌 H5）
 
-> **本 skill 只覆盖新版 hydrogen-js-sdk**（`Bmob.Query('X')` Promise 风格）。基于 Backbone.js 的旧 `bmob-min.js`（`Bmob.Object.extend("X")` callback 风格）与早期 1.x 的 `Application ID + REST API Key` 初始化方式不再支持——**不要用，也不要回退**。
+> **本 skill 只覆盖新版 hydrogen-js-sdk**（`Bmob.Query('X')` Promise 风格，3.0+）。基于 Backbone.js 的旧 `bmob-min.js`（`Bmob.Object.extend("X")` callback 风格）**不要用，也不要回退**。
 
 ## 核心原则
 
-**1. 初始化只用一种方式：** `Secret Key + API 安全码`（hydrogen-js-sdk 2.0+ 的唯一姿势）。
+**1. 初始化支持两种方式**（hydrogen-js-sdk **3.0+** 均兼容；按场景二选一，**不要混用**）：
+
+**方式 A — Secret Key + API 安全码**（**推荐**：浏览器 / 小程序 / 公开客户端，SDK 内部走加密授权）：
 
 ```js
 Bmob.initialize("你的Secret Key", "你的API 安全码");
 ```
 
-- **Secret Key**：[Bmob 控制台](https://www.bmobapp.com/login) → 应用 → 设置 → 应用密钥 → **Secret Key**。
-- **API 安全码**：控制台 → 应用 → 应用功能设置 → 安全验证 → **API 安全码** 自行设置（任意字符串，作为前端"对账盐"使用，不要硬编码到公开 bundle）。
+- **Secret Key**：控制台 → 应用 → 设置 → 应用密钥 → **Secret Key**。
+- **API 安全码**：控制台 → 应用 → 应用功能设置 → 安全验证 → **API 安全码** 自行设置。
 
-> 旧的 `Bmob.initialize("Application ID","REST API Key")` 调用在 hydrogen-js-sdk 2.x 仍能跑，但功能受限且未来会下线，**禁止生成这种代码**。
+**方式 B — Application ID + REST API Key**（3.0 起正式兼容；适合已有 1.x/2.x 项目迁移、或与服务端 REST 共用同一套 Key）：
+
+```js
+Bmob.initialize("你的Application ID", "你的REST API Key");
+```
+
+- **Application ID** / **REST API Key**：控制台 → 应用 → 设置 → 应用密钥 同一页。
+- REST API 请求域名一般为 `https://api.codenow.cn`（见 [`bmob-database-restful`](../bmob-database-restful/SKILL.md)）。
+
+> 2.x 时代方式 B 功能受限；**3.0+ 两种初始化等价可用**。公开 bundle 仍优先方式 A（REST API Key 可被抓包）。
 
 **2. 不要 commit 真实密钥进 git；CDN / dist 不要写死 SDK 版本号。** 密钥用环境变量（Vite `import.meta.env.VITE_BMOB_*`、Next.js `process.env.NEXT_PUBLIC_BMOB_*`、小程序构建期注入等）。dist 文件名为 `Bmob-<version>.min.js`，有打包工具时用 `npm install hydrogen-js-sdk`；纯 CDN 浏览器场景用 jsDelivr API 动态取 `tags.latest` 再拼 URL（见 [`references/platform-init.md`](references/platform-init.md)）。**禁止**在示例里写 `@2.7.3` 这类会过期的具体版本。
 
@@ -48,7 +59,7 @@ Bmob.initialize("你的Secret Key", "你的API 安全码");
 
 ## 安全清单
 
-- [ ] **密钥分级**：浏览器 / 小程序 / 移动端只用 Secret Key + API 安全码，**永不用 Master Key**。Master Key 仅服务端使用。
+- [ ] **密钥分级**：浏览器 / 小程序 / 移动端优先 **Secret Key + API 安全码**（方式 A），**永不用 Master Key**。若用 Application ID + REST API Key（方式 B），REST API Key 会暴露在 bundle 中。
 - [ ] **生产环境关闭调试模式**：`Bmob.debug(true)` 仅在小程序开发时使用，上线前删掉。
 - [ ] **小程序必须配置服务器域名白名单**：见 [`references/platform-init.md`](references/platform-init.md) 微信小程序段。
 - [ ] **写入的表必须配 ACL**：否则任意用户可改任意行。参见 `bmob-acl-and-roles`（P1）。
@@ -60,9 +71,12 @@ Bmob.initialize("你的Secret Key", "你的API 安全码");
 
 ### 初始化
 
+默认推荐 **方式 A**（Secret Key + API 安全码）；3.0+ 亦可用 **方式 B**（Application ID + REST API Key），见上方核心原则。
+
 ```js
 import Bmob from "hydrogen-js-sdk";
 Bmob.initialize("你的Secret Key", "你的API 安全码");
+// 或：Bmob.initialize("你的Application ID", "你的REST API Key");
 ```
 
 详细的 8 种宿主环境引入方式见 [`references/platform-init.md`](references/platform-init.md)。
@@ -238,7 +252,7 @@ sequenceDiagram
 | 现象 | 排查 |
 |---|---|
 | `Bmob is undefined` | 没引入 SDK；或 Node.js 用了压缩版（必须用源码 `require('hydrogen-js-sdk/src/lib/app.js')`） |
-| 初始化报 401 | Secret Key 拼错；或把 Application ID / REST API Key 当 Secret Key 传了；或 API 安全码与控制台不一致 |
+| 初始化报 401 | 方式 A：Secret Key 或 API 安全码与控制台不一致；方式 B：Application ID 或 REST API Key 错；或两种方式的参数混用（例如用 Application ID 当 Secret Key 传） |
 | 写入成功但字段值不见 | 字段名拼错（schemaless 不报错）；先 `get_project_tables` 比对 |
 | 查询返回数据少 | 默认 100 条上限；用 `query.limit(1000)` 或分页 |
 | `set("id", ...)` 没生效 | 更新时必须用 `set("id", objectId)`（不是 `set("objectId", ...)`） |

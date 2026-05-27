@@ -1,6 +1,6 @@
 ---
 name: bmob-database-restful
-description: "Use when interacting with Bmob backend cloud over plain HTTP / curl from ANY language that lacks a Bmob SDK — Python (requests/httpx), Go (net/http), PHP (Guzzle), C# (HttpClient), Rust (reqwest), Ruby, Java backend, Bash, Deno, server-side scripting, data migration. Also use when the user explicitly wants curl or the raw REST API URL pattern. Triggers: /1/classes/, /1/users, /1/batch, /1/cloudQuery, /1/timestamp, /1/requestSmsCode, X-Bmob-Application-Id, X-Bmob-REST-API-Key, X-Bmob-Safe-Sign, simple auth, encrypted auth, MD5 signature, curl bmob, Bmob REST API, Bmob HTTP. NOT for JavaScript / Node / Web / Mini Program (use bmob-database-javascript), Android (use bmob-database-android), or iOS (use bmob-database-ios). If Bmob MCP is configured, generate_code MCP tool can emit ready-to-use curl for 13 operation types — prefer it over hand-writing curl."
+description: "Use when interacting with Bmob backend cloud over plain HTTP / curl from ANY language that lacks a Bmob SDK — Python (requests/httpx), Go (net/http), PHP (Guzzle), C# (HttpClient), Rust (reqwest), Ruby, Java backend, Bash, Deno, server-side scripting, data migration. Also use when the user explicitly wants curl or the raw REST API URL pattern. API base domain: https://api.codenow.cn (e.g. /1/classes/Token). Triggers: /1/classes/, /1/users, /1/batch, /1/cloudQuery, /1/timestamp, /1/requestSmsCode, X-Bmob-Application-Id, X-Bmob-REST-API-Key, X-Bmob-Safe-Sign, simple auth, encrypted auth, MD5 signature, curl bmob, Bmob REST API, Bmob HTTP. NOT for JavaScript / Node / Web / Mini Program (use bmob-database-javascript), Android (use bmob-database-android), or iOS (use bmob-database-ios). If Bmob MCP is configured, generate_code MCP tool can emit ready-to-use curl for 13 operation types — prefer it over hand-writing curl."
 metadata:
   author: bmob
   version: "0.1.0"
@@ -14,7 +14,9 @@ Bmob REST API 是 **跨语言、跨平台** 的通用接入方式：任何能发
 
 ## 核心原则
 
-**1. URL 形态固定：** 所有接口在 `https://your-api-domain/1/`（用户在控制台拿到，例如 `api.codenow.cn` / `restapi.bmob.cn` 等）。版本号 `/1/` 必须保留。
+**1. URL 形态固定：** 所有接口在 `https://api.codenow.cn/1/`（Bmob 控制台 → 应用 → 设置 → 配置 中显示的 API 域名，一般为 `api.codenow.cn`）。版本号 `/1/` 必须保留。
+
+示例：`https://api.codenow.cn/1/classes/Token` — 对 `Token` 表做 CRUD 时路径即 `/1/classes/Token`。
 
 ```
 POST   /1/classes/<TableName>              # 新增
@@ -65,7 +67,7 @@ Content-Type:          application/json
 ### 添加数据
 
 ```bash
-curl -X POST 'https://your-api-domain/1/classes/GameScore' \
+curl -X POST 'https://api.codenow.cn/1/classes/GameScore' \
   -H "X-Bmob-Application-Id: <id>" \
   -H "X-Bmob-REST-API-Key:   <key>" \
   -H "Content-Type: application/json" \
@@ -81,7 +83,7 @@ curl -X POST 'https://your-api-domain/1/classes/GameScore' \
 ### 查询单条
 
 ```bash
-curl -X GET 'https://your-api-domain/1/classes/GameScore/e1kXT22L' \
+curl -X GET 'https://api.codenow.cn/1/classes/GameScore/e1kXT22L' \
   -H "X-Bmob-Application-Id: <id>" \
   -H "X-Bmob-REST-API-Key:   <key>"
 ```
@@ -89,7 +91,7 @@ curl -X GET 'https://your-api-domain/1/classes/GameScore/e1kXT22L' \
 ### 查询列表（条件 + 分页 + 排序）
 
 ```bash
-curl -X GET 'https://your-api-domain/1/classes/GameScore' \
+curl -X GET 'https://api.codenow.cn/1/classes/GameScore' \
   -H "X-Bmob-Application-Id: <id>" \
   -H "X-Bmob-REST-API-Key:   <key>" \
   -G \
@@ -114,7 +116,7 @@ curl -X GET 'https://your-api-domain/1/classes/GameScore' \
 ### 更新
 
 ```bash
-curl -X PUT 'https://your-api-domain/1/classes/GameScore/e1kXT22L' \
+curl -X PUT 'https://api.codenow.cn/1/classes/GameScore/e1kXT22L' \
   -H "X-Bmob-Application-Id: <id>" \
   -H "X-Bmob-REST-API-Key:   <key>" \
   -H "Content-Type: application/json" \
@@ -124,7 +126,7 @@ curl -X PUT 'https://your-api-domain/1/classes/GameScore/e1kXT22L' \
 ### 删除
 
 ```bash
-curl -X DELETE 'https://your-api-domain/1/classes/GameScore/e1kXT22L' \
+curl -X DELETE 'https://api.codenow.cn/1/classes/GameScore/e1kXT22L' \
   -H "X-Bmob-Application-Id: <id>" \
   -H "X-Bmob-REST-API-Key:   <key>"
 ```
@@ -132,7 +134,7 @@ curl -X DELETE 'https://your-api-domain/1/classes/GameScore/e1kXT22L' \
 ## 原子计数器
 
 ```bash
-curl -X PUT 'https://your-api-domain/1/classes/Post/abc' \
+curl -X PUT 'https://api.codenow.cn/1/classes/Post/abc' \
   -H "Content-Type: application/json" \
   ...
   -d '{"likes":{"__op":"Increment","amount":1}}'
@@ -143,7 +145,7 @@ curl -X PUT 'https://your-api-domain/1/classes/Post/abc' \
 ## 批量操作（≤ 50）
 
 ```bash
-curl -X POST 'https://your-api-domain/1/batch' \
+curl -X POST 'https://api.codenow.cn/1/batch' \
   -H "Content-Type: application/json" \
   ...
   -d '{
@@ -186,13 +188,13 @@ REST 通过 `__type` 字段标识特殊类型：
 
 ```bash
 # 注册
-curl -X POST 'https://your-api-domain/1/users' \
+curl -X POST 'https://api.codenow.cn/1/users' \
   -H "Content-Type: application/json" \
   ... \
   -d '{"username":"hello","password":"pwd123","email":"x@y.com"}'
 
 # 登录（必须用 GET，参数走 query）
-curl -X GET 'https://your-api-domain/1/login' \
+curl -X GET 'https://api.codenow.cn/1/login' \
   -H "Content-Type: application/json" \
   ... \
   -G \
@@ -200,7 +202,7 @@ curl -X GET 'https://your-api-domain/1/login' \
   --data-urlencode 'password=pwd123'
 
 # 拿当前用户（带上 X-Bmob-Session-Token）
-curl -X GET 'https://your-api-domain/1/users/<objectId>' \
+curl -X GET 'https://api.codenow.cn/1/users/<objectId>' \
   -H "X-Bmob-Session-Token: <session-token>" \
   ...
 ```
@@ -212,7 +214,7 @@ curl -X GET 'https://your-api-domain/1/users/<objectId>' \
 走独立的 `/2/files/` 端点，body 是文件二进制：
 
 ```bash
-curl -X POST 'https://your-api-domain/2/files/cover.jpg' \
+curl -X POST 'https://api.codenow.cn/2/files/cover.jpg' \
   -H "X-Bmob-Application-Id: <id>" \
   -H "X-Bmob-REST-API-Key:   <key>" \
   -H "Content-Type: image/jpeg" \

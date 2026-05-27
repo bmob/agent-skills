@@ -5,7 +5,7 @@
 ## 上传单文件
 
 ```bash
-curl -X POST 'https://your-api-domain/2/files/cover.jpg' \
+curl -X POST 'https://api.codenow.cn/2/files/cover.jpg' \
   -H "X-Bmob-Application-Id: <id>" \
   -H "X-Bmob-REST-API-Key:   <key>" \
   -H "Content-Type: image/jpeg" \
@@ -34,7 +34,7 @@ curl -X POST 'https://your-api-domain/2/files/cover.jpg' \
 ## 删除单文件
 
 ```bash
-curl -X DELETE 'https://your-api-domain/1/files/<filename>' \
+curl -X DELETE 'https://api.codenow.cn/1/files/<filename>' \
   -H "X-Bmob-Application-Id: <id>" \
   -H "X-Bmob-REST-API-Key:   <key>" \
   -H "X-Bmob-Master-Key:     <master-key>"
@@ -45,7 +45,7 @@ curl -X DELETE 'https://your-api-domain/1/files/<filename>' \
 ## 批量删除文件
 
 ```bash
-curl -X POST 'https://your-api-domain/1/batchFileDelete' \
+curl -X POST 'https://api.codenow.cn/1/batchFileDelete' \
   -H "Content-Type: application/json" \
   -H "X-Bmob-Master-Key: <master-key>" \
   ... \

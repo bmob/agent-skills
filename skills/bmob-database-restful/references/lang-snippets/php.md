@@ -12,7 +12,7 @@ require 'vendor/autoload.php';
 use GuzzleHttp\Client;
 
 $bmob = new Client([
-    'base_uri' => 'https://your-api-domain/1/',
+    'base_uri' => 'https://api.codenow.cn/1/',
     'headers'  => [
         'X-Bmob-Application-Id' => getenv('BMOB_APP_ID'),
         'X-Bmob-REST-API-Key'   => getenv('BMOB_REST_KEY'),

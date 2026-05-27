@@ -18,7 +18,7 @@
 ## 注册
 
 ```bash
-curl -X POST 'https://your-api-domain/1/users' \
+curl -X POST 'https://api.codenow.cn/1/users' \
   -H "X-Bmob-Application-Id: <id>" \
   -H "X-Bmob-REST-API-Key:   <key>" \
   -H "Content-Type: application/json" \
@@ -38,7 +38,7 @@ curl -X POST 'https://your-api-domain/1/users' \
 ## 手机号一键注册 / 登录
 
 ```bash
-curl -X POST 'https://your-api-domain/1/usersByMobilePhone' \
+curl -X POST 'https://api.codenow.cn/1/usersByMobilePhone' \
   -H "Content-Type: application/json" \
   ... \
   -d '{"mobilePhoneNumber":"13800138000","smsCode":"123456","password":"pwd123"}'
@@ -49,7 +49,7 @@ curl -X POST 'https://your-api-domain/1/usersByMobilePhone' \
 ## 登录
 
 ```bash
-curl -X GET 'https://your-api-domain/1/login' \
+curl -X GET 'https://api.codenow.cn/1/login' \
   -H "X-Bmob-Application-Id: <id>" \
   -H "X-Bmob-REST-API-Key:   <key>" \
   -G \
@@ -68,7 +68,7 @@ X-Bmob-Session-Token: <sessionToken>
 ## 当前用户 / 校验 session
 
 ```bash
-curl -X GET 'https://your-api-domain/1/me' \
+curl -X GET 'https://api.codenow.cn/1/me' \
   -H "X-Bmob-Application-Id: <id>" \
   -H "X-Bmob-REST-API-Key:   <key>" \
   -H "X-Bmob-Session-Token:  <token>"
@@ -81,7 +81,7 @@ curl -X GET 'https://your-api-domain/1/me' \
 需要带 `X-Bmob-Session-Token`：
 
 ```bash
-curl -X PUT 'https://your-api-domain/1/users/<objectId>' \
+curl -X PUT 'https://api.codenow.cn/1/users/<objectId>' \
   -H "X-Bmob-Session-Token: <token>" \
   -H "Content-Type: application/json" \
   ... \
@@ -93,7 +93,7 @@ curl -X PUT 'https://your-api-domain/1/users/<objectId>' \
 ## 修改密码（已登录场景）
 
 ```bash
-curl -X PUT 'https://your-api-domain/1/updateUserPassword/<objectId>' \
+curl -X PUT 'https://api.codenow.cn/1/updateUserPassword/<objectId>' \
   -H "X-Bmob-Session-Token: <token>" \
   -H "Content-Type: application/json" \
   ... \
@@ -105,7 +105,7 @@ curl -X PUT 'https://your-api-domain/1/updateUserPassword/<objectId>' \
 ## 邮箱重置密码
 
 ```bash
-curl -X POST 'https://your-api-domain/1/requestPasswordReset' \
+curl -X POST 'https://api.codenow.cn/1/requestPasswordReset' \
   -H "Content-Type: application/json" \
   ... \
   -d '{"email":"x@y.com"}'
@@ -117,13 +117,13 @@ curl -X POST 'https://your-api-domain/1/requestPasswordReset' \
 
 ```bash
 # 请求验证码
-curl -X POST 'https://your-api-domain/1/requestSmsCode' \
+curl -X POST 'https://api.codenow.cn/1/requestSmsCode' \
   -H "Content-Type: application/json" \
   ... \
   -d '{"mobilePhoneNumber":"13800138000","template":"register"}'
 
 # 验证
-curl -X POST 'https://your-api-domain/1/verifySmsCode/<smsCode>' \
+curl -X POST 'https://api.codenow.cn/1/verifySmsCode/<smsCode>' \
   -H "Content-Type: application/json" \
   ... \
   -d '{"mobilePhoneNumber":"13800138000"}'
@@ -134,7 +134,7 @@ curl -X POST 'https://your-api-domain/1/verifySmsCode/<smsCode>' \
 ## 第三方登录（authData）
 
 ```bash
-curl -X POST 'https://your-api-domain/1/users' \
+curl -X POST 'https://api.codenow.cn/1/users' \
   -H "Content-Type: application/json" \
   ... \
   -d '{
@@ -153,7 +153,7 @@ curl -X POST 'https://your-api-domain/1/users' \
 ## 查询用户
 
 ```bash
-curl -X GET 'https://your-api-domain/1/users' \
+curl -X GET 'https://api.codenow.cn/1/users' \
   -H "X-Bmob-Application-Id: <id>" \
   -H "X-Bmob-REST-API-Key:   <key>" \
   -G \
@@ -167,7 +167,7 @@ curl -X GET 'https://your-api-domain/1/users' \
 需要 `X-Bmob-Session-Token`：
 
 ```bash
-curl -X DELETE 'https://your-api-domain/1/users/<objectId>' \
+curl -X DELETE 'https://api.codenow.cn/1/users/<objectId>' \
   -H "X-Bmob-Session-Token: <token>" \
   ...
 ```

@@ -1,7 +1,9 @@
 # Bmob REST URL 速查表
 
 > 所有路径前缀都是 `/1/`（个别为 `/2/`，见下方"特殊端点"）。
-> 把 `https://your-api-domain` 替换为你在控制台拿到的 API 域名。
+> **API 根域名**：`https://api.codenow.cn`（控制台 → 应用 → 设置 → 配置 中确认；与示例一致时可直用）。
+>
+> 示例完整 URL：`https://api.codenow.cn/1/classes/Token`（查询 / 写入 `Token` 表）。
 
 ## 对象 / 数据表
 

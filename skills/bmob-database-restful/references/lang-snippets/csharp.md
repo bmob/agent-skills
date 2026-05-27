@@ -17,7 +17,7 @@ public static class Bmob
 
     private static HttpClient CreateClient()
     {
-        var c = new HttpClient { BaseAddress = new Uri("https://your-api-domain/1/") };
+        var c = new HttpClient { BaseAddress = new Uri("https://api.codenow.cn/1/") };
         c.DefaultRequestHeaders.Add("X-Bmob-Application-Id",
             Environment.GetEnvironmentVariable("BMOB_APP_ID"));
         c.DefaultRequestHeaders.Add("X-Bmob-REST-API-Key",
