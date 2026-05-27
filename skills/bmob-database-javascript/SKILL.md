@@ -13,7 +13,7 @@ metadata:
 
 # Bmob Database — JavaScript / 跨端 SDK
 
-[hydrogen-js-sdk](https://github.com/bmob/hydrogen-js-sdk) 是 **同一个 SDK 文件 `Bmob-x.x.x.min.js`** 支持以下所有宿主环境，无平台分支代码：
+[hydrogen-js-sdk](https://github.com/bmob/hydrogen-js-sdk) 是 **同一个 SDK 文件 `Bmob-<version>.min.js`** 支持以下所有宿主环境，无平台分支代码：
 
 - 浏览器 / 任何 Web 前端（React、Vue 2、Vue 3、Next.js、Nuxt、Vite、Astro、SvelteKit、Solid 等）
 - Node.js 服务端（必须源码引入）
@@ -23,21 +23,22 @@ metadata:
 - Electron / Tauri
 - 任意混合 App（WebView 内嵌 H5）
 
-> **关于旧版**：基于 Backbone.js 的旧 `bmob-min.js`（`Bmob.Object.extend("X")` 风格）已不再维护，本 skill **只覆盖新版 hydrogen-js-sdk**（`Bmob.Query('X')` Promise 风格）。
+> **本 skill 只覆盖新版 hydrogen-js-sdk**（`Bmob.Query('X')` Promise 风格）。基于 Backbone.js 的旧 `bmob-min.js`（`Bmob.Object.extend("X")` callback 风格）与早期 1.x 的 `Application ID + REST API Key` 初始化方式不再支持——**不要用，也不要回退**。
 
 ## 核心原则
 
-**1. SDK 版本决定初始化参数。** SDK 2.0 及以上用 `Secret Key + API 安全码`；2.0 以下用 `Application ID + REST API Key`。两套不能混用，不确定时去 [Bmob 控制台 → 应用密钥](https://www.bmobapp.com/login) 看你的 SDK 版本。
+**1. 初始化只用一种方式：** `Secret Key + API 安全码`（hydrogen-js-sdk 2.0+ 的唯一姿势）。
 
 ```js
-// SDK >= 2.0.0（强推）
 Bmob.initialize("你的Secret Key", "你的API 安全码");
-
-// SDK < 2.0.0
-Bmob.initialize("你的Application ID", "你的REST API Key");
 ```
 
-**2. 不要 commit 真实密钥进 git。** 用环境变量（Vite `import.meta.env.VITE_BMOB_KEY`、Next.js `process.env.NEXT_PUBLIC_BMOB_KEY`、小程序构建期注入等）。
+- **Secret Key**：[Bmob 控制台](https://www.bmobapp.com/login) → 应用 → 设置 → 应用密钥 → **Secret Key**。
+- **API 安全码**：控制台 → 应用 → 应用功能设置 → 安全验证 → **API 安全码** 自行设置（任意字符串，作为前端"对账盐"使用，不要硬编码到公开 bundle）。
+
+> 旧的 `Bmob.initialize("Application ID","REST API Key")` 调用在 hydrogen-js-sdk 2.x 仍能跑，但功能受限且未来会下线，**禁止生成这种代码**。
+
+**2. 不要 commit 真实密钥进 git。** 用环境变量（Vite `import.meta.env.VITE_BMOB_*`、Next.js `process.env.NEXT_PUBLIC_BMOB_*`、小程序构建期注入等）。
 
 **3. 默认查询返回 100 条**，最大 1000。需要更多用 `skip + limit` 分页或走 BQL（`bmob-bql` skill）。
 
@@ -47,7 +48,7 @@ Bmob.initialize("你的Application ID", "你的REST API Key");
 
 ## 安全清单
 
-- [ ] **密钥分级**：浏览器/小程序/移动端只用 REST API Key（< 2.0）或 Secret Key + API 安全码（≥ 2.0），**永不用 Master Key**。Master Key 仅服务端使用。
+- [ ] **密钥分级**：浏览器 / 小程序 / 移动端只用 Secret Key + API 安全码，**永不用 Master Key**。Master Key 仅服务端使用。
 - [ ] **生产环境关闭调试模式**：`Bmob.debug(true)` 仅在小程序开发时使用，上线前删掉。
 - [ ] **小程序必须配置服务器域名白名单**：见 [`references/platform-init.md`](references/platform-init.md) 微信小程序段。
 - [ ] **写入的表必须配 ACL**：否则任意用户可改任意行。参见 `bmob-acl-and-roles`（P1）。
@@ -236,8 +237,8 @@ sequenceDiagram
 
 | 现象 | 排查 |
 |---|---|
-| `Bmob is undefined` | 没引入 SDK；或 Node.js 用了压缩版（必须用源码 `require('./src/lib/app.js')`） |
-| 初始化报 401 | Key 错；SDK 2.0 用法用了 1.x 的 key（或反之） |
+| `Bmob is undefined` | 没引入 SDK；或 Node.js 用了压缩版（必须用源码 `require('hydrogen-js-sdk/src/lib/app.js')`） |
+| 初始化报 401 | Secret Key 拼错；或把 Application ID / REST API Key 当 Secret Key 传了；或 API 安全码与控制台不一致 |
 | 写入成功但字段值不见 | 字段名拼错（schemaless 不报错）；先 `get_project_tables` 比对 |
 | 查询返回数据少 | 默认 100 条上限；用 `query.limit(1000)` 或分页 |
 | `set("id", ...)` 没生效 | 更新时必须用 `set("id", objectId)`（不是 `set("objectId", ...)`） |
