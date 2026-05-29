@@ -153,7 +153,7 @@ Bmob.initialize("你的Secret Key", "你的API 安全码");
 
 **关键坑点（必看）**：
 
-- **服务器域名白名单**：微信公众平台 → 开发 → 开发设置 → 服务器域名，把 Bmob 控制台「应用设置 → 配置」给出的 https 域名添加到 **request 合法域名**（通常包括 `https://api.codenow.cn`、`https://file.codenow.cn` 之类，以控制台实际显示为准）。本地开发期可在微信开发者工具勾选「不校验合法域名」绕过。
+- **服务器域名白名单**：微信公众平台 → 开发 → 开发设置 → 服务器域名，把 Bmob 控制台「应用设置 → 配置」给出的 https 域名添加到 **request 合法域名**（至少添加 `https://api.bmobcloud.com`，其余以控制台实际显示为准）。本地开发期可在微信开发者工具勾选「不校验合法域名」绕过。
 - **微信 AppID + AppSecret 写到 Bmob 后台**：Bmob 控制台 → 设置，把你的小程序 AppID 和 AppSecret 填进去，否则 `Bmob.User.loginWithWechat()` 等微信专属能力无法工作。
 - **`Bmob.debug(true)` 必须上线前关闭**：开启后请求会打到测试服务器，生产数据拿不到。
 

@@ -78,7 +78,7 @@
 
 ## 公共 Header
 
-简易授权：
+**简易授权**（Application ID + REST API Key；REST 原生方式，3.0+ 全端可用，对应 JS SDK 方式 B）：
 
 ```
 X-Bmob-Application-Id: <id>
@@ -86,7 +86,7 @@ X-Bmob-REST-API-Key:   <key>
 Content-Type:          application/json
 ```
 
-加密授权（公开客户端）：
+**加密授权**（Secret Key + 安全码签名；公开端直接调 REST 时**推荐**，对应 JS SDK 方式 A）：
 
 ```
 Content-Type:          application/json

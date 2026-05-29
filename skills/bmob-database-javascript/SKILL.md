@@ -61,7 +61,8 @@ Bmob.initialize("你的Application ID", "你的REST API Key");
 
 - [ ] **密钥分级**：浏览器 / 小程序 / 移动端优先 **Secret Key + API 安全码**（方式 A），**永不用 Master Key**。若用 Application ID + REST API Key（方式 B），REST API Key 会暴露在 bundle 中。
 - [ ] **生产环境关闭调试模式**：`Bmob.debug(true)` 仅在小程序开发时使用，上线前删掉。
-- [ ] **小程序必须配置服务器域名白名单**：见 [`references/platform-init.md`](references/platform-init.md) 微信小程序段。
+- [ ] **小程序必须配置服务器域名白名单**：微信后台 `request` 合法域名至少添加 `https://api.bmobcloud.com`（见 [`references/platform-init.md`](references/platform-init.md) 微信小程序段）。
+- [ ] **微信小程序若使用 npm 引入 SDK，需先在开发者工具执行“工具 --> 构建 npm”**：未构建时 `import Bmob from "hydrogen-js-sdk"` 不会生效。
 - [ ] **写入的表必须配 ACL**：否则任意用户可改任意行。参见 `bmob-acl-and-roles`（P1）。
 - [ ] **批量操作上限 50 条**（含批量更新、批量删除）。超出需循环。
 - [ ] **批量查询上限 100 条 / 单次 1000 条**：避免一次拉全表。
@@ -257,7 +258,7 @@ sequenceDiagram
 | 查询返回数据少 | 默认 100 条上限；用 `query.limit(1000)` 或分页 |
 | `set("id", ...)` 没生效 | 更新时必须用 `set("id", objectId)`（不是 `set("objectId", ...)`） |
 | 时间范围查询少一条 | 服务端时间是微秒精度，区间右端 +1 秒 |
-| 小程序请求失败 | 没在小程序后台配置 https 服务器域名白名单 |
+| 小程序请求失败 | 先检查微信后台 `request` 合法域名是否已添加 `https://api.bmobcloud.com`；若 SDK 是 npm 引入，还要在微信开发者工具执行“工具 --> 构建 npm”后再编译运行 |
 | Promise 一直 pending | 调用了不存在的方法名（hydrogen 不抛错只挂起）；对照 [完整 API](https://github.com/bmob/BmobDocs/blob/master/mds/data/wechat_app_new/index.md) |
 | 9015 报错 | 见 [`bmob-error-codes`](../bmob-error-codes/SKILL.md) 的 9015 专题 |
 

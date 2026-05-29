@@ -34,10 +34,12 @@ GET    /1/timestamp                        # 服务器时间
 
 完整快速参考见 [`references/url-cheatsheet.md`](references/url-cheatsheet.md)。
 
-**2. 两种鉴权方式，按场景选**：
+**2. 两种鉴权方式，均可用**（与 hydrogen-js-sdk **3.0+** 的两种 `Bmob.initialize` 对应）：
 
-- **简易授权（服务端 / 不公开抓包的应用）**：HTTP 头加 `X-Bmob-Application-Id` + `X-Bmob-REST-API-Key`。详见 [shared/auth-headers.md](../../shared/auth-headers.md)。
-- **加密授权（公开客户端，浏览器/小程序）**：6 个头部 + MD5 签名。详见 [shared/md5-sign-algo.md](../../shared/md5-sign-algo.md)。
+- **简易授权 — Application ID + REST API Key**（REST 原生方式；JS SDK **方式 B** 即走此通道）：Header `X-Bmob-Application-Id` + `X-Bmob-REST-API-Key`。适合服务端、内网脚本、与 SDK 方式 B 共用同一套 Key 的项目。详见 [shared/auth-headers.md](../../shared/auth-headers.md)。
+- **加密授权 — Secret Key + API 安全码签名**（JS SDK **方式 A** 走此通道；也可手写 REST）：6 个头部 + MD5 签名。适合浏览器 / 小程序直接调 REST、且不想在 Header 里暴露 REST API Key 的场景。详见 [shared/md5-sign-algo.md](../../shared/md5-sign-algo.md)。
+
+> 2.x 文档曾暗示前端「禁止」Application ID + REST API Key；**当前两种鉴权在全端均可正常使用**。公开 bundle 中 REST API Key 仍可被抓包，故公开端仍**推荐**优先 SDK 方式 A 或加密授权，而非硬性禁止方式 B。
 
 **3. POST/PUT 必须 `Content-Type: application/json`**，body 用 JSON。Bmob REST 不支持 form-urlencoded。
 
@@ -47,7 +49,8 @@ GET    /1/timestamp                        # 服务器时间
 
 ## 安全清单
 
-- [ ] **不要在前端 JS 调 REST**：浏览器抓包能看到 REST API Key。要么用 SDK（带加密授权），要么走自建 BFF。
+- [ ] **前端接入优先级**：浏览器 / 小程序优先 [`bmob-database-javascript`](../bmob-database-javascript/SKILL.md) SDK（3.0+ 支持 Secret Key **或** Application ID 两种初始化）；若必须手写 REST，公开端优先加密授权或自建 BFF。
+- [ ] **Application ID + REST API Key 可用**：不再禁止在前端或 SDK 中使用此组合（对应 SDK 方式 B / REST 简易授权）；注意 REST API Key 会出现在请求头中，抓包后可复用。
 - [ ] **服务端代码里 Key 用环境变量**：不要硬编码到源码、不 commit 到公开仓库。
 - [ ] **Master Key 仅用于服务端**：通过 `X-Bmob-Master-Key` 头部使用，**不要**给前端。
 - [ ] **写操作的表必须配 ACL**：见 `bmob-acl-and-roles`（P1）；REST 创建对象时 body 里加 `"ACL": {...}` 即可。
@@ -225,7 +228,7 @@ curl -X POST 'https://api.codenow.cn/2/files/cover.jpg' \
 
 ## 加密授权
 
-公开客户端必须用加密授权，签名规则：
+浏览器 / 小程序**直接调用 REST**（不经 SDK）时，**推荐**加密授权；Application ID + REST API Key 简易授权同样可用（与 SDK 3.0 方式 B 一致），但 REST API Key 更易被抓包。签名规则：
 
 ```
 sign = md5(url + timeStamp + SecurityCode + noncestr + body + SDKVersion)

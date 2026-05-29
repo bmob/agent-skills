@@ -1,6 +1,6 @@
 # Bmob 加密授权 — MD5 签名算法
 
-适用于公开客户端（浏览器、小程序、移动 App 内嵌 H5）的 REST API 加密授权。所有请求头必须带签名，否则会被拒绝。参见 [auth-headers.md](auth-headers.md) 中的"加密授权"。
+适用于浏览器、小程序、移动 App 内嵌 H5 **直接调用 REST API** 时的加密授权（对应 JS SDK 3.0+ **方式 A** / `Bmob.initialize(Secret Key, API 安全码)`）。Application ID + REST API Key 简易授权同样可用（SDK **方式 B**），本算法为**推荐**而非唯一选项。参见 [auth-headers.md](auth-headers.md)。
 
 ## 拼接顺序
 

@@ -1,10 +1,19 @@
 # Bmob REST 鉴权头部约定
 
-所有 Bmob REST API（包括第三方语言通过 curl 调用）的 HTTP 请求都需要鉴权头部。Bmob 提供两种方式，按场景二选一：
+所有 Bmob REST API（包括第三方语言通过 curl 调用）的 HTTP 请求都需要鉴权头部。Bmob 提供两种方式，**均可正常使用**；与 hydrogen-js-sdk **3.0+** 的两种初始化一一对应：
 
-## 简易授权（服务端 / 私有应用）
+| REST 鉴权 | HTTP 头部 | JS SDK 初始化（3.0+） |
+|---|---|---|
+| 简易授权 | `X-Bmob-Application-Id` + `X-Bmob-REST-API-Key` | `Bmob.initialize(Application ID, REST API Key)` 方式 B |
+| 加密授权 | Secret Key + API 安全码 + MD5 签名（6 头） | `Bmob.initialize(Secret Key, API 安全码)` 方式 A |
 
-适合 Node.js 后端、定时任务、爬虫、数据迁移脚本等不会被抓包的场景。
+> 2.x 时代文档常写「前端禁止 Application ID + REST API Key」——**已过时**。3.0+ 两种方式在全端等价可用；公开 bundle 仍**推荐**方式 A / 加密授权，因 REST API Key 会出现在 Header 中。
+
+## 简易授权（Application ID + REST API Key）
+
+REST API 的**原生**鉴权方式，全端可用（含浏览器 / 小程序，与 SDK 方式 B 一致）。
+
+适合：Node.js 后端、定时任务、数据迁移、与 JS SDK 方式 B 共用 Key 的项目。
 
 ```http
 X-Bmob-Application-Id: <your-application-id>
@@ -14,9 +23,11 @@ Content-Type:          application/json
 
 `POST` / `PUT` 请求体必须是 JSON。
 
-## 加密授权（公开客户端 / 浏览器 / 小程序）
+## 加密授权（Secret Key + API 安全码签名）
 
-防止 REST API Key 被抓包后滥用，强烈建议公开端使用此方式。需要 6 个头部：
+与 SDK 方式 A 相同；也可在**不引入 SDK** 时手写 REST 请求。
+
+适合：浏览器 / 小程序直接调 REST、且不想在 Header 里暴露 REST API Key 的场景（**推荐**，非强制——简易授权仍可用）。
 
 ```http
 Content-Type:           application/json

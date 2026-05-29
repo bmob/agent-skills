@@ -58,7 +58,7 @@ metadata:
 ## 通用安全清单（被所有 sub-skill include）
 
 - [ ] 写入操作的目标表必须配 ACL，否则任意用户可改任意行（参见 `bmob-acl-and-roles`）。
-- [ ] 浏览器 / 小程序 / 移动端只能用 REST API Key 或加密授权（带签名），**绝不**使用 Master Key。
+- [ ] 浏览器 / 小程序 / 移动端可用 **REST API Key（简易授权 / SDK 方式 B）** 或 **Secret Key + 安全码（加密授权 / SDK 方式 A）**；**绝不**使用 Master Key。
 - [ ] 加密授权场景的 `SecurityCode` 不通过网络传输；不要硬编码到前端 bundle，用环境变量注入或放进 BFF。
 - [ ] 凡是 batch / 全表扫描 / 跨表查询 → 优先用 BQL 而不是循环调用 SDK。
 - [ ] 出错时先看响应体里的 `code` 字段去查 `bmob-error-codes`，不要乱猜。

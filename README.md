@@ -1,20 +1,53 @@
 # Bmob Agent Skills
 
-> 让 Cursor、Claude Code、OpenAI Codex、Gemini CLI、GitHub Copilot 等主流 AI 编码工具能正确使用 [Bmob 后端云](https://www.bmobapp.com/) 的各项能力。
+**English** | [简体中文](./README.zh-CN.md)
 
-本仓库提供一组遵循 [agentskills.io 开源标准](https://agentskills.io/) 的 Agent Skills，覆盖 Bmob 的数据服务、用户认证、文件存储、云函数、推送、短信、支付、ACL/角色、错误码等模块，并把 [Bmob MCP Server](http://mcp.bmobapp.com/mcp) 的 7 个真实工具集成进来，让 AI agent 既能"读会写 SDK 代码"，也能"在 IDE 里直接对你的数据表做实操"。
+<p align="center">
+  <img src="docs/images/banner.svg" alt="Bmob Agent Skills — teach AI agents to build on Bmob backend cloud" width="100%"/>
+</p>
 
-## 安装
+> Production-oriented Agent Skills for [Bmob backend cloud](https://www.bmobapp.com/), designed for Cursor, Claude Code, OpenAI Codex, Gemini CLI, GitHub Copilot, and other [agentskills.io](https://agentskills.io/)-compatible AI tools.
 
-### 1. 一键安装全部 skill（推荐）
+`@bmob/agent-skills` helps AI agents generate platform-correct Bmob code and perform schema-aware operations through MCP. It reduces cross-platform API confusion, avoids unsafe key usage, and improves troubleshooting quality with deterministic routing.
+
+<p align="center">
+  <img src="docs/images/how-it-works.svg" alt="How Bmob Agent Skills route prompts to platform skills and MCP" width="92%"/>
+</p>
+
+## Why this project
+
+- **Correctness first**: route prompts to the right platform skill (JavaScript, Android, iOS, REST) before code generation.
+- **Operational capability**: integrate the hosted Bmob MCP server for live table introspection and data operations.
+- **Security guardrails**: embed explicit “NOT for” constraints and key-usage boundaries inside skills.
+- **Maintainability**: references are synced from BmobDocs and validated in CI.
+- **Portability**: works across mainstream AI coding hosts with the same skill package.
+
+## What you get
+
+<p align="center">
+  <img src="docs/images/supported-tools.svg" alt="Supported AI coding tools and skill install paths" width="92%"/>
+</p>
+
+- Router skill: `bmob` (entrypoint for all Bmob-related prompts)
+- MCP operations: `bmob-mcp` (7 live tools)
+- SDK/REST implementation skills:
+  - `bmob-database-javascript`
+  - `bmob-database-android`
+  - `bmob-database-ios`
+  - `bmob-database-restful`
+- Troubleshooting skill: `bmob-error-codes`
+
+## Quick start
+
+### 1) Install all skills (recommended)
 
 ```bash
-npx skills add bmob/agent-skills
+npx skills add bmob/agent-skills -y -g
 ```
 
-这会把所有 `skills/*` 自动复制到你当前 AI 工具的 skills 目录（Cursor 是 `.cursor/skills/`、Claude Code 是 `.claude/skills/`、Codex 是 `~/.codex/skills/`、Gemini CLI 是 `~/.gemini/skills/` 等）。
+This copies all `skills/*` into your AI tool’s skills directory (for example: `.cursor/skills/`, `.claude/skills/`, `~/.codex/skills/`, `~/.gemini/skills/`).
 
-### 2. 仅安装指定 skill
+### 2) Install specific skills
 
 ```bash
 npx skills add bmob/agent-skills --skill bmob
@@ -22,61 +55,114 @@ npx skills add bmob/agent-skills --skill bmob-database-javascript
 npx skills add bmob/agent-skills --skill bmob-mcp
 ```
 
-### 3. 手动安装
-
-任意主流 agent skill 都接受复制目录的方式：
+### 3) Manual install
 
 ```bash
 git clone https://github.com/bmob/agent-skills.git
-# Cursor 项目级
+# Cursor (project scope)
 cp -r agent-skills/skills/bmob-database-javascript .cursor/skills/
-# Claude Code 用户级
+# Claude Code (user scope)
 cp -r agent-skills/skills/bmob ~/.claude/skills/
 # OpenAI Codex
 cp -r agent-skills/skills/bmob-mcp ~/.codex/skills/
 ```
 
-### 4. 配置 Bmob MCP Server（可选但强推荐）
+## Configure Bmob MCP (optional, recommended)
 
-复制 [`shared/mcp-install-snippets.md`](shared/mcp-install-snippets.md) 中对应你工具的片段到 mcp 配置文件里。配置后，向 agent 说"列出我 bmob 项目里的所有数据表"应当返回真实表结构。
+Use snippets from [`shared/mcp-install-snippets.md`](shared/mcp-install-snippets.md):
 
-## 现有 Skills
+- Cursor: `.cursor/mcp.json` or `~/.cursor/mcp.json`
+- Claude Code: `.mcp.json` or `~/.claude.json`
+- OpenAI Codex CLI: `~/.codex/config.toml`
+- VS Code / GitHub Copilot: `.vscode/mcp.json`
 
-| Skill | 作用 |
+Then ask:
+
+```text
+List all tables in my Bmob project
+```
+
+The agent should call `get_project_tables` and return live schema.
+
+> Security note: current MCP endpoint is `http://mcp.bmobapp.com/mcp` (HTTP). Use in local development only, and never commit real keys.
+
+## Available skills
+
+<p align="center">
+  <img src="docs/images/skills-map.svg" alt="Bmob skills map — P0 router, database, MCP, error codes" width="92%"/>
+</p>
+
+| Skill | Purpose |
 |---|---|
-| [`bmob`](skills/bmob/SKILL.md) | 总入口 / 路由 skill，凡是用户提到 Bmob 都先命中这里，再分流到具体 sub-skill |
-| [`bmob-mcp`](skills/bmob-mcp/SKILL.md) | Bmob MCP Server 的 7 个真实工具用法（`get_project_tables` / `create_table` / `add_single_data` / `update_single_data` / `delete_single_data` / `generate_code` / `mcp_endpoint_mcp_post`） |
-| [`bmob-database-javascript`](skills/bmob-database-javascript/SKILL.md) | 跨端 [hydrogen-js-sdk](https://github.com/bmob/hydrogen-js-sdk) — 浏览器 / Node.js / 微信小程序 / 支付宝/字节/QQ/百度小程序 / 快应用 / Cocos Creator JS / Electron / Tauri / 混合 App |
-| [`bmob-database-android`](skills/bmob-database-android/SKILL.md) | Android 原生 SDK（Java / Kotlin） |
-| [`bmob-database-ios`](skills/bmob-database-ios/SKILL.md) | iOS 原生 SDK（Objective-C 与 Swift） |
-| [`bmob-database-restful`](skills/bmob-database-restful/SKILL.md) | REST API — 任意没 SDK 的语言（Python / Go / PHP / C# / Rust / Ruby / Java 后端） |
-| [`bmob-error-codes`](skills/bmob-error-codes/SKILL.md) | 错误码字典 + 排查指引 |
+| [`bmob`](skills/bmob/SKILL.md) | Routing entrypoint for all Bmob prompts |
+| [`bmob-mcp`](skills/bmob-mcp/SKILL.md) | Live MCP operations: `get_project_tables`, `create_table`, `add_single_data`, `update_single_data`, `delete_single_data`, `generate_code`, `mcp_endpoint_mcp_post` |
+| [`bmob-database-javascript`](skills/bmob-database-javascript/SKILL.md) | Cross-platform `hydrogen-js-sdk` for Web, Node.js, mini programs, Cocos Creator JS, Electron, Tauri, hybrid apps |
+| [`bmob-database-android`](skills/bmob-database-android/SKILL.md) | Android native SDK (Java / Kotlin) |
+| [`bmob-database-ios`](skills/bmob-database-ios/SKILL.md) | iOS native SDK (Objective-C / Swift) |
+| [`bmob-database-restful`](skills/bmob-database-restful/SKILL.md) | REST API integration for backend languages and scripts |
+| [`bmob-error-codes`](skills/bmob-error-codes/SKILL.md) | Error-code lookup and diagnostics guidance |
 
-更多 skill（认证 / 存储 / 云函数 / 推送 / 短信 / 支付 / ACL / BQL）正在 P1、P2 波次中陆续到来——见 [ROADMAP](#roadmap)。
+## Usage examples
 
-## 怎么用
-
-skill 由你的 AI 工具按需自动加载——你不需要手动"启用"任何东西。只要在 prompt 里提到 Bmob，agent 会自动激活总入口 [`bmob`](skills/bmob/SKILL.md) 并路由到具体 sub-skill。例如：
-
-| 你说 | 自动激活 |
+| Prompt | Expected routing |
 |---|---|
-| "用 bmob 在 Next.js 里加一条 GameScore 记录" | `bmob` + `bmob-database-javascript` |
-| "Android Kotlin 怎么用 bmob 查询" | `bmob` + `bmob-database-android` |
-| "Swift 端连 bmob 怎么登录" | `bmob` + `bmob-database-ios`（+ 将来 `bmob-auth-ios`） |
-| "curl 怎么操作 bmob" | `bmob` + `bmob-database-restful` |
-| "帮我新建一个 Player 表" | `bmob` + `bmob-mcp`（如已配置 MCP） |
-| "bmob 报错 9015 是什么意思" | `bmob` + `bmob-error-codes` |
+| “Add a GameScore row in Next.js with Bmob” | `bmob` + `bmob-database-javascript` |
+| “How to query Bmob in Android Kotlin?” | `bmob` + `bmob-database-android` |
+| “Swift login with Bmob” | `bmob` + `bmob-database-ios` |
+| “Give me curl for Bmob CRUD” | `bmob` + `bmob-database-restful` |
+| “Create a Player table for me” | `bmob` + `bmob-mcp` |
+| “What does error 9015 mean?” | `bmob` + `bmob-error-codes` |
+
+## Project architecture
+
+- **Skill users**: install and use skills directly in AI tools
+- **Maintainers**: update skill logic and extract snippets from BmobDocs
+- **CI**: validates frontmatter and links, and runs MCP smoke checks when secrets are configured
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development workflow.
+
+## Local development (for maintainers)
+
+Requirements: Node.js `>=18`, `pnpm`.
+
+```bash
+git clone --recurse-submodules https://github.com/bmob/agent-skills.git
+cd agent-skills
+pnpm install
+pnpm run validate
+```
+
+Useful scripts:
+
+- `pnpm run validate` — frontmatter + relative link checks
+- `pnpm run extract:local` — extract snippets from local `vendor/BmobDocs`
+- `pnpm run extract:remote` — extract snippets from remote raw docs
+- `pnpm run new:skill` — scaffold a new skill
 
 ## Roadmap
 
-- **P0（当前）**：bmob、bmob-mcp、database × 4 端、error-codes
-- **P1**：auth × 4 端、storage × 4 端、cloud-function × 5 个、acl-and-roles、bql
-- **P2**：push × 4 端、sms × 2 端、pay-restful、data-hooks、scheduled-tasks、best-practices
+- **P0 (current)**: bmob, bmob-mcp, database x 4 platforms, error-codes
+- **P1**: auth x 4, storage x 4, cloud-function x 5, acl-and-roles, bql
+- **P2**: push x 4, sms x 2, pay-restful, data-hooks, scheduled-tasks, best-practices
 
-## 贡献
+## FAQ
 
-见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+### Do I need to manually enable a skill?
+
+No. Skills are loaded on-demand by your AI host based on prompt content.
+
+### Can I use only one skill instead of all?
+
+Yes. Install only what you need with `--skill`.
+
+### Is MCP required?
+
+No. SDK/REST skills work without MCP. MCP is recommended when you need live schema/data operations inside the IDE.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-MIT，见 [LICENSE](LICENSE)。
+MIT — see [LICENSE](LICENSE).
