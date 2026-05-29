@@ -3,7 +3,7 @@
 **English** | [简体中文](./README.zh-CN.md)
 
 <p align="center">
-  <img src="docs/images/banner.svg" alt="Bmob Agent Skills — teach AI agents to build on Bmob backend cloud" width="100%"/>
+  <img src="docs/images/banner.png" alt="Bmob Agent Skills — teach AI agents to build on Bmob backend cloud" width="100%"/>
 </p>
 
 > Production-oriented Agent Skills for [Bmob backend cloud](https://www.bmobapp.com/), designed for Cursor, Claude Code, OpenAI Codex, Gemini CLI, GitHub Copilot, and other [agentskills.io](https://agentskills.io/)-compatible AI tools.
