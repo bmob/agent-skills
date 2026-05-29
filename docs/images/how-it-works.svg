@@ -1,44 +1,39 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360" role="img" aria-label="How Bmob Agent Skills work">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360">
   <defs>
     <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
       <path d="M0,0 L6,3 L0,6 Z" fill="#3593ff"/>
     </marker>
   </defs>
   <rect width="960" height="360" rx="12" fill="#f5f9ff" stroke="#d0e4ff"/>
-  <text x="480" y="36" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="600" fill="#1565c0">How it works</text>
-  <!-- User prompt -->
+  <text x="480" y="36" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="600" fill="#1565c0">How it works</text>
   <rect x="40" y="72" width="160" height="88" rx="10" fill="#ffffff" stroke="#90caf9"/>
-  <text x="120" y="108" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600" fill="#1565c0">Your prompt</text>
-  <text x="120" y="132" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#546e7a">"Add GameScore</text>
-  <text x="120" y="148" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#546e7a">with Bmob"</text>
-  <!-- AI IDE -->
+  <text x="120" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="600" fill="#1565c0">Your prompt</text>
+  <text x="120" y="132" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#546e7a">Add GameScore</text>
+  <text x="120" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#546e7a">with Bmob</text>
   <rect x="280" y="72" width="160" height="88" rx="10" fill="#ffffff" stroke="#90caf9"/>
-  <text x="360" y="108" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="13" font-weight="600" fill="#1565c0">AI IDE</text>
-  <text x="360" y="132" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#546e7a">Cursor / Claude</text>
-  <text x="360" y="148" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#546e7a">Codex / Copilot</text>
-  <!-- Router -->
+  <text x="360" y="108" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="600" fill="#1565c0">AI IDE</text>
+  <text x="360" y="132" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#546e7a">Cursor / Claude</text>
+  <text x="360" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#546e7a">Codex / Copilot</text>
   <rect x="520" y="56" width="180" height="120" rx="10" fill="#1976d2"/>
-  <text x="610" y="100" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="700" fill="#ffffff">bmob</text>
-  <text x="610" y="122" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="11" fill="#e3f2fd">routing skill</text>
-  <text x="610" y="148" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="10" fill="#bbdefb">platform + feature</text>
-  <!-- Sub-skills -->
+  <text x="610" y="100" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#ffffff">bmob</text>
+  <text x="610" y="122" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#e3f2fd">routing skill</text>
+  <text x="610" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#bbdefb">platform + feature</text>
   <rect x="760" y="56" width="160" height="52" rx="8" fill="#ffffff" stroke="#3593ff"/>
-  <text x="840" y="82" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="#1565c0">database-js</text>
-  <text x="840" y="98" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" fill="#78909c">SDK snippets</text>
+  <text x="840" y="82" text-anchor="middle" font-family="monospace" font-size="10" fill="#1565c0">database-js</text>
+  <text x="840" y="98" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#78909c">SDK snippets</text>
   <rect x="760" y="124" width="160" height="52" rx="8" fill="#ffffff" stroke="#3593ff"/>
-  <text x="840" y="150" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="#1565c0">bmob-mcp</text>
-  <text x="840" y="166" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" fill="#78909c">live tables</text>
-  <!-- Arrows row 1 -->
+  <text x="840" y="150" text-anchor="middle" font-family="monospace" font-size="10" fill="#1565c0">bmob-mcp</text>
+  <text x="840" y="166" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#78909c">live tables</text>
   <line x1="200" y1="116" x2="278" y2="116" stroke="#3593ff" stroke-width="2" marker-end="url(#arrow)"/>
   <line x1="440" y1="116" x2="518" y2="116" stroke="#3593ff" stroke-width="2" marker-end="url(#arrow)"/>
   <line x1="700" y1="100" x2="758" y2="84" stroke="#3593ff" stroke-width="2" marker-end="url(#arrow)"/>
   <line x1="700" y1="132" x2="758" y2="150" stroke="#3593ff" stroke-width="2" marker-end="url(#arrow)"/>
-  <!-- Output -->
   <rect x="120" y="220" width="720" height="108" rx="10" fill="#e8f4ff" stroke="#90caf9"/>
-  <text x="480" y="252" text-anchor="middle" font-family="ui-sans-serif, system-ui, sans-serif" font-size="14" font-weight="600" fill="#1565c0">Correct SDK code + optional live MCP operations</text>
-  <text x="200" y="286" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#455a64"> Platform-matched API</text>
-  <text x="420" y="286" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#455a64"> Auth header rules</text>
-  <text x="640" y="286" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#455a64"> Error code lookup</text>
-  <text x="280" y="310" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#455a64"> Docs-synced snippets</text>
-  <text x="520" y="310" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#455a64"> Schema-aware MCP</text>
+  <text x="480" y="252" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="600" fill="#1565c0">Correct SDK code + optional live MCP operations</text>
+  <text x="200" y="286" font-family="Arial, sans-serif" font-size="12" fill="#455a64">* Platform-matched API</text>
+  <text x="420" y="286" font-family="Arial, sans-serif" font-size="12" fill="#455a64">* Auth header rules</text>
+  <text x="640" y="286" font-family="Arial, sans-serif" font-size="12" fill="#455a64">* Error code lookup</text>
+  <text x="280" y="310" font-family="Arial, sans-serif" font-size="12" fill="#455a64">* Docs-synced snippets</text>
+  <text x="520" y="310" font-family="Arial, sans-serif" font-size="12" fill="#455a64">* Schema-aware MCP</text>
 </svg>

@@ -11,7 +11,7 @@
 `@bmob/agent-skills` helps AI agents generate platform-correct Bmob code and perform schema-aware operations through MCP. It reduces cross-platform API confusion, avoids unsafe key usage, and improves troubleshooting quality with deterministic routing.
 
 <p align="center">
-  <img src="docs/images/how-it-works.svg" alt="How Bmob Agent Skills route prompts to platform skills and MCP" width="92%"/>
+  <img src="docs/images/how-it-works.png" alt="How Bmob Agent Skills route prompts to platform skills and MCP" width="92%"/>
 </p>
 
 ## Why this project
