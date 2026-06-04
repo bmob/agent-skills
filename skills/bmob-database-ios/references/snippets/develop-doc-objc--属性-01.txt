@@ -1,0 +1,5 @@
+-(void)setUsername:(NSString *)username;//用户名，必需
+-(void)setPassword:(NSString*)password;//密码，必需
+-(void)setEmail:(NSString *)email;//设置邮箱
+-(void)setObject:(id)obj forKey:(id)key;//设置某个属性的值
+-(id)objectForKey:(id)key;//得到某个属性的值

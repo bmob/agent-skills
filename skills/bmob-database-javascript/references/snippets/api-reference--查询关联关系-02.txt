@@ -1,0 +1,7 @@
+var query = relation.query();
+query.equalTo("title", "I'm Hungry");
+query.find({
+  success:function(list) {
+    // list contains post liked by the current user which have the title "I'm Hungry".
+  }
+});

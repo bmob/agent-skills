@@ -1,0 +1,32 @@
+//创建一条数据，并上传至服务器
+BmobObject  *gameScore = [BmobObject objectWithClassName:@"GameScore"];
+NSDictionary *json = @{@"name":@"John", @"gender":@"man"};
+[gameScore setObject:json forKey:@"userAttibute"];
+
+//异步保存到服务器
+[gameScore saveInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+//创建成功后会返回objectId，updatedAt，createdAt等信息
+NSLog(@"创建成功,以下为对象值");
+NSLog(@"%@",gameScore);
+
+//错误的做法，直接使用gameScore来设置，请观察gameScore值上传时的值
+[gameScore setObject:@"women" forKey:@"userAttibute.gender"];
+NSLog(@"上传前的gameScore对象值\n%@",gameScore);
+[gameScore updateInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+NSLog(@"更新成功，以下为对象值，可以看到json里面的gender已经改变");
+NSLog(@"%@",gameScore);
+} else {
+NSLog(@"%@",error);
+}
+}];
+
+} else if (error){
+//发生错误后的动作
+NSLog(@"%@",error);
+} else {
+NSLog(@"Unknow error");
+}
+}];
+}

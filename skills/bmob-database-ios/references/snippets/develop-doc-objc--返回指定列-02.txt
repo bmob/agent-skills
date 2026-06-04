@@ -1,0 +1,2 @@
+//指定返回查询的结果包括score和playerName两列的数据
+[bquery selectKeys:@[@"score",@"playerName"]];

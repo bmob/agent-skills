@@ -1,0 +1,1 @@
+BmobSocketIo.updateTable("GameScore");

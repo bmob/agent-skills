@@ -1,0 +1,10 @@
+var southwestOfSF = new Bmob.GeoPoint(37.708813, -122.526398);
+var northeastOfSF = new Bmob.GeoPoint(37.822802, -122.373962);
+
+var query = new Bmob.Query(PizzaPlaceObject);
+query.withinGeoBox("location", southwestOfSF, northeastOfSF);
+query.find({
+  success: function(pizzaPlacesInSF) {
+    ...
+  }
+});

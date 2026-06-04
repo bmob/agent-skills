@@ -1,0 +1,1 @@
+query.clearCachedResult(Class<?> clazz);

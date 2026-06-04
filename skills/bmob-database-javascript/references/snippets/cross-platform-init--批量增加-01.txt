@@ -1,0 +1,15 @@
+const queryArray = new Array();
+// 构造含有50个对象的数组
+for(var i = 0 ; i < 50 ; i++){
+  var queryObj = Bmob.Query('tableName');
+  queryObj.set('columnName','abc' + i);
+  queryArray.push(queryObj);
+}
+
+
+// 传入刚刚构造的数组
+Bmob.Query('tableName').saveAll(queryArray).then(result => {
+  console.log(result);
+}).catch(err => {
+  console.log(err);
+});

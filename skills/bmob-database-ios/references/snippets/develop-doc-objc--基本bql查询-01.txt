@@ -1,0 +1,11 @@
+BmobQuery *bmobQuery = [[BmobQuery alloc] init];
+NSString *bql = @"select * from GameScore_BQL";
+[bmobQuery queryInBackgroundWithBQL:bql block:^(BQLQueryResult *result, NSError *error) {
+if (error) {
+NSLog(@"%@",error);
+} else {
+if (result) {
+NSLog(@"%@",result.resultsAry);
+}
+}
+}];

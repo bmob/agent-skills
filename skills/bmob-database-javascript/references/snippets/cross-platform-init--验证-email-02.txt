@@ -1,0 +1,6 @@
+成功：
+{
+  "msg": "ok"
+}
+失败：
+{code: 120, error: "Email verify should be opened in your app setup page of bmob."}

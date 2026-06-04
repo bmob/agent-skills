@@ -1,0 +1,10 @@
+let objectId ='objectId'
+let data = {
+  oldPassword: 'oldPassword',
+  newPassword: 'newPassword'
+}
+Bmob.updateUserPassword(objectId,data).then(res => {
+    console.log(res)
+  }).catch(err => {
+    console.log(err)
+  })

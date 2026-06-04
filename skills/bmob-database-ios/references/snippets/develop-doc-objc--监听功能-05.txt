@@ -1,0 +1,8 @@
+-(void)bmobEventCanStartListen:(BmobEvent *)event
+//监听Test表删除事件，
+[_bmobEvent listenTableChange:BmobActionTypeDeleteTable tableName:@"Test"];
+//监听Post表中objectId为a1419df47a 的行更新事件
+[_bmobEvent listenRowChange:BmobActionTypeUpdateRow tableName:@"Post" objectId:@"a1419df47a"];
+//监听Post表中objectId为wb1o000F 的行删除事件
+[_bmobEvent listenRowChange:BmobActionTypeDeleteRow tableName:@"Post" objectId:@"wb1o000F"];
+}

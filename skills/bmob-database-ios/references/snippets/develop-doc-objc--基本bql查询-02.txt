@@ -1,0 +1,11 @@
+NSString *bql = @"select count(*) from GameScore_BQL";
+BmobQuery *bmobQuery = [[BmobQuery alloc] init];
+[bmobQuery queryInBackgroundWithBQL:bql block:^(BQLQueryResult *result, NSError *error) {
+if (error) {
+NSLog(@"%@",error);
+} else {
+if (result) {
+NSLog(@"%d",result.count);
+}
+}
+}];

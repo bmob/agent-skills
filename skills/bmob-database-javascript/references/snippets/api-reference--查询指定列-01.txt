@@ -1,0 +1,7 @@
+var GameScore = Bmob.Object.extend("GameScore");
+var query = new Bmob.Query(GameScore);
+// 只返回score和playerName字段值
+query.select("score", "playerName");
+query.find().then(function(results) {
+  // 返回成功
+});

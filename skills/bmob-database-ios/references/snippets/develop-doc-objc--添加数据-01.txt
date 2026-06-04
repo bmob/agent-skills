@@ -1,0 +1,11 @@
+/**
+*    后台保存BmobObject对象，没有返回结果
+*/
+-(void)saveInBackground;
+
+/**
+*    后台保存BmobObject对象，返回保存的结果
+*
+*    @param    block    返回保存的结果是成功还是失败
+*/
+-(void)saveInBackgroundWithResultBlock:(BmobBooleanResultBlock)block;

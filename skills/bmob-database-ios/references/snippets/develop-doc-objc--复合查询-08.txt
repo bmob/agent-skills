@@ -1,0 +1,11 @@
+BmobQuery *query = [BmobQuery queryWithClassName:@"Post"];
+//列author为pointer类型，指向用户表
+//假设用户A的objectId为aaaa ,其中classname为表名
+NSDictionary *condiction1 = @{@"author":@{@"__type":@"Pointer",@"className":@"_User",@"objectId":@"aaaa"}};
+//假设用户b的objecId为bbbb
+NSDictionary *condiction2= @{@"author":@{@"__type":@"Pointer",@"className":@"_User",@"objectId":@"bbbb"}};
+NSArray *condictionArray = @[condiction1,condiction2];
+//查找作者为用户A或者作者为用户B的数据
+[query addTheConstraintByOrOperationWithArray:condictionArray];
+[query findObjectsInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+}];

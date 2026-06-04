@@ -1,0 +1,13 @@
+var GameScore = Bmob.Object.extend("GameScore");
+var gameScore = new GameScore();
+gameScore.set("cheatMode", true);
+gameScore.set("score", 1338);
+//添加数据
+gameScore.save(null, {
+  success: function(gameScore) {
+    // 修改数据
+    gameScore.set("cheatMode", true);
+    gameScore.set("score", 1338);
+    gameScore.save();
+  }
+})

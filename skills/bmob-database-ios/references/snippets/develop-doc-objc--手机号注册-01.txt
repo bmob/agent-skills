@@ -1,0 +1,7 @@
+[BmobUser signOrLoginInbackgroundWithMobilePhoneNumber:mobilePhoneNumber andSMSCode:smsCode block:^(BmobUser *user, NSError *error) {
+if (user) {
+NSLog(@"%@",user);
+} else {
+NSLog(@"%@",error);
+}
+}];

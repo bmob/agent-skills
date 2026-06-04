@@ -1,0 +1,15 @@
+//查询帖子表
+BmobQuery *query = [BmobQuery queryWithClassName:@"Post"];
+//构建objectId为vbhGAAAY 的作者
+BmobUser *author = [BmobUser objectWithoutDataWithClassName:@"_User" objectId:@"vbhGAAAY"];
+//添加作者是objectId为vbhGAAAY条件
+[query whereKey:@"author" equalTo:author];
+[query findObjectsInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+if (error) {
+NSLog(@"%@",error);
+} else if (array){
+for (BmobObject *post in array) {
+NSLog(@"%@",[post objectForKey:@"title"]);
+}
+}
+}];

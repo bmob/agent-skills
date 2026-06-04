@@ -1,0 +1,18 @@
+//创建一条数据，并上传至服务器
+BmobObject  *gameScore = [BmobObject objectWithClassName:@"GameScore"];
+[gameScore setObject:@0 forKey:@"atomicCounter"];
+[gameScore saveInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+BmobObject *gameScoreToBeChanged = [BmobObject objectWithoutDataWithClassName:@"GameScore" objectId:gameScore.objectId];
+[gameScoreToBeChanged incrementKey:@"atomicCounter"];
+[gameScoreToBeChanged updateInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+NSLog(@"添加成功，可在后台查看objectID为%@的atomicCounter的值是否为1",gameScoreToBeChanged.objectId);
+} else {
+NSLog(@"%@",error);
+}
+}];
+} else {
+NSLog(@"%@",error);
+}
+}];

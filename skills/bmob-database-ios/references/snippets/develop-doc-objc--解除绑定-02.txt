@@ -1,0 +1,6 @@
+//当前用户解除关联的手机QQ账号
+BmobUser *user = [BmobUser getCurrentUser];
+[user cancelLinkedInBackgroundWithPlatform:BmobSNSPlatformQQ
+block:^(BOOL isSuccessful, NSError *error) {
+NSLog(@"error is :%@",[error description]);
+}];

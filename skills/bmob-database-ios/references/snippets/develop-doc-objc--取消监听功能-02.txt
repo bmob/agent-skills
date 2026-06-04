@@ -1,0 +1,2 @@
+//取消订阅行的变化事件
+-(void)cancleListenRowChange:(BmobActionType)actionType tableName:(NSString *)tableName objectId:(NSString *)objectId;

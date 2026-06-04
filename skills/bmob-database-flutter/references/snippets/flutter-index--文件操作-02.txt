@@ -1,0 +1,14 @@
+///添加文件到表中
+_addFile(BmobFile bmobFile) {
+  if (bmobFile == null) {
+    DataPlugin.toast("请先上传文件");
+    return;
+  }
+  Blog blog = Blog();
+  blog.pic = bmobFile;
+  blog.save().then((BmobSaved bmobSaved) {
+    DataPlugin.toast("添加成功：" + bmobSaved.objectId);
+  }).catchError((e) {
+    DataPlugin.toast(BmobError.convert(e).error);
+  });
+}

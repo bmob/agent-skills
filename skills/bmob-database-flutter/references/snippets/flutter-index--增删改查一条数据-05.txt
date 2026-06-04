@@ -1,0 +1,14 @@
+///删除一个字段的值
+_deleteFieldValue(BuildContext context) {
+  if (currentObjectId != null) {
+    Blog blog = Blog();
+    blog.objectId = currentObjectId;
+    blog.deleteFieldValue("content").then((BmobUpdated bmobUpdated) {
+      showSuccess(context, "删除发布内容成功：${bmobUpdated.updatedAt}");
+    }).catchError((e) {
+      showError(context, "删除发布内容失败" + BmobError.convert(e).error);
+    });
+  } else {
+    showError(context, "请先新增一条数据");
+  }
+}

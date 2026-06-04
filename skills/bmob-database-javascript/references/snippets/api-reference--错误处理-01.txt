@@ -1,0 +1,25 @@
+var query = new Bmob.Query("Student");
+query.descending("gpa");
+query.find().then(function(students) {
+  students[0].set("valedictorian", true);
+  // Force this callback to fail.
+  return Bmob.Promise.error("There was an error.");
+
+}).then(function(valedictorian) {
+  // Now this will be skipped.
+  return query.find();
+
+}).then(function(students) {
+  // This will also be skipped.
+  students[1].set("salutatorian", true);
+  return students[1].save();
+}, function(error) {
+  // This error handler WILL be called. error will be "There was an error.".
+  // Let's handle the error by returning a new promise.
+  return Bmob.Promise.as("Hello!");
+
+}).then(function(hello) {
+  // Everything is done!
+}, function(error) {
+  // This isn't called because the error was already handled.
+});

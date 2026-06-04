@@ -1,0 +1,2 @@
+var post = Bmob.Object.createWithoutData("Post", "320b0395f3");
+myComment.set("parent", post);

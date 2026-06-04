@@ -1,0 +1,5 @@
+///获取设备ID
+_getInstallationId(BuildContext context) async {
+  String installationId = await BmobInstallationManager.getInstallationId();
+  showSuccess(context, installationId);
+}

@@ -1,0 +1,6 @@
+//当前用户解除关联的微博账号
+BmobUser *user = [BmobUser getCurrentUser];
+[user cancelLinkedInBackgroundWithPlatform:BmobSNSPlatformSinaWeibo
+block:^(BOOL isSuccessful, NSError *error) {
+NSLog(@"error is :%@",[error description]);
+}];

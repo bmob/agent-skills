@@ -1,0 +1,10 @@
+{
+    "code": 154,
+    "error": "<errorInfo>",
+    "fail": {
+        "<cdnname>": [
+            "<url1>",
+            "<url2>"
+        ]
+    }
+}

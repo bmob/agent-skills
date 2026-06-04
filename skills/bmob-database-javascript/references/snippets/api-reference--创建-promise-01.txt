@@ -1,0 +1,5 @@
+var successful = new Bmob.Promise();
+successful.resolve("The good result.");
+
+var failed = new Bmob.Promise();
+failed.reject("An error message.");

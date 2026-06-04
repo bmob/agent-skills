@@ -1,0 +1,2 @@
+//取消订阅表的变化事件,包括表更新，表删除
+-(void)cancleListenTableChange:(BmobActionType)actionType tableName:(NSString *)tableName;

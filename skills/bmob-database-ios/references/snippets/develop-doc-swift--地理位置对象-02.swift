@@ -1,0 +1,1 @@
+gameScore.setObject(point, forKey: "location")

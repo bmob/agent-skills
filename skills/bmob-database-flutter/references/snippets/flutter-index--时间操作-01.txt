@@ -1,0 +1,15 @@
+///添加时间数据
+_addDate() {
+  DateTime dateTime = DateTime.now();
+  BmobDate bmobDate = BmobDate();
+  bmobDate.setDate(dateTime);
+  Blog blog = Blog();
+  blog.time = bmobDate;
+  blog.title = "添加时间类型";
+  blog.content = "测试时间类型的请求";
+  blog.save().then((BmobSaved bmobSaved) {
+    showSuccess(context, bmobSaved.objectId);
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

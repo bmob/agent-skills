@@ -1,6 +1,6 @@
 ---
 name: bmob-database-restful
-description: "Use when interacting with Bmob backend cloud over plain HTTP / curl from ANY language that lacks a Bmob SDK — Python (requests/httpx), Go (net/http), PHP (Guzzle), C# (HttpClient), Rust (reqwest), Ruby, Java backend, Bash, Deno, server-side scripting, data migration. Also use when the user explicitly wants curl or the raw REST API URL pattern. API base domain: https://api.codenow.cn (e.g. /1/classes/Token). Triggers: /1/classes/, /1/users, /1/batch, /1/cloudQuery, /1/timestamp, /1/requestSmsCode, X-Bmob-Application-Id, X-Bmob-REST-API-Key, X-Bmob-Safe-Sign, simple auth, encrypted auth, MD5 signature, curl bmob, Bmob REST API, Bmob HTTP. NOT for JavaScript / Node / Web / Mini Program (use bmob-database-javascript), Android (use bmob-database-android), or iOS (use bmob-database-ios). If Bmob MCP is configured, generate_code MCP tool can emit ready-to-use curl for 13 operation types — prefer it over hand-writing curl."
+description: "Use when interacting with Bmob backend cloud over plain HTTP / curl from ANY language that lacks a Bmob SDK — Python (requests/httpx), Go (net/http), PHP (Guzzle), C# (HttpClient), Rust (reqwest), Ruby, Java backend, Bash, Deno, server-side scripting, data migration. Also use when the user explicitly wants curl or the raw REST API URL pattern. API base domain: https://api.codenow.cn (e.g. /1/classes/Token). Triggers: /1/classes/, /1/users, /1/batch, /1/cloudQuery, /1/timestamp, /1/requestSmsCode, X-Bmob-Application-Id, X-Bmob-REST-API-Key, X-Bmob-Safe-Sign, simple auth, encrypted auth, MD5 signature, curl bmob, Bmob REST API, Bmob HTTP. NOT for JavaScript / Node / Web / Mini Program (use bmob-database-javascript), Android (use bmob-database-android), iOS (use bmob-database-ios), or Flutter / Dart (use bmob-database-flutter). If Bmob MCP is configured, generate_code MCP tool can emit ready-to-use curl for 13 operation types — prefer it over hand-writing curl."
 metadata:
   author: bmob
   version: "0.1.0"
@@ -56,6 +56,14 @@ GET    /1/timestamp                        # 服务器时间
 - [ ] **写操作的表必须配 ACL**：见 `bmob-acl-and-roles`（P1）；REST 创建对象时 body 里加 `"ACL": {...}` 即可。
 - [ ] **生产用 HTTPS**：你的 API domain 必须是 https，否则 Header 里的 Key 会明文传输。
 - [ ] **批量上限 50 条 / 请求**：`/1/batch` 单次最多 50 个子请求。
+
+## 常见问题
+
+跨平台 Q&A：[`shared/faq.md`](../../shared/faq.md)。
+
+## 反模式
+
+见 [`shared/anti-patterns.md`](../../shared/anti-patterns.md)。本端重点：Master Key 仅服务端；公开端优先加密授权或 SDK，勿裸奔 REST Key。
 
 ## 五大基础操作（简易授权 + curl）
 
@@ -249,7 +257,18 @@ sign = md5(url + timeStamp + SecurityCode + noncestr + body + SDKVersion)
 
 如果用户配置了 [Bmob MCP](../bmob-mcp/SKILL.md)，**`generate_code` 工具能直接生成 curl**，覆盖 13 种 type（添加 / 删除 / 更新 / 条件查询 / 注册 / 登录 / SMS / 云函数 / 文件上传等）。优先调用它而不是手写 curl——这样能确保 URL pattern / Header / where 语法都是当前服务器最新版本。
 
+## 进阶参考
+
+| 主题 | 路径 |
+|---|---|
+| 端到端场景（迁移、文件、ACL 等） | [`shared/recipes/`](../../shared/recipes/) |
+| BmobDocs 同步代码片段 | [`references/snippets/`](references/snippets/) |
+| where 语法 | [`references/query-where-syntax.md`](references/query-where-syntax.md) |
+| 用户 / 文件 | [`references/users.md`](references/users.md)、[`references/files.md`](references/files.md) |
+
 ## 排错速查
+
+跨平台现象先查 [`shared/faq.md`](../../shared/faq.md)。
 
 | HTTP | code | 含义 |
 |---|---|---|

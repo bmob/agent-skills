@@ -1,0 +1,7 @@
+{
+    "<key>": {
+        "__type": "GeoPoint",
+        "latitude": <latitudeValue>,
+        "longitude": <longitudeValue>
+    }
+}

@@ -1,0 +1,12 @@
+BmobQuery *bmobQuery = [[BmobQuery alloc] init];
+NSString *bql = @"select * from GameScore_BQL where playerName = ? and score = ?";
+NSArray *placeholderArray = @[@"name2",@9];
+[bmobQuery queryInBackgroundWithBQL:bql pvalues:placeholderArray block:^(BQLQueryResult *result, NSError *error) {
+if (error) {
+NSLog(@"%@",error);
+} else {
+if (result) {
+NSLog(@"%@",result.resultsAry);
+}
+}
+}];

@@ -1,0 +1,7 @@
+{{first.DATA}}
+
+提交时间：{{tradeDateTime.DATA}}
+订单类型：{{orderType.DATA}}
+客户信息：{{customerInfo.DATA}}
+{{orderItemName.DATA}}：{{orderItemData.DATA}}
+{{remark.DATA}}

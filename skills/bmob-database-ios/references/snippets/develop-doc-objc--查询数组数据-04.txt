@@ -1,0 +1,14 @@
+BmobQuery *query = [BmobQuery queryWithClassName:@"Post"];
+NSArray *array =  @[@{@"skill":@{@"$all": @[@"P1"]}},@{@"skill":@{@"$all":@[@"P2"]}}];
+[query addTheConstraintByOrOperationWithArray:array];
+[query findObjectsInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+if (error) {
+NSLog(@"%@",error);
+} else {
+NSLog(@"%d",array.count);
+for (BmobObject *obj in array) {
+NSLog(@"%@",obj);
+}
+
+}
+}];

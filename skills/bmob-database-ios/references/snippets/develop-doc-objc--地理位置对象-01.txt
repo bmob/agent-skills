@@ -1,0 +1,1 @@
+BmobGeoPoint *point = [[BmobGeoPoint alloc] initWithLongitude:116.39727786183357 WithLatitude:39.913768382429105];

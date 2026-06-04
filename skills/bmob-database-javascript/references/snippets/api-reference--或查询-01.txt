@@ -1,0 +1,15 @@
+var lotsOfWins = new Bmob.Query(GameScore);
+lotsOfWins.greaterThan("score", 150);
+
+var fewWins = new Bmob.Query(GameScore);
+fewWins.lessThan("score", 5);
+
+var mainQuery = Bmob.Query.or(lotsOfWins, fewWins);
+mainQuery.find({
+  success: function(results) {
+     // 返回 score > 150 or score < 5 的值
+  },
+  error: function(error) {
+    // 返回失败
+  }
+});

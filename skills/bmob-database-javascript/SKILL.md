@@ -1,6 +1,6 @@
 ---
 name: bmob-database-javascript
-description: "Use when implementing Bmob NoSQL database CRUD with the cross-platform hydrogen-js-sdk (3.0+ supports both Secret Key + API 安全码 and Application ID + REST API Key init) — ONE SDK file (Bmob-x.x.x.min.js) covers ALL of: browser, Node.js, WeChat Mini Program, Alipay / ByteDance / QQ / Baidu Mini Programs, Quick App 快应用, Cocos Creator JS, Electron, Tauri, hybrid apps, and any ES6 framework (Vue2 / Vue3 / React / Next.js / Vite / Nuxt). Triggers: Bmob.initialize, Bmob.Query, Bmob.User, Bmob.Pointer, Bmob.GeoPoint, Bmob.Relation, hydrogen-js-sdk, npm install hydrogen-js-sdk, import Bmob from 'hydrogen-js-sdk', 微信小程序 Bmob, Cocos Creator Bmob, query.find, query.set, query.save, query.destroy, query.equalTo. NOT for Android native (use bmob-database-android), iOS native (use bmob-database-ios), curl / Python / Go / PHP / C# (use bmob-database-restful), or C++ Cocos2d-x (separate skill). If Bmob MCP is configured in the project, call get_project_tables first via bmob-mcp before writing code."
+description: "Use when implementing Bmob NoSQL database CRUD with the cross-platform hydrogen-js-sdk (3.0+ supports both Secret Key + API 安全码 and Application ID + REST API Key init) — ONE SDK file (Bmob-x.x.x.min.js) covers ALL of: browser, Node.js, WeChat Mini Program, Alipay / ByteDance / QQ / Baidu Mini Programs, Quick App 快应用, Cocos Creator JS, Electron, Tauri, hybrid apps, and any ES6 framework (Vue2 / Vue3 / React / Next.js / Vite / Nuxt). Triggers: Bmob.initialize, Bmob.Query, Bmob.User, Bmob.Pointer, Bmob.GeoPoint, Bmob.Relation, hydrogen-js-sdk, npm install hydrogen-js-sdk, import Bmob from 'hydrogen-js-sdk', 微信小程序 Bmob, Cocos Creator Bmob, query.find, query.set, query.save, query.destroy, query.equalTo. NOT for Android native (use bmob-database-android), iOS native (use bmob-database-ios), Flutter / Dart (use bmob-database-flutter), curl / Python / Go / PHP / C# (use bmob-database-restful), or C++ Cocos2d-x (separate skill). If Bmob MCP is configured in the project, call get_project_tables first via bmob-mcp before writing code."
 metadata:
   author: bmob
   version: "0.1.0"
@@ -67,6 +67,14 @@ Bmob.initialize("你的Application ID", "你的REST API Key");
 - [ ] **批量操作上限 50 条**（含批量更新、批量删除）。超出需循环。
 - [ ] **批量查询上限 100 条 / 单次 1000 条**：避免一次拉全表。
 - [ ] **`Bmob.User.login` 在小程序里要先调用 `wx.login()`** 获取 code，否则会话拿不到 sessionToken。
+
+## 常见问题
+
+跨平台 Q&A：[`shared/faq.md`](../../shared/faq.md)（路由、密钥、MCP、Pointer 格式等）。
+
+## 反模式
+
+见 [`shared/anti-patterns.md`](../../shared/anti-patterns.md)。本端重点：勿混用旧版 `Bmob.Object.extend`；勿混用两种 `initialize`；Node 勿用压缩版入口。
 
 ## 快速开始（80% 场景就这么写）
 
@@ -220,7 +228,9 @@ query.get("objectId").then((res) => {
 
 | 主题 | 路径 |
 |---|---|
+| 端到端场景（博客、小程序登录、Todo ACL 等） | [`shared/recipes/`](../../shared/recipes/) |
 | 8 种宿主环境的初始化差异（浏览器 / Node / 微信/支付宝/字节/QQ/百度小程序 / 快应用 / Cocos Creator / Electron） | [`references/platform-init.md`](references/platform-init.md) |
+| BmobDocs 同步代码片段 | [`references/snippets/`](references/snippets/) |
 | Pointer / Relation 一对多 / 多对多 | [`references/pointer-and-relation.md`](references/pointer-and-relation.md) |
 | 复杂子查询（`$inQuery` / `$notInQuery`）、模糊查询、地理位置查询 | [`references/query.md`](references/query.md) |
 | 实时数据订阅（仅小程序 / Web）+ WebSocket | [`references/realtime.md`](references/realtime.md) |
@@ -249,6 +259,8 @@ sequenceDiagram
 ```
 
 ## 排错速查
+
+跨平台现象先查 [`shared/faq.md`](../../shared/faq.md)。
 
 | 现象 | 排查 |
 |---|---|

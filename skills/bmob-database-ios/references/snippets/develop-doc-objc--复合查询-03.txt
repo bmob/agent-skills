@@ -1,0 +1,3 @@
+//查询score列中值等于5且姓名为Mike的数据
+NSArray *array =  @[@{@"score":@5},@{@"name":@"Mike"}];
+[bquery addTheConstraintByAndOperationWithArray:array];

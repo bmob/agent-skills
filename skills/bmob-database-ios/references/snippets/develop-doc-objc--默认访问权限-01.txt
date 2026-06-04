@@ -1,0 +1,5 @@
+BmobACL *acl = [BmobACL ACL];
+//设置所有人读权限为true
+[acl setPublicReadAccess];
+//设置所有人写权限为true
+[acl setPublicWriteAccess];

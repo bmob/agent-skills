@@ -1,0 +1,1 @@
+var Bmob = require('../dist/Bmob-x.x.x.min.js');

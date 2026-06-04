@@ -1,9 +1,21 @@
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join, relative } from "node:path";
 import { listSkillFiles, parseSkillMd } from "../scripts/lib/frontmatter.ts";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const skillsDir = join(root, "skills");
+
+/** Skills that must link shared FAQ and include a security checklist section */
+const STRUCTURE_SKILLS = new Set([
+  "bmob",
+  "bmob-mcp",
+  "bmob-database-javascript",
+  "bmob-database-android",
+  "bmob-database-ios",
+  "bmob-database-flutter",
+  "bmob-database-restful",
+]);
 
 let failed = 0;
 const seen = new Map<string, string>();
@@ -26,6 +38,19 @@ for (const file of files) {
       throw new Error(`duplicate skill name "${skill.name}" (also at ${seen.get(skill.name)})`);
     }
     seen.set(skill.name, rel);
+
+    if (STRUCTURE_SKILLS.has(skill.name)) {
+      const body = readFileSync(file, "utf8");
+      const hasSecurity =
+        body.includes("## 安全清单") || body.includes("## 通用安全清单");
+      if (!hasSecurity) {
+        throw new Error('missing "## 安全清单" or "## 通用安全清单"');
+      }
+      if (!body.includes("shared/faq.md")) {
+        throw new Error('missing link to shared/faq.md');
+      }
+    }
+
     console.log(`  ok  ${rel}  (${skill.name})`);
   } catch (err) {
     failed++;

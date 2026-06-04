@@ -1,0 +1,1 @@
+select * from _User where username = smile

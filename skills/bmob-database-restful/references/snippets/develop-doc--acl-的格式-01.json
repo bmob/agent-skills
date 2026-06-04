@@ -1,0 +1,9 @@
+{
+    "Kc3M222k": {
+        "read": true,
+        "write": true
+    },
+    "*": {
+        "read": true
+    }
+}

@@ -1,0 +1,4 @@
+//采用你自己的备案域名
+Bmob.resetDomain("http://你在Bmob控制台绑定的SDK域名/8/");
+//初始化Bmob
+Bmob.initialize(this, "你的application id");

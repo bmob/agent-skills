@@ -1,0 +1,12 @@
+const query = Bmob.Query('tableName');
+// 单词最多删除50条
+query.limit(50)
+query.find().then(todos => {
+
+  todos.destroyAll().then(res => {
+    // 成功批量修改
+    console.log(res,'ok')
+  }).catch(err => {
+    console.log(err)
+  });
+})

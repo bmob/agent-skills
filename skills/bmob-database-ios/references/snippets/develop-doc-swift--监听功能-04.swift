@@ -1,0 +1,1 @@
+listenRowChange(BmobActionType, tableName: String!, objectId: String!)

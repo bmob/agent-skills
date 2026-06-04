@@ -1,0 +1,1 @@
+BmobUser.loginWithUsernameInBackground("小明", password: "123456")

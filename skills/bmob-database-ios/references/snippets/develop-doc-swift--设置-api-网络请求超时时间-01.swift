@@ -1,0 +1,1 @@
+Bmob.setBmobRequestTimeOut(15)

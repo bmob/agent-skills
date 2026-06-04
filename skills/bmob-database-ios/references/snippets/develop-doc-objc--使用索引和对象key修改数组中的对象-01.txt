@@ -1,0 +1,3 @@
+BmobObject *gameScore = [BmobObject objectWithoutDataWithClassName:@"GameScore" objectId:@"xxxxxxxx"];
+[bmobObject setObject:@"项目名称2" forKey:@"projectExperiences.0.name"];
+[gameScore updateInBackground];

@@ -1,0 +1,11 @@
+// score < 50
+query.lessThan("score", 50);
+
+// score <= 50
+query.lessThanOrEqualTo("score", 50);
+
+// score > 50
+query.greaterThan("score", 50);
+
+// score >= 50
+query.greaterThanOrEqualTo("score", 50);

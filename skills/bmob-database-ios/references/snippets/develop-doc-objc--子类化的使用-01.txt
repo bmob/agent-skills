@@ -1,0 +1,7 @@
+
+@interface Test : BmobObject
+@property (copy, nonatomic) NSString *title;
+@property (copy, nonatomic) NSString *name;
+@property (strong, nonatomic) NSNumber *isStudent;
+@property (strong, nonatomic) NSNumber *age;
+@end

@@ -1,0 +1,11 @@
+Bmob.Pay.wxvpCurrencyPay({
+  env: 0,
+  amount: 100,
+  order_id: 'ORDER_20240101_001',
+  payitem: JSON.stringify({ name: 'coin' }),
+  remark: '代币支付'
+}).then(res => {
+  console.log(res)
+}).catch(err => {
+  console.log(err)
+})

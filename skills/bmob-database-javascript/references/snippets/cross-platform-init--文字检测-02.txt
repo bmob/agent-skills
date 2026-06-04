@@ -1,0 +1,4 @@
+正常：
+{"msg":"ok"}
+违规：
+{"code":10007,"error":"CheckMsg errcode:87014, err:risky content hint: [zLf1lA01758931]"}

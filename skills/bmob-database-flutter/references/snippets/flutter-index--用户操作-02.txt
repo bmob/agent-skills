@@ -1,0 +1,11 @@
+///用户名密码注册
+_register() {
+  BmobUser bmobUserRegister = BmobUser();
+  bmobUserRegister.username = _username;
+  bmobUserRegister.password = _password;
+  bmobUserRegister.register().then((BmobRegistered data) {
+    showSuccess(context, data.objectId);
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

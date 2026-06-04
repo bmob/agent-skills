@@ -1,0 +1,1 @@
+flutter pub add bmob_plugin

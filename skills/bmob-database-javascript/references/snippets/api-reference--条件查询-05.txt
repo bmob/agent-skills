@@ -1,0 +1,17 @@
+var GameScore = Bmob.Object.extend("GameScore");
+var query = new Bmob.Query(GameScore);
+query.equalTo("playerName", "bmob");
+// 查询所有数据
+query.find({
+	success: function(results) {
+		alert("共查询到 " + results.length + " 条记录");
+		// 循环处理查询到的数据
+		for (var i = 0; i < results.length; i++) {
+		var object = results[i];
+		alert(object.id + ' - ' + object.get('playerName'));
+		}
+	},
+	error: function(error) {
+		alert("查询失败: " + error.code + " " + error.message);
+	}
+});

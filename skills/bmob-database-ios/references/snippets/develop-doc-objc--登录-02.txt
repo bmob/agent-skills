@@ -1,0 +1,3 @@
++ (void)loginWithUsernameInBackground:(NSString *)username
+password:(NSString *)password
+block:(BmobUserResultBlock)block;

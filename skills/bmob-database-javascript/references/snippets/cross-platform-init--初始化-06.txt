@@ -1,0 +1,21 @@
+// 安装
+npm install hydrogen-js-sdk
+
+// 打开 main.js
+import Bmob from "hydrogen-js-sdk";
+
+// 初始化 SDK版本 
+Bmob.initialize("你的Secret Key", "你的API 安全码");
+
+其他页面,例如list.vue
+<script lang="ts" setup>
+import Bmob from 'hydrogen-js-sdk'
+
+// 项目其他页面使用跟小程序一样使用Bmob对象即可，例如：
+Bmob.User.login('username','password').then(res => {
+   console.log(res)
+ }).catch(err => {
+  console.log(err)
+});
+
+</script>

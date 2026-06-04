@@ -1,0 +1,1 @@
+[bquery whereKey:@"author" matchesQuery:inQuery];

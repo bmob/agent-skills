@@ -1,0 +1,8 @@
+let data = {
+  email: '329685131@qq.com'
+}
+Bmob.requestPasswordReset(data).then(res => {
+  console.log(res)
+}).catch(err => {
+  console.log(err)
+})

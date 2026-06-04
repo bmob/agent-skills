@@ -1,0 +1,1 @@
+Date 与内置的 createdAt 字段和 updatedAt 字段相结合的时候特别有用，举个例子：为了找到在一个特殊时间创建的对象，只需要将Date编码在一个查询的where条件中:

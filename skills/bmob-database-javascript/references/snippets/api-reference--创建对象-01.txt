@@ -1,0 +1,5 @@
+// 创建Bmob.Object子类
+var GameScore = Bmob.Object.extend("GameScore");
+
+// 创建该类的一个实例
+var gameScore = new GameScore();

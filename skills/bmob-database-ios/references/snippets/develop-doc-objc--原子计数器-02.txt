@@ -1,0 +1,6 @@
+//列的值增加amount
+- (void)incrementKey:(NSString *)key byAmount:(NSInteger )amount
+//列的值减去一
+- (void)decrementKey:(NSString *)key
+//列的值减去amount
+- (void)decrementKey:(NSString *)key byAmount:(NSInteger )amount

@@ -1,0 +1,15 @@
+///添加角色
+_saveRole() {
+  BmobRole bmobRole = BmobRole();
+  bmobRole.name = "teacher";
+  User user = User();
+  user.setObjectId("f06590e3c2");
+  BmobRelation bmobRelation = BmobRelation();
+  bmobRelation.add(user);
+  bmobRole.setUsers(bmobRelation);
+  bmobRole.save().then((BmobSaved bmobSaved) {
+    DataPlugin.toast(bmobSaved.objectId);
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

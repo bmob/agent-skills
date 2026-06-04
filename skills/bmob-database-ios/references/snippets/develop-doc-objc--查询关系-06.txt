@@ -1,0 +1,5 @@
+//只返回likes列的数据
+[bquery includeKey:@"post[likes]"];
+
+//返回title和content列数据
+[bquery includeKey:@"post[title|content]"];

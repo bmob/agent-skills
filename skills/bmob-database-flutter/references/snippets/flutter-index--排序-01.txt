@@ -1,0 +1,21 @@
+///数据排序
+_queryOrder(BuildContext context) {
+  BmobQuery<Blog> query = BmobQuery();
+  query.setOrder("createdAt");
+  query.setLimit(10);
+  query.setSkip(10);
+  query.queryObjects().then((data) {
+    List<Blog> blogs = data.map((i) => Blog.fromJson(i)).toList();
+    Navigator.pushNamed(context, "listRoute");
+
+    for (Blog blog in blogs) {
+      if (blog != null) {
+        print(blog.objectId);
+        print(blog.title);
+        print(blog.content);
+      }
+    }
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

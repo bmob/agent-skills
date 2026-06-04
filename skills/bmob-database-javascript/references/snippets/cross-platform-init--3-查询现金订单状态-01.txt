@@ -1,0 +1,8 @@
+Bmob.Pay.wxvpQueryOrder({
+  env: 0,
+  order_id: 'ORDER_20240101_001'
+}).then(res => {
+  console.log(res)
+}).catch(err => {
+  console.log(err)
+})

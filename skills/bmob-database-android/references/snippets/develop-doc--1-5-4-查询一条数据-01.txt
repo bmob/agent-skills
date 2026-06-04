@@ -1,0 +1,17 @@
+/**
+ * 查询一个对象
+ */
+private void query() {
+    BmobQuery<Category> bmobQuery = new BmobQuery<>();
+    bmobQuery.getObject(mObjectId, new QueryListener<Category>() {
+        @Override
+        public void done(Category category, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnQuery, "查询成功：" + category.getName(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnQuery, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}

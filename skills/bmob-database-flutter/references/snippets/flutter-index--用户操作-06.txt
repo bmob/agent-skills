@@ -1,0 +1,11 @@
+///手机号码+短信验证码重置密码
+_resetBySms(BuildContext context) {
+  BmobUser bmobUser = BmobUser();
+  bmobUser.mobilePhoneNumber = _phoneNumber;
+  bmobUser
+      .requestPasswordResetBySmsCode(_smsCode)
+      .then((BmobHandled bmobHandled) {})
+      .catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

@@ -1,0 +1,3 @@
+relation.remove(post1);
+relation.remove(post2);
+user.save();

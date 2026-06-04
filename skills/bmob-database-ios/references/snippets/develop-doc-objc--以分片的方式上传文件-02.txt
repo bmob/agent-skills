@@ -1,0 +1,15 @@
+//上传game.mp4文件
+NSString *fileString = [[NSBundle mainBundle] pathForResource:@"game" ofType:@"mp4"];
+BmobObject *obj = [[BmobObject alloc] initWithClassName:@"gameScoreFile"];
+//创建BmobFile对象
+BmobFile *file1 = [[BmobFile alloc] initWithFilePath:fileString];
+[file1 saveInBackgroundByDataSharding:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+//如果成功，保存文件到userFile
+[obj setObject:file1  forKey:@"userFile"];
+[obj saveInBackground];
+}else{
+//失败，打印错误信息
+NSLog(@"error: %@",[error description]);
+}
+} ];

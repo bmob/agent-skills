@@ -1,6 +1,6 @@
 ---
 name: bmob-database-ios
-description: "Use when implementing Bmob NoSQL database CRUD in an iOS native project — both Objective-C and Swift / SwiftUI / UIKit. Triggers: BmobSDK, BmobSDK.xcframework, pod 'BmobSDK', #import <BmobSDK/Bmob.h>, Bmob registerWithAppKey, [Bmob register(withAppKey:)], BmobObject objectWithClassName, BmobQuery queryWithClassName, BmobUser, BmobInstallation, BmobFile, BmobGeoPoint, BmobRelation, saveInBackgroundWithResultBlock, getObjectInBackgroundWithId, findObjectsInBackground, Bridging-Header.h. NOT for cross-platform JavaScript / WeChat Mini Program (use bmob-database-javascript), Android (use bmob-database-android), or any other language via REST (use bmob-database-restful). If Bmob MCP is configured, call get_project_tables via bmob-mcp before writing code."
+description: "Use when implementing Bmob NoSQL database CRUD in an iOS native project — both Objective-C and Swift / SwiftUI / UIKit. Triggers: BmobSDK, BmobSDK.xcframework, pod 'BmobSDK', #import <BmobSDK/Bmob.h>, Bmob registerWithAppKey, [Bmob register(withAppKey:)], BmobObject objectWithClassName, BmobQuery queryWithClassName, BmobUser, BmobInstallation, BmobFile, BmobGeoPoint, BmobRelation, saveInBackgroundWithResultBlock, getObjectInBackgroundWithId, findObjectsInBackground, Bridging-Header.h. NOT for cross-platform JavaScript / WeChat Mini Program (use bmob-database-javascript), Android (use bmob-database-android), Flutter / Dart (use bmob-database-flutter), or any other language via REST (use bmob-database-restful). If Bmob MCP is configured, call get_project_tables via bmob-mcp before writing code."
 metadata:
   author: bmob
   version: "0.1.0"
@@ -87,6 +87,14 @@ OC 端用 `[Bmob resetDomain:@"https://sdk.yourapp.com"];`。
 - [ ] **写入的表必须配 ACL**：否则任意用户可改任意行。
 - [ ] **Bridging Header 不要 commit 真实 AppKey**：用配置文件 / xcconfig / environment 注入。
 - [ ] **release 前替换备案域名**：参见上面"4. 域名重置"。
+
+## 常见问题
+
+跨平台 Q&A：[`shared/faq.md`](../../shared/faq.md)。
+
+## 反模式
+
+见 [`shared/anti-patterns.md`](../../shared/anti-patterns.md)。本端重点：勿 commit 真实 AppKey；ATS 尽量 HTTPS。
 
 ## 单条 CRUD（Swift 现代写法）
 
@@ -196,6 +204,8 @@ BmobObject *gs = [BmobObject objectWithoutDatatWithClassName:@"GameScore" object
 
 ## 排错速查
 
+跨平台现象先查 [`shared/faq.md`](../../shared/faq.md)。
+
 | 现象 | 排查 |
 |---|---|
 | 100 报错 | 请求内容（查询条件）有误 |
@@ -213,6 +223,8 @@ BmobObject *gs = [BmobObject objectWithoutDatatWithClassName:@"GameScore" object
 
 | 主题 | 路径 |
 |---|---|
+| 端到端场景 | [`shared/recipes/`](../../shared/recipes/) |
+| BmobDocs 同步代码片段 | [`references/snippets/`](references/snippets/) |
 | 完整安装 + Bridging + framework 链接 + ATS 配置 | [`references/install.md`](references/install.md) |
 | 高级查询（or / 子查询 / 地理位置 / include） | [`references/query.md`](references/query.md) |
 | Pointer / Relation | [`references/pointer-and-relation.md`](references/pointer-and-relation.md) |

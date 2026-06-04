@@ -1,0 +1,19 @@
+ 方式一：
+ const query = Bmob.Query('tableName');
+ query.set('id', 'objectId') //需要修改的objectId
+ query.set('nickName', 'Bmob后端云')
+ query.save().then(res => {
+ console.log(res)
+ }).catch(err => {
+ console.log(err)
+ })
+或者
+方式二：
+const query = Bmob.Query('tableName');
+query.get('objectId').then(res => {
+  console.log(res)
+  res.set('cover','3333')
+  res.save()
+}).catch(err => {
+  console.log(err)
+})

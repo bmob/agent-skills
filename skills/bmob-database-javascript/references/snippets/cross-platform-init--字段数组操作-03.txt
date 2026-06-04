@@ -1,0 +1,6 @@
+const query = Bmob.Query('tableName')
+query.get('ObjectId').then(res => {
+  res.remove("DiaryType", ["secret"]);
+  res.save();
+})
+

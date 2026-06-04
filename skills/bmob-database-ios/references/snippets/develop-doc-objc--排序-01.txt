@@ -1,0 +1,4 @@
+// 升序
+- (void)orderByAscending:(NSString *)key ;
+// 降序
+- (void)orderByDescending:(NSString *)key ;

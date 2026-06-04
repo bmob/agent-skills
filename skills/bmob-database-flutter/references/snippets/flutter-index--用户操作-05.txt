@@ -1,0 +1,11 @@
+///发送短信验证码：需要手机号码
+_sendSms(BuildContext context) {
+  BmobSms bmobSms = BmobSms();
+  bmobSms.template = "";
+  bmobSms.mobilePhoneNumber = _phoneNumber;
+  bmobSms.sendSms().then((BmobSent bmobSent) {
+    showSuccess(context, "发送成功:" + bmobSent.smsId.toString());
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

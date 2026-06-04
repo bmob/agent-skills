@@ -1,0 +1,1 @@
+["type": "typeName", "targetClass": "tableName"]

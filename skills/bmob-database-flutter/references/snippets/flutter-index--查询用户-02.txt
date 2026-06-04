@@ -1,0 +1,13 @@
+BmobQuery<User> query = BmobQuery();
+query.queryUsers().then((data) {
+  showSuccess(context, data.toString());
+  List<User> users =
+      data.map((i) => User.fromJson(i)).toList();
+  for (User user in users) {
+    if (user != null) {
+      print(user.objectId);
+    }
+  }
+}).catchError((e) {
+  showError(context, BmobError.convert(e).error);
+});

@@ -1,0 +1,21 @@
+//文件IMG_1471.jpg的路径
+NSString *fileString = [[NSBundle mainBundle] pathForResource:@"IMG_1471" ofType:@"JPG"];
+//文件text.txt的路径
+NSString *fileString2 = [[NSBundle mainBundle] pathForResource:@"text" ofType:@"txt"];
+[BmobFile filesUploadBatchWithPaths:@[fileString,fileString2]
+progressBlock:^(int index, float progress) {
+//index 上传数组的下标，progress当前文件的进度
+NSLog(@"index %d progress %f",index,progress);
+} resultBlock:^(NSArray *array, BOOL isSuccessful, NSError *error) {
+//array 文件数组，isSuccessful 成功或者失败,error 错误信息
+BmobObject *obj = [[BmobObject alloc] initWithClassName:@"gameScoreFile"];
+//存放文件URL的数组
+NSMutableArray *fileArray = [NSMutableArray array];
+for (int i = 0 ; i < array.count ;i ++) {
+BmobFile *file = array [i];
+[fileArray addObject:file.url];
+}
+[obj setObject:fileArray  forKey:fileUrlArray];
+[obj saveInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+}];
+}];

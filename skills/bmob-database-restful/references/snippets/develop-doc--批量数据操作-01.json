@@ -1,0 +1,25 @@
+{
+    "requests": [
+        {
+            "method": "POST",
+            "path": "/1/classes/<TableName>",
+            "body": {
+                "<key1>": "<value1>",
+                "<key2>": "<value2>"
+            }
+        },
+        {
+            "method": "PUT",
+            "token": "<tokenValue>",
+            "path": "/1/classes/<TableName>/<objectId>",
+            "body": {
+                "<key1>": "<value1>"
+            }
+        },
+        {
+            "method": "DELETE",
+            "token": "<tokenValue>",
+            "path": "/1/classes/<TableName>/<objectId>"
+        }
+    ]
+}

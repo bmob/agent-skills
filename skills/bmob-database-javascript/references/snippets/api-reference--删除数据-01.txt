@@ -1,0 +1,8 @@
+myObject.destroy({
+  success: function(myObject) {
+    // 删除成功
+  },
+  error: function(myObject, error) {
+    // 删除失败
+  }
+});

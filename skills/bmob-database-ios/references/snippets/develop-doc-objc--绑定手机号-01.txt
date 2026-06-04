@@ -1,0 +1,19 @@
+//验证
+[BmobSMS verifySMSCodeInBackgroundWithPhoneNumber:mobilePhoneNumber andSMSCode:smsCode resultBlock:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+//修改绑定手机
+BmobUser *buser = [BmobUser getCurrentUser];
+buser.mobilePhoneNumber = mobilePhoneNumber;
+[buser setObject:[NSNumber numberWithBool:YES] forKey:@"mobilePhoneNumberVerified"];
+[buser updateInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+NSLog(@"%@",buser);
+} else {
+NSLog(@"%@",error);
+}
+}];
+
+} else {
+NSLog(@"%@",error);
+}
+}];

@@ -1,0 +1,30 @@
+///查询多条数据
+void _queryList(BuildContext context) {
+  BmobQuery<Blog> query = BmobQuery();
+  query.setInclude("author");
+  query.setLimit(10);
+  query.setSkip(10);
+  query.queryObjects().then((List<dynamic> data) {
+    List<Blog> blogs = data.map((i) => Blog.fromJson(i)).toList();
+
+    setState(() {
+      _items = blogs;
+    });
+    int index = 0;
+    for (Blog blog in blogs) {
+      index++;
+      if (blog != null) {
+        print(index);
+        print(blog.objectId);
+        print(blog.title);
+        print(blog.content);
+        if (blog.author != null) {
+          print(blog.author.objectId);
+          print(blog.author.username);
+        }
+      }
+    }
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

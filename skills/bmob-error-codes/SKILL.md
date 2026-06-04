@@ -1,6 +1,6 @@
 ---
 name: bmob-error-codes
-description: "Use when the user sees a Bmob error response with a numeric code (e.g. 9015, 101, 105, 206, 211, 9013, 10017, 10076) and needs to know what it means and how to fix it. Triggers: 'bmob error code', 'bmob 报错', 'bmob 9015', 'Bmob 错误', 'object not found', 'invalid field name', 'unique index cannot has duplicate value', 'QPS beyond the limit', 'mobilePhoneNumber already taken'. Covers Android SDK codes (9001-9023), iOS SDK codes (100, 20000-20030), REST API HTTP 401/500/400 + business codes 100-601 + 10001-10210. NOT for runtime debugging without an error code — for that read the platform skill (bmob-database-{javascript,android,ios,restful}) and check logs."
+description: "Use when the user sees a Bmob error response with a numeric code (e.g. 9015, 101, 105, 206, 211, 9013, 10017, 10076) and needs to know what it means and how to fix it. Triggers: 'bmob error code', 'bmob 报错', 'bmob 9015', 'Bmob 错误', 'object not found', 'invalid field name', 'unique index cannot has duplicate value', 'QPS beyond the limit', 'mobilePhoneNumber already taken'. Covers Android SDK codes (9001-9023), iOS SDK codes (100, 20000-20030), REST API HTTP 401/500/400 + business codes 100-601 + 10001-10210. NOT for runtime debugging without an error code — for that read the platform skill (bmob-database-{javascript,android,ios,flutter,restful}) and check logs."
 metadata:
   author: bmob
   version: "0.1.0"
@@ -17,6 +17,23 @@ Bmob 的报错由三个独立编号空间组成：
 3. **REST API 服务端错误**：HTTP 状态码 + 业务码（401 / 500 / 400 + body 里的 `code` 字段，所有 SDK 的网络错误本质都是这个）
 
 > **关键诊断流程**：拿到错误后**先看是不是网络错误**（看响应体里有没有 `{ "code": ..., "error": "..." }`），如果是，按 REST API 错误码表查；如果没有响应体只有 SDK 抛出的本地 code（9xxx 或 2xxxx），按 SDK 本地表查。
+
+## 按现象反查（响应体 `error` 英文）
+
+| 现象 / `error` 关键词 | 业务码 | 详表 |
+|------------------------|--------|------|
+| `object not found` | 101 | 下文 REST §3 |
+| `invalid field name` | 105 | REST §3 |
+| `unique index cannot has duplicate value` | 211 等 | REST §3 |
+| `QPS beyond the limit` | 10076 | REST §4 |
+| `mobilePhoneNumber already taken` | 206 等 | REST §3 用户相关 |
+| `Could not find user` / 登录失败 | 101 / 201 | REST §3；查用户名密码 |
+| Android 仅 `9015`、描述含糊 | 9015 | 下文 §1 **9015 专题** |
+| iOS `20017` 初始化未完成 | 20017 | 下文 §2 |
+| HTTP 401 Unauthorized | — | 密钥错或签名错；[`shared/faq.md`](../../shared/faq.md) |
+| 权限 / ACL 拒绝 | 9015 / 9016 / 138 等 | [`shared/anti-patterns.md`](../../shared/anti-patterns.md)；P1 `bmob-acl-and-roles` |
+
+更多路由类问题：[`shared/faq.md`](../../shared/faq.md)。
 
 ## 1. Android SDK 本地错误码（9001–9023）
 

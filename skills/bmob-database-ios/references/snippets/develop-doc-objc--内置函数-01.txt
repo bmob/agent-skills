@@ -1,0 +1,12 @@
+BmobQuery *bmobQuery = [[BmobQuery alloc] init];
+NSString *bql = @"select * from GameScore_BQL where createdAt > date(?)";
+NSArray *placeholderArray = @[@"2015-05-14 14:56:30"];
+[bmobQuery queryInBackgroundWithBQL:bql pvalues:placeholderArray block:^(BQLQueryResult *result, NSError *error) {
+if (error) {
+NSLog(@"%@",error);
+} else {
+if (result) {
+NSLog(@"%@",result.resultsAry);
+}
+}
+}];

@@ -1,0 +1,9 @@
+{
+    "username": "<username>",
+    "mobilePhoneNumber": "<mobilePhoneNumber>",
+    "mobilePhoneVerified": true,
+    "createdAt": "YYYY-mm-dd HH:ii:ss",
+    "updatedAt": "YYYY-mm-dd HH:ii:ss",
+    "objectId": "<objectId>",
+    "sessionToken": "<sessionToken>"
+}

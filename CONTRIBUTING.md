@@ -15,7 +15,9 @@
 └────────────────────────┘    └─────────────────────────┘    └────────────────────────┘
 ```
 
-**核心约定**：**skill 用户从不直接接触 BmobDocs**，他们装好后 agent 直接读取已经打包好的 `skills/*/references/snippets/`。维护者负责保证这些 snippets 与上游 BmobDocs 同步。
+**核心约定**：**skill 用户从不直接接触 BmobDocs**，他们装好后 agent 读取 `skills/*/SKILL.md`、`references/`（含已提交的 `references/snippets/`）以及 [`shared/`](shared/) 下的 FAQ、反模式、食谱。维护者负责 snippets 与 BmobDocs 同步。
+
+**写作规范（章节顺序、内容归属、snippets 流程）**：见 [`shared/skill-authoring.md`](shared/skill-authoring.md)。
 
 ## 开发环境
 
@@ -52,7 +54,7 @@ git submodule update --init --depth 1 --recursive
    pnpm extract:local -- --skill=bmob-database-javascript  # 单 skill
    ```
 
-3. **手写 SKILL.md 正文**：参考 [`skills/bmob-database-javascript/SKILL.md`](skills/bmob-database-javascript/SKILL.md) 的结构——frontmatter、核心原则、安全清单、最小可运行片段、references 目录。
+3. **手写 SKILL.md 正文**：按 [`shared/skill-authoring.md`](shared/skill-authoring.md) 的章节顺序；可参考 [`skills/bmob-database-javascript/SKILL.md`](skills/bmob-database-javascript/SKILL.md)。
 
 ## 提交前必查
 
@@ -62,36 +64,9 @@ pnpm run validate     # 校验所有 SKILL.md 的 frontmatter 与相对链接
 
 CI 也会跑同一份校验，加上一个针对 `http://mcp.bmobapp.com/mcp` 的 tools/list smoke 测试（需要在 GitHub secrets 里配 `BMOB_MCP_APP_ID` 与 `BMOB_MCP_REST_KEY`，否则自动跳过）。
 
-## frontmatter 规范
+## frontmatter 与正文结构
 
-每个 `skills/<name>/SKILL.md` 顶部必须有 YAML frontmatter：
-
-```yaml
----
-name: bmob-foo                              # 必须等于目录名，kebab-case
-description: "Use when ... NOT for ..."     # 至少 20 字符，覆盖触发词与互斥排除
-metadata:
-  author: bmob
-  version: "0.1.0"
-  docs: "https://github.com/bmob/BmobDocs/blob/master/mds/..."         # 给人类
-  docs_raw: "https://raw.githubusercontent.com/bmob/BmobDocs/master/mds/..."  # 给 agent
----
-```
-
-**写 description 的核心要诀**：
-
-- 列出触发词（关键 API 名、产品名、平台名），让 agent 检索时能精准命中
-- 显式写 "NOT for X (use bmob-Y)"，让多个相邻 skill 之间互不抢路由
-- 如果是平台特化 skill，触发词必须包含该平台所有别名（如 `Android / Kotlin / Java`）
-
-## 引用文档的两条 URL
-
-任何指向上游 BmobDocs 的链接都要给两条：
-
-- **正文阅读** → `https://github.com/bmob/BmobDocs/blob/master/mds/...`
-- **agent fetch** → `https://raw.githubusercontent.com/bmob/BmobDocs/master/mds/...`
-
-前者在浏览器里渲染良好；后者能被 agent 的 WebFetch 工具直接拉取原始 markdown，否则会卡在 GitHub 的渲染页。
+详见 [`shared/skill-authoring.md`](shared/skill-authoring.md)（frontmatter 模板、`SKILL.md` 章节顺序、双 URL 约定）。
 
 ## 安全红线
 

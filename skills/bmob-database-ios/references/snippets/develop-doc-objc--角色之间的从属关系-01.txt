@@ -1,0 +1,28 @@
+//创建MobileDep（移动研发部）、AndroidTeam（android开发组）和iOSTeam（ios开发组）三个角色
+BmobRole *mobileDep =[BmobRole roleWithName:@"MobileDep"];
+BmobRole *androidTeam = [BmobRole roleWithName:@"AndroidTeam"];
+BmobRole *iosTeam     = [BmobRole roleWithName:@"iOSTeam"];
+//保存AndroidTeam和iosTeam角色到云端
+[androidTeam saveInBackground];
+[iosTeam saveInBackground];
+//将androidTeam和iosTeam两种角色添加到移动部门角色中
+BmobRelation *relation = [BmobRelation relation];
+[relation addObject:androidTeam];
+[relation addObject:iosTeam];
+[mobileDep addRolesRelation:relation];
+// 假设创建三个代码数据对象
+BmobObject *coreCode = [BmobObject objectWithClassName:@"Code"];
+BmobObject *androidCode = [BmobObject objectWithClassName:@"Code"];
+BmobObject *iosCode = [BmobObject objectWithClassName:@"Code"];
+//......此处省略一些具体的属性设定
+[coreCode saveInBackground];
+[androidCode saveInBackground];
+[iosCode saveInBackground];
+//设置androidTeam角色对androidCode对象的读和写的权限
+[androidCode.ACL setReadAccessForRole:androidTeam];
+[androidCode.ACL setWriteAccessForRole:androidTeam];
+//设置iosTeam角色对iosCode对象的读和写的权限
+[iosCode.ACL setReadAccessForRole:iosTeam];
+[iosCode.ACL setWriteAccessForRole:iosTeam];
+//设置mobileDep角色可以对coreCode对象进行读操作
+[coreCode.ACL setReadAccessForRole:mobileDep];

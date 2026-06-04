@@ -1,6 +1,7 @@
 /**
- * Smoke test: confirms the upstream Bmob MCP server still exposes the 7 tools
- * documented in skills/bmob-mcp/SKILL.md. Uses anonymous demo creds — server
+ * Smoke test: confirms the upstream Bmob MCP server still exposes the 7
+ * agent-callable tools documented in skills/bmob-mcp/SKILL.md (8 total on
+ * tools/list; mcp_endpoint_mcp_post is internal). Uses anonymous demo creds —
  * accepts auth header but tools/list works without app-scoped data.
  *
  * Skipped automatically if BMOB_MCP_APP_ID / BMOB_MCP_REST_KEY are not set.
@@ -16,6 +17,7 @@ const EXPECTED = [
   "update_single_data",
   "delete_single_data",
   "generate_code",
+  "deploy_static_site",
 ];
 
 if (!APP_ID || !REST_KEY) {

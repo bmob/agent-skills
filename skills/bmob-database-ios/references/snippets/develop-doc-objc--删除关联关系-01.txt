@@ -1,0 +1,17 @@
+BmobObject *post = [BmobObject objectWithoutDataWithClassName:@"Post" objectId:@"ZqQ7KKKx"];
+
+//新建relation对象
+BmobRelation *relation = [[BmobRelation alloc] init];
+[relation removeObject:[BmobObject objectWithoutDataWithClassName:@"_User" objectId:@"vbhGAAAY"]];
+
+//添加关联关系到likes列中
+[post addRelation:relation forKey:@"likes"];
+
+//异步更新obj的数据
+[post updateInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+NSLog(@"successful");
+}else{
+NSLog(@"error %@",[error description]);
+}
+}];

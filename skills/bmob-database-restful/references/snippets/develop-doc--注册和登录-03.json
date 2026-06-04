@@ -1,0 +1,14 @@
+{
+    "username": "<username>",
+    "createdAt": "YYYY-mm-dd HH:ii:ss",
+    "updatedAt": "YYYY-mm-dd HH:ii:ss",
+    "objectId": "<objectId>",
+    "sessionToken": "<sessionToken>",
+    "authData": {
+        "<platform>": {
+            "uid": "<uid>",
+            "access_token": "<accessToken>",
+            "expires_in": "<expiresIn>"
+        }
+    }
+}

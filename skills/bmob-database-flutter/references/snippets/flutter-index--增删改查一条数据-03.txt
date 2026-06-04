@@ -1,0 +1,16 @@
+///修改一条数据
+_updateSingle(BuildContext context) {
+  if (currentObjectId != null) {
+    Blog blog = Blog();
+    blog.objectId = currentObjectId;
+    blog.title = "修改一条数据";
+    blog.content = "修改一条数据";
+    blog.update().then((BmobUpdated bmobUpdated) {
+      showSuccess(context, "修改一条数据成功：${bmobUpdated.updatedAt}");
+    }).catchError((e) {
+      showError(context, BmobError.convert(e).error);
+    });
+  } else {
+    showError(context, "请先新增一条数据");
+  }
+}

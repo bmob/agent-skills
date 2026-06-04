@@ -1,0 +1,8 @@
+//新浪微博账号关联到当前用户
+NSDictionary *dic = @{@"access_token":token,@"uid":uid,@"expirationDate":date};
+BmobUser *currentUser = [BmobUser getCurrentUser];
+[currentUser linkedInBackgroundWithAuthorDictionary:dic
+platform:BmobSNSPlatformSinaWeibo
+block:^(BOOL isSuccessful, NSError *error) {
+NSLog(@"ERROR :%@",[error description]);
+}];

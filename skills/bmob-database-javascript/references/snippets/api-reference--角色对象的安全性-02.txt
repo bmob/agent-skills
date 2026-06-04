@@ -1,0 +1,8 @@
+var role = new Bmob.Role(roleName, roleACL);
+for (var i = 0; i < usersToAddToRole.length; i++) {
+  role.getUsers().add(usersToAddToRole[i]);
+}
+for (var i = 0; i < rolesToAddToRole.length; i++) {
+  role.getRoles().add(rolesToAddToRole[i]);
+}
+role.save();

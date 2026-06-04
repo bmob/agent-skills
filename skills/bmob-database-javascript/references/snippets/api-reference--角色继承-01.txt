@@ -1,0 +1,4 @@
+var administrators = /* Your "Administrators" role */;
+var moderators = /* Your "Moderators" role */;
+moderators.getRoles().add(administrators);
+moderators.save();

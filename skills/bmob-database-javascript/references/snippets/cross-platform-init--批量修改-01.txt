@@ -1,0 +1,11 @@
+const query = Bmob.Query('tableName');
+query.find().then(todos => {
+  todos.set('aab', "Bmob后端云");
+  todos.set('bb', 'Bmob后端云');
+  todos.saveAll().then(res => {
+    // 成功批量修改
+    console.log(res,'ok')
+  }).catch(err => {
+    console.log(err)
+  });
+})

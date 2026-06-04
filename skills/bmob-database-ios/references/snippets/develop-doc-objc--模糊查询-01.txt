@@ -1,0 +1,6 @@
+//使用正则表达式查询
+-(void)whereKey:(NSString*)key matchesWithRegex:(NSString*)regex;
+//查询以特定字符串开头的值
+-(void)whereKey:(NSString *)key startWithString:(NSString*)start;
+//查询以特定字符串结尾的值
+-(void)whereKey:(NSString *)key endWithString:(NSString*)end;

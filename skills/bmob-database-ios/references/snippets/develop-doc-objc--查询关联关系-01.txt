@@ -1,0 +1,17 @@
+//关联对象表
+BmobQuery *bquery = [BmobQuery queryWithClassName:@"_User"];
+
+//需要查询的列
+BmobObject *post = [BmobObject objectWithoutDataWithClassName:@"Post" objectId:@"ZqQ7KKKx"];
+[bquery whereObjectKey:@"likes" relatedTo:post];
+
+
+[bquery findObjectsInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+if (error) {
+NSLog(@"%@",error);
+} else {
+for (BmobObject *user in array) {
+NSLog(@"%@",[user objectForKey:@"username"]);
+}
+}
+}];

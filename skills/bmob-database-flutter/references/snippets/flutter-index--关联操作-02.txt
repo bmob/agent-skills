@@ -1,0 +1,14 @@
+///解除关联关系
+_deletePointer() {
+  if (currentObjectId == null) {
+    DataPlugin.toast("请先添加关联关系");
+    return;
+  }
+  Blog blog = Blog();
+  blog.objectId = currentObjectId;
+  blog.deleteFieldValue("author").then((BmobUpdated bmobUpdated) {
+    DataPlugin.toast(bmobUpdated.updatedAt);
+  }).catchError((e) {
+    DataPlugin.toast(BmobError.convert(e).error);
+  });
+}

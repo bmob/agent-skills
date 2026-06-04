@@ -1,0 +1,2 @@
+query.notEqualTo("playerName", "bmob");
+query.greaterThan("score", 100);

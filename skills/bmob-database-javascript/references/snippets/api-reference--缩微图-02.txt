@@ -1,0 +1,7 @@
+Bmob.Image.thumbnail({"image":"http://file.bmobapp.com/M00/01/26/wKgBP1OX9LLVh5gNAAHGYsmKRjk666.jpg","mode":0,"quality":100,"width":100}
+
+  ).then(function(obj) {
+
+  alert("filename:"+obj.filename); //
+  alert("url:"+obj.url); //
+});

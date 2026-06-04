@@ -1,0 +1,17 @@
+{
+    "<key>": {
+        "__op": "RemoveRelation",
+        "objects": [
+            {
+                "__type": "Pointer",
+                "className": "<className>",
+                "objectId": "<objectId>"
+            },
+            {
+                "__type": "Pointer",
+                "className": "<className>",
+                "objectId": "<objectId>"
+            }
+        ]
+    }
+}

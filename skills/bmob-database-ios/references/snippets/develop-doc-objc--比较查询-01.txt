@@ -1,0 +1,3 @@
+BmobQuery   *bquery = [BmobQuery queryWithClassName:@"GameScore"];
+//添加playerName不是小明的约束条件
+[bquery whereKey:@"playerName" notEqualTo:@"小明"];

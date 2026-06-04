@@ -1,0 +1,10 @@
+NSString *bql = @"select sum(score) from GameScore_BQL group by playerName";
+[bmobQuery statisticsInBackgroundWithBQL:bql block:^(NSArray *result, NSError *error) {
+if (error) {
+NSLog(@"%@",error);
+} else {
+if (result) {
+NSLog(@"%@",result);
+}
+}
+}];

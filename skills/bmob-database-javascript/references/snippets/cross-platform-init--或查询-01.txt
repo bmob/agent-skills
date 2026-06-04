@@ -1,0 +1,9 @@
+const query = Bmob.Query("tableName");
+const query1 = query.equalTo("isLike", '>', 150);
+const query2 = query.equalTo("isLike", '<', 150);
+
+query.or(query1, query2);
+query.find().then(res => {
+  // 返回 isLike > 150 or isLike < 5 的值
+  console.log(res)
+});

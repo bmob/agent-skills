@@ -1,0 +1,7 @@
+//查找分数为90分跟分数为150分的数据
+NSArray *array =  @[@{@"score":@90},@{@"score":@150}];
+[bquery addTheConstraintByOrOperationWithArray:array];
+
+//查找名字为张三跟李四的数据
+NSArray *array =  @[@{@"name":@"张三"},@{@"name":"李四"}];
+[bquery addTheConstraintByOrOperationWithArray:array];

@@ -1,0 +1,5 @@
+{
+	cdn:"upyun"
+	filename:"code.jpg"
+	url:"http://qrCodeImageURL.jpg"
+}

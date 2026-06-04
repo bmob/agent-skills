@@ -1,0 +1,18 @@
+BmobQuery *bquery = [BmobQuery queryWithClassName:@"Post"];
+
+//声明该次查询需要将author关联对象信息一并查询出来
+[bquery includeKey:@"author"];
+
+[bquery getObjectInBackgroundWithId:@"ZqQ7KKKx" block:^(BmobObject *object, NSError *error) {
+
+//打印文章标题，内容
+BmobObject *post = object;
+NSLog(@"title:%@",[post objectForKey:@"title"]);
+NSLog(@"content:%@",[post objectForKey:@"content"]);
+
+//取得文章的关联作者对象
+BmobUser *author = [post objectForKey:@"author"];
+//打印文章的关联作者对象的相关信息
+NSLog(@"objectId:%@",author.objectId);
+NSLog(@"name:%@",[author objectForKey:@"username"]);
+}];

@@ -1,0 +1,26 @@
+BmobSMS.verifySmsCode(phone, code, new UpdateListener() {
+    @Override
+    public void done(BmobException e) {
+        if (e == null) {
+            mTvInfo.append("验证码验证成功，您可以在此时进行绑定操作！\n");
+            User user = BmobUser.getCurrentUser(User.class);
+            user.setMobilePhoneNumber(phone);
+            //绑定
+            user.setMobilePhoneNumberVerified(true);
+            //解绑
+            //user.setMobilePhoneNumberVerified(false);
+            user.update(new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        mTvInfo.append("绑定/解绑手机号码成功");
+                    } else {
+                        mTvInfo.append("绑定/解绑手机号码失败：" + e.getErrorCode() + "-" + e.getMessage());
+                    }
+                }
+            });
+        } else {
+            mTvInfo.append("验证码验证失败：" + e.getErrorCode() + "-" + e.getMessage() + "\n");
+        }
+    }
+});

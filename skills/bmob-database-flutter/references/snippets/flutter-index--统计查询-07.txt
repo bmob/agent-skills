@@ -1,0 +1,24 @@
+///添加过滤条件
+void _queryHaving(BuildContext context) {
+  BmobQuery<Blog> query = BmobQuery();
+  Map<String,dynamic> filter = Map();
+  filter["title"]="博客标题";
+  query.havingFilter(filter);
+  query.queryObjects().then((data) {
+    List<Blog> blogs = data.map((i) => Blog.fromJson(i)).toList();
+    showSuccess(context, data.toString());
+    for (Blog blog in blogs) {
+      if (blog != null) {
+        print(blog.objectId);
+        print(blog.title);
+        print(blog.content);
+        if (blog.author != null) {
+          print(blog.author.objectId);
+          print(blog.author.username);
+        }
+      }
+    }
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

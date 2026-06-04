@@ -1,0 +1,7 @@
+{
+  "env": 0,
+  "amount": 100,
+  "order_id": "ORDER_20240101_001",
+  "payitem": "{\"name\":\"coin\"}",
+  "remark": "代币支付"
+}

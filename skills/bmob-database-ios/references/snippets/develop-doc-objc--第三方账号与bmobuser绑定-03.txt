@@ -1,0 +1,8 @@
+//微信账号关联到当前用户
+NSDictionary *responseDictionary = @{@"access_token": accessToken,@"uid":openId,@"expirationDate":expirationDate};
+BmobUser *user = [BmobUser getCurrentUser];
+[user linkedInBackgroundWithAuthorDictionary:responseDictionary
+platform:BmobSNSPlatformWeiXin
+block:^(BOOL isSuccessful, NSError *error) {
+NSLog(@"error%@",[error description]);
+}];

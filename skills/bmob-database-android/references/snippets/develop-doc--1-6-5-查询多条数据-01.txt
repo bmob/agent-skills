@@ -1,0 +1,17 @@
+/**
+ * 查询多条数据
+ */
+private void query() {
+    BmobQuery<Category> bmobQuery = new BmobQuery<>();
+    bmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> categories, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnQuery, "查询成功：" + categories.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnQuery, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}

@@ -1,0 +1,10 @@
+BmobObjectsBatch    *batch = [[BmobObjectsBatch alloc] init] ;
+//在GameScore表中创建一条数据
+[batch saveBmobObjectWithClassName:@"GameScore" parameters:@{@"aveScore": @{@"数学":@90},@"score":@78}];
+//在GameScore表中更新objectId为27eabbcfec的数据
+[batch updateBmobObjectWithClassName:@"GameScore" objectId:@"27eabbcfec" parameters:@{@"score": @85}];
+//在GameScore表中删除objectId为30752bb92f的数据
+[batch deleteBmobObjectWithClassName:@"GameScore" objectId:@"30752bb92f"];
+[batch batchObjectsInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+NSLog(@"batch error %@",[error description]);
+}];

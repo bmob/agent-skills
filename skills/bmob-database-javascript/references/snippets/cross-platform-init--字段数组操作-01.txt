@@ -1,0 +1,5 @@
+const query = Bmob.Query('tableName')
+query.add("DiaryType", ["public"]);
+query.addUnique("DiaryType", ["secret"]);
+query.save();
+

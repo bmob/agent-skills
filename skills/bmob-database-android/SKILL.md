@@ -1,6 +1,6 @@
 ---
 name: bmob-database-android
-description: "Use when implementing Bmob NoSQL database CRUD in an Android Native project (Java or Kotlin). Triggers: io.github.bmob:android-sdk, Bmob.initialize(this, ...), BmobObject, BmobQuery, BmobUser, BmobInstallation, BmobFile, BmobRelation, BmobGeoPoint, BmobDate, SaveListener, UpdateListener, FindListener, QueryListener, BmobException, BmobContentProvider, AndroidManifest Bmob 配置. NOT for cross-platform JavaScript / WeChat Mini Program / Cocos Creator JS (use bmob-database-javascript), iOS / Swift (use bmob-database-ios), or raw HTTP from any other language (use bmob-database-restful). If Bmob MCP is configured, call get_project_tables via bmob-mcp before writing code."
+description: "Use when implementing Bmob NoSQL database CRUD in an Android Native project (Java or Kotlin). Triggers: io.github.bmob:android-sdk, Bmob.initialize(this, ...), BmobObject, BmobQuery, BmobUser, BmobInstallation, BmobFile, BmobRelation, BmobGeoPoint, BmobDate, SaveListener, UpdateListener, FindListener, QueryListener, BmobException, BmobContentProvider, AndroidManifest Bmob 配置. NOT for cross-platform JavaScript / WeChat Mini Program / Cocos Creator JS (use bmob-database-javascript), iOS / Swift (use bmob-database-ios), Flutter / Dart (use bmob-database-flutter), or raw HTTP from any other language (use bmob-database-restful). If Bmob MCP is configured, call get_project_tables via bmob-mcp before writing code."
 metadata:
   author: bmob
   version: "0.1.0"
@@ -59,6 +59,14 @@ public class BmobApp extends Application {
 - [ ] **写操作的表必须配 ACL**：否则任意用户可改任意行。
 - [ ] **release 上线前替换为备案域名**：`Bmob.resetDomain("http://你的SDK域名/8/")` 必须在 `Bmob.initialize` **之前**。
 - [ ] **Number 类型用包装类**：避免 `0` 与"未设置"无法区分。
+
+## 常见问题
+
+跨平台 Q&A：[`shared/faq.md`](../../shared/faq.md)。
+
+## 反模式
+
+见 [`shared/anti-patterns.md`](../../shared/anti-patterns.md)。本端重点：`success` 回调内未捕获异常 → 假 **9015**；勿用原生 `int` 存 Number。
 
 ## 自定义 JavaBean
 
@@ -196,6 +204,8 @@ new BmobBatch().insertBatch(list).doBatch(new QueryListListener<BatchResult>() {
 
 ## 排错速查
 
+跨平台现象先查 [`shared/faq.md`](../../shared/faq.md)。
+
 | 现象 | 排查 |
 |---|---|
 | `9001 AppKey is Null` | 没调 `Bmob.initialize` 或调用时机晚于其他 SDK API |
@@ -211,6 +221,8 @@ new BmobBatch().insertBatch(list).doBatch(new QueryListListener<BatchResult>() {
 
 | 主题 | 路径 |
 |---|---|
+| 端到端场景（博客、Todo ACL、迁移等） | [`shared/recipes/`](../../shared/recipes/) |
+| BmobDocs 同步代码片段 | [`references/snippets/`](references/snippets/) |
 | Manifest + 依赖 + ProGuard + Android P/6.0 兼容 | [`references/manifest-and-deps.md`](references/manifest-and-deps.md) |
 | 批量操作（insert/update/delete 各 50/批） | [`references/batch.md`](references/batch.md) |
 | 查询全集（or / regex / pointer 子查询） | [`references/query.md`](references/query.md) |

@@ -1,0 +1,3 @@
+// 删除playerName字段
+myObject.unset("playerName");
+myObject.save();

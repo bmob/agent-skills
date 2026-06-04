@@ -1,0 +1,1 @@
+[bquery whereKey:@"playerName" containedIn:[NSArray arrayWithObjects:@"小明",@"小红",@"小白", nil]];

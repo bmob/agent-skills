@@ -1,0 +1,12 @@
+let userData = wx.Bmob.User.current()
+var open_Id = userData.openid;
+let data = {
+      openid: open_Id,
+      scene: 2,
+      content:content
+}
+Bmob.checkMsg2(data).then(res => {
+	console.log(res)
+}).catch(err => {
+	console.log(err)
+})

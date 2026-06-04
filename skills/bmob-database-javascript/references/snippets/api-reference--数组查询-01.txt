@@ -1,0 +1,2 @@
+// Find objects where the array in arrayKey contains 2.
+query.equalTo("arrayKey", 2);

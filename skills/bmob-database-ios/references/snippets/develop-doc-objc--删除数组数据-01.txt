@@ -1,0 +1,1 @@
+-(void)removeObjectsInArray:(NSArray *)objects forKey:(NSString *)key;

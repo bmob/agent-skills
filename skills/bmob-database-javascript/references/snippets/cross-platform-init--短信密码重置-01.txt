@@ -1,0 +1,9 @@
+let smsCode= 'smsCode'
+let data = {
+  password: 'password'
+}
+Bmob.resetPasswordBySmsCode(smsCode,data).then(res => {
+  console.log(res)
+}).catch(err => {
+  console.log(err)
+})

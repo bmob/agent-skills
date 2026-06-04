@@ -1,0 +1,4 @@
+正常：
+{"msg":"ok","traceId":"6206100d-141eeaea-33a3a42d"}
+违规：
+{"code":10007,"error":"CheckMsg errcode:图片违规"}

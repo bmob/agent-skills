@@ -1,0 +1,8 @@
+//get image thumbnail
+Bmob.Image.watermark({"image":"http://test.com/new/images/banner005.jpg","watermark":"http://test.com/new/images/header2.png","dissolve":100,"gravity":"SouthWest","distanceX":10,"distanceY":10}
+
+  ).then(function(obj) {
+
+  alert("filename:"+obj.filename); //
+  alert("url:"+obj.url); //
+});

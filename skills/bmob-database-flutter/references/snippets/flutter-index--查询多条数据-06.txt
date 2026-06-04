@@ -1,0 +1,18 @@
+///大于等于查询
+_queryWhereLargeEqual(BuildContext context) {
+  BmobQuery<Blog> query = BmobQuery();
+  query.addWhereGreaterThanOrEqualTo("like", 77);
+  query.queryObjects().then((data) {
+    showSuccess(context, data.toString());
+    List<Blog> blogs = data.map((i) => Blog.fromJson(i)).toList();
+    for (Blog blog in blogs) {
+      if (blog != null) {
+        print(blog.objectId);
+        print(blog.title);
+        print(blog.content);
+      }
+    }
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

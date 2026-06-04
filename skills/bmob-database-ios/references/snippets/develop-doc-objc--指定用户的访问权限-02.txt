@@ -1,0 +1,14 @@
+BmobObject *blog = [[BmobObject alloc] initWithClassName:@"blog"] ;
+[blog setObject:@"一个人的秘密" forKey:@"title"];
+[blog setObject:@"这是blog的具体内容" forKey:@"content"];
+BmobACL *acl = [BmobACL ACL];
+[acl setReadAccessForUser:[BmobUser getCurrentUser]];//设置只有当前用户可读
+[acl setWriteAccessForUser:[BmobUser getCurrentUser]];//设置只有当前用户可写
+blog.ACL= acl;
+[blog saveInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+//进行操作
+}else{
+//进行操作
+}
+}];

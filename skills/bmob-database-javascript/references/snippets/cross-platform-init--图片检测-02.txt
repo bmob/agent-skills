@@ -1,0 +1,4 @@
+正常：
+["{"cdn":"upyun","filename":"abc.jpg","url":"http://…2018/05/07/e65172f540195fe880043cc74236e397.jpg"}", "{"cdn":"upyun","filename":"abc.jpg","url":"http://…2018/05/07/5670bf6740385bca802f9c33beb69ab9.jpg"}"]
+违规：
+{"code":10007,"error":"CheckMsg errcode:图片违规"}

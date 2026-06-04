@@ -1,0 +1,3 @@
+bquery.cachePolicy = kBmobCachePolicyNetworkElseCache;
+[bquery findObjectsInBackgroundWithBlock:^(NSArray *array,NSError *error){
+}];

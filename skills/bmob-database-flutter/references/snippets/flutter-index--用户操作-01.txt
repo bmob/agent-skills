@@ -1,0 +1,11 @@
+///用户名和密码登录
+_login(BuildContext context) {
+  BmobUser bmobUserRegister = BmobUser();
+  bmobUserRegister.username = _email;
+  bmobUserRegister.password = _password;
+  bmobUserRegister.login().then((BmobUser bmobUser) {
+    showSuccess(context, bmobUser.getObjectId() + "\n" + bmobUser.username);
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

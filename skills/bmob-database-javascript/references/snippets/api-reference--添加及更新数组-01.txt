@@ -1,0 +1,3 @@
+gameScore.addUnique("skills", "flying");
+gameScore.addUnique("skills", "kungfu");
+gameScore.save();

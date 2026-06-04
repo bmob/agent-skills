@@ -1,0 +1,8 @@
+const query = Bmob.Query('tableName');
+//下面参数为Pointer字段名称， 可以一次查询多个表
+query.include('own','post')
+query.find().then(res => {
+    console.log(res)
+  }).catch(err => {
+    console.log(err)
+  })

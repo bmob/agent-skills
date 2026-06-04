@@ -1,0 +1,6 @@
+var post = fetchedComment.get("parent");
+post.fetch({
+  success: function(post) {
+    var title = post.get("title");
+  }
+});

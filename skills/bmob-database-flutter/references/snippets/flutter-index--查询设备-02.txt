@@ -1,0 +1,14 @@
+BmobQuery<BmobInstallation> query = BmobQuery();
+query.queryInstallations().then((data) {
+  showSuccess(context, data.toString());
+  List<BmobInstallation> installations =
+  data.map((i) => BmobInstallation.fromJson(i)).toList();
+  for (BmobInstallation installation in installations) {
+    if (installation != null) {
+      print(installation.installationId);
+      print(installation.objectId);
+    }
+  }
+}).catchError((e) {
+  showError(context, BmobError.convert(e).error);
+});

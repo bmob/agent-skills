@@ -1,0 +1,7 @@
+BmobQuery *query = [BmobUser query];
+[query whereKey:@"username" equalTo:@"xiaolv"];
+[query findObjectsInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+for (BmobUser *user in array) {
+NSLog(@"objectid %@",user.objectId);
+}
+}];

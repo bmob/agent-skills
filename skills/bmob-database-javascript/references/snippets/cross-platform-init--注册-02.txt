@@ -1,0 +1,8 @@
+成功：
+{
+    "createdAt":"2018-04-19 17:42:59",
+    "objectId":"73d4587140",
+    "sessionToken":"14683f9a40b2509d80320bf0d4ec7d6e"
+}
+失败：
+{"code":107,"error":"content is empty."}

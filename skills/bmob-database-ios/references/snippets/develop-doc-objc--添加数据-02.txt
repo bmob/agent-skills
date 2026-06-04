@@ -1,0 +1,24 @@
+//在GameScore创建一条数据，如果当前没GameScore表，则会创建GameScore表
+BmobObject  *gameScore = [BmobObject objectWithClassName:@"GameScore"];
+//score为1200
+[gameScore setObject:[NSNumber numberWithInt:1200] forKey:@"score"];
+//设置userName为小明
+[gameScore setObject:@"小明" forKey:@"playerName"];
+//设置cheatMode为NO
+[gameScore setObject:[NSNumber numberWithBool:NO] forKey:@"cheatMode"];
+//设置age为18
+[gameScore setObject:[NSNumber numberWithInt:18] forKey:@"age"];
+
+//异步保存到服务器
+[gameScore saveInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+//创建成功后会返回objectId，updatedAt，createdAt等信息
+//创建对象成功，打印对象值
+NSLog(@"%@",gameScore);
+} else if (error){
+//发生错误后的动作
+NSLog(@"%@",error);
+} else {
+NSLog(@"Unknow error");
+}
+}];

@@ -1,0 +1,1 @@
+var point = new Bmob.GeoPoint({latitude: 40.0, longitude: -30.0});

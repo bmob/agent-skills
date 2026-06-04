@@ -1,0 +1,11 @@
+///发送重置密码邮件到邮箱，然后在邮件中重置密码，最后在应用中重新登录
+_sendEmail(BuildContext context) {
+  BmobUser bmobUser = BmobUser();
+  bmobUser.email = _email;
+  bmobUser
+      .requestPasswordResetByEmail()
+      .then((BmobHandled bmobHandled) {})
+      .catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

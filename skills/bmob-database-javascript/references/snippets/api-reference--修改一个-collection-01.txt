@@ -1,0 +1,21 @@
+var collection = new TestCollection();
+
+collection.add([
+  {"name": "Duke"},
+  {"name": "Scarlett"}
+]);
+
+// Get the "Duke" Bmob.Object by its sorted position.
+var model = collection.at(0);
+
+// Or you can get it by Bmob objectId.
+var modelAgain = collection.get(model.id);
+
+// Remove "Duke" from the collection.
+collection.remove(model);
+
+// Completely replace all items in the collection.
+collection.reset([
+  {"name": "Hawk"},
+  {"name": "Jane"}
+]);

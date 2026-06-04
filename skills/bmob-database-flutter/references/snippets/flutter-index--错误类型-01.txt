@@ -1,0 +1,1 @@
+BmobError bmobError = BmobError.convert(e);

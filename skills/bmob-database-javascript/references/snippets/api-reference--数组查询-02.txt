@@ -1,0 +1,2 @@
+// Find objects where the array in arrayKey contains all of the elements 2, 3, and 4.
+query.containsAll("arrayKey", [2, 3, 4]);

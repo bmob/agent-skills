@@ -1,0 +1,6 @@
+let content = 'hello'
+Bmob.checkMsg(content).then(res => {
+	console.log(res)
+}).catch(err => {
+	console.log(err)
+})

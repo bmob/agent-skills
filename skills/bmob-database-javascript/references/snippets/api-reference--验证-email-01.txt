@@ -1,0 +1,10 @@
+//reset password
+ Bmob.User.requestEmailVerify("h6k65@126.com", {
+  success: function() {
+    // Password reset request was sent successfully
+  },
+  error: function(error) {
+    // Show the error message somewhere
+    alert("Error: " + error.code + " " + error.message);
+  }
+});

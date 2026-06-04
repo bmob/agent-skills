@@ -1,0 +1,4 @@
+const query = Bmob.Query('diary');
+query.count().then(res => {
+  console.log(`共有${res}条记录`)
+});

@@ -1,0 +1,7 @@
+const query = Bmob.Query("tableName");
+// 只返回select的字段值
+query.select("title");
+query.find().then(res => {
+  // 返回成功
+  console.log(res)
+});

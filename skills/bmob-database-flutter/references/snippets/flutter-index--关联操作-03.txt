@@ -1,0 +1,17 @@
+///修改关联关系
+_modifyPointer() {
+  if (currentObjectId == null) {
+    DataPlugin.toast("请先添加关联关系");
+    return;
+  }
+  Blog blog = Blog();
+  blog.objectId = currentObjectId;
+  User user = User();
+  user.objectId = "358f092cb1";
+  blog.author = user;
+  blog.update().then((BmobUpdated bmobUpdated) {
+    DataPlugin.toast(bmobUpdated.updatedAt);
+  }).catchError((e) {
+    DataPlugin.toast(BmobError.convert(e).error);
+  });
+}

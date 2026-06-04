@@ -1,0 +1,3 @@
+var query = new Bmob.Query(Comment);
+
+query.include("post");

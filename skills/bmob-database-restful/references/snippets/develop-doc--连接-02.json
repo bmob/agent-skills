@@ -1,0 +1,9 @@
+{
+    "authData": {
+        "<platform>": {
+            "uid": "<uid>",
+            "access_token": "<accessToken>",
+            "expires_in": "<expiresIn>"
+        }
+    }
+}

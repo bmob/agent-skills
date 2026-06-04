@@ -1,0 +1,3 @@
+var post = new Post();
+post.id = '520c7e1ae4b0a3ac9ebe326a';
+myComment.set("parent", post);

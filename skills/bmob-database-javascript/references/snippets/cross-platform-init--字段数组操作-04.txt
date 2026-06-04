@@ -1,0 +1,7 @@
+const query = Bmob.Query('tableName')
+query.get('objectId').then(res => {
+    res.increment('field')
+    res.save()
+}).catch(err => {
+	console.log(err)
+})

@@ -1,0 +1,5 @@
+// By specifying no write privileges for the ACL, we can ensure the role cannot be altered.
+var roleACL = new Bmob.ACL();
+roleACL.setPublicReadAccess(true);
+var role = new Bmob.Role("Administrator", roleACL);
+role.save();

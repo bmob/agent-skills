@@ -1,0 +1,21 @@
+BmobObject  *post = [BmobObject objectWithClassName:@"Post"];
+//设置帖子的标题和内容
+[post setObject:@"title4" forKey:@"title"];
+[post setObject:@"content4" forKey:@"content"];
+
+//设置帖子关联的作者记录
+BmobUser *author = [BmobUser objectWithoutDataWithClassName:@"_User" objectId:@"vbhGAAAY"];
+[post setObject:author forKey:@"author"];
+
+//异步保存
+[post saveInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+//创建成功，返回objectId，updatedAt，createdAt等信息
+//打印objectId
+NSLog(@"objectid :%@",post.objectId);
+}else{
+if (error) {
+NSLog(@"%@",error);
+}
+}
+}];

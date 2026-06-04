@@ -1,0 +1,1 @@
+boolean isInCache = query.hasCachedResult(Class<?> clazz);

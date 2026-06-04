@@ -1,0 +1,9 @@
+Test *test = [[Test alloc] init];
+test.title = @"title2";
+test.name = @"name2";
+test.isStudent = [NSNumber numberWithBool:NO];
+test.age = @22;
+[test sub_saveInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+NSLog(@"error %@",error);
+NSLog(@"objectId %@",test.objectId);
+}];

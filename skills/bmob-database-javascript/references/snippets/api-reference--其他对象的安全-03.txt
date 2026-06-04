@@ -1,0 +1,5 @@
+var publicPost = new Post();
+var postACL = new Bmob.ACL(Bmob.User.current());
+postACL.setPublicReadAccess(true);
+publicPost.setACL(postACL);
+publicPost.save();

@@ -1,0 +1,15 @@
+BmobQuery *bquery = [BmobQuery queryWithClassName:@"GameScore"];
+NSArray *sumArray = [NSArray arrayWithObject:@"score"];
+[bquery sumKeys:sumArray];
+[bquery calcInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+if (error) {
+NSLog(@"error is:%@",error);
+} else{
+if (array) {
+NSLog(@"%@",array);
+NSDictionary *dic = [[NSDictionary alloc] init];
+dic = [array objectAtIndex:0];
+NSLog(@"sum of score:%d",[[dic objectForKey:@"_sumScore"] intValue] );
+}
+}
+}];

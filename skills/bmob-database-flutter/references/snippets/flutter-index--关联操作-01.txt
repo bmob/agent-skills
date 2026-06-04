@@ -1,0 +1,16 @@
+///添加关联关系
+_addPointer() {
+  Blog blog = Blog();
+  User user = User();
+  user.objectId = "4760e7a143";
+  blog.author = user;
+  blog.title = "添加关联关系";
+  blog.content = "添加帖子对应的作者";
+  blog.save().then((BmobSaved bmobSaved) {
+    currentObjectId = bmobSaved.objectId;
+    print(bmobSaved.objectId);
+    DataPlugin.toast("添加成功：\n${bmobSaved.objectId}\n${bmobSaved.createdAt}");
+  }).catchError((e) {
+    DataPlugin.toast(BmobError.convert(e).error);
+  });
+}

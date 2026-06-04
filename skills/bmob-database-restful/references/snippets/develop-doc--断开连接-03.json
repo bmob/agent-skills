@@ -1,0 +1,10 @@
+{
+    "username": "<username>",
+    "createdAt": "YYYY-mm-dd HH:ii:ss",
+    "updatedAt": "YYYY-mm-dd HH:ii:ss",
+    "objectId": "<objectId>",
+    "sessionToken": "<sessionToken>",
+    "authData": {
+        "<platform>": null
+    }
+}

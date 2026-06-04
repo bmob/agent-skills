@@ -1,0 +1,18 @@
+/**
+ * name不为football的类别
+ */
+private void notEqual() {
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereNotEqualTo("name", "football");
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}

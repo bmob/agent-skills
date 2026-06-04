@@ -1,0 +1,14 @@
+Bmob.Pay.wxvpCreateOrder({
+  env: 0,
+  mode: 'short_series_coin',
+  goods_price: 100,
+  buy_quantity: 1,
+  currency_type: 'CNY',
+  attach: 'any',
+  name: '100 代币',
+  biz_meta: JSON.stringify({ from: 'index' })
+}).then(res => {
+  console.log(res)
+}).catch(err => {
+  console.log(err)
+})

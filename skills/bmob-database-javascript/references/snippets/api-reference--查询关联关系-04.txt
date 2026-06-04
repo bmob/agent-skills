@@ -1,0 +1,6 @@
+var query = Bmob.Relation.reverseQuery('_User', 'likes', post);
+query.find({
+  success:function(users) {
+   //users是表示喜欢这个post的用户列表。
+  }
+});

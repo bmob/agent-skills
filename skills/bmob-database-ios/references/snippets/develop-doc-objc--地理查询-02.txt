@@ -1,0 +1,9 @@
+BmobGeoPoint *southwestOfSF = [[BmobGeoPoint alloc] initWithLongitude:116.39727786183357 WithLatitude:39.913768382429105];
+BmobGeoPoint* northeastOfSF =[[BmobGeoPoint alloc] initWithLongitude:116.39727786183357 WithLatitude:40.913768382429105];
+BmobQuery *bquery = [BmobQuery queryWithClassName:@"GameScore"];
+[bquery whereKey:@"location" withinGeoBoxFromSouthwest:southwestOfSF
+toNortheast:northeastOfSF];
+[bquery setLimit:10];
+[bquery findObjectsInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+//进行操作
+}];

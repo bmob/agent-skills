@@ -1,0 +1,1 @@
+-(void)listenTableChange:(BmobActionType)actionType tableName:(NSString *)tableName;

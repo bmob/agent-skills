@@ -1,0 +1,20 @@
+{
+    "authData": {
+        "weapp": {
+            "expires_in": 7200,
+            "openid": "oagfv0IsvzjNqtbi8_qnG2d_wXbU",
+            "tempsk": "",
+            "sk": "MsxXdUFlGVkI1b0V5OTVmT0ZlUnB2YldRUT09",
+            "unionid": "o_8mGw8FyOx45KaTAewhAIDpQo7A"
+        }
+    },
+    "createdAt": "2017-06-29 10:50:06",
+    "mobilePhoneNumber": "137xxxxx579",
+    "nickName": "magic",
+    "objectId": "a415c43787",
+    "openid": "oagfv0IsvzjNqtbi8_qnG2d_wXbU",
+    "sessionToken": "d39137b0400a31b7801bdaee677e1c19",
+    "updatedAt": "2025-04-28 16:26:21",
+    "userPic": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83eoA2XiapDhpzKO7CukcCQFAQqymrLUcuGzPRYTql4gCM8B2ljPS15XogDnWlRpyUibY1jVJUQg0ysBA/132",
+    "username": "adc9cee116c056bc"
+}

@@ -1,0 +1,8 @@
+//得到的qq授权信息，请按照例子来生成NSDictionary
+NSDictionary *responseDictionary = @{@"access_token": _tencentOauth.accessToken,@"uid":_tencentOauth.openId,@"expirationDate":_tencentOauth.expirationDate};
+//通过授权信息注册登录
+[BmobUser loginInBackgroundWithAuthorDictionary:responseDictionary
+platform:BmobSNSPlatformQQ
+block:^(BmobUser *user, NSError *error) {
+NSLog(@"error%@",[error description]);
+}];

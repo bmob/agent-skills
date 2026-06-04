@@ -1,0 +1,14 @@
+BmobQuery   *bquery = [BmobQuery queryWithClassName:@"Post"];
+[bquery getObjectInBackgroundWithId:@"ZqQ7KKKx" block:^(BmobObject *object,NSError *error){
+if (error){
+NSLog(@"%@",error);
+}else{
+if (object) {
+BmobObject *post = object;
+//将author列的值置为空
+[post deleteForKey:@"author"];
+//进行更新
+[post updateInBackground];
+}
+}
+}];

@@ -1,0 +1,5 @@
+TestUser *user = [[TestUser alloc] initFromBmobObject:[BmobUser getCurrentUser]];
+user.email = @"xxxaa@qq.com";
+[user sub_updateInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+NSLog(@"error %@",error.description);
+}];

@@ -1,0 +1,4 @@
+var user = Bmob.User.current();
+var relation = user.relation("likes");
+relation.add(post);
+user.save();

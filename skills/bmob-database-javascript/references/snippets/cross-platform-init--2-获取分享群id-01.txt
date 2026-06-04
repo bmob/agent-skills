@@ -1,0 +1,34 @@
+//获取分享群ID
+onShareAppMessage: function (res) {
+    wx.showShareMenu({
+      withShareTicket: true
+    })
+    var that = this;
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: 'Bmob 示例',
+      path: 'pages/index/index',
+      success: function (res) {
+        wx.getShareInfo({
+          shareTicket: res.shareTickets,
+          success(res) {
+            // 调用解密
+            wx.Bmob.User.decryption(res).then(res => {
+              console.log(res)
+            })
+          }
+        })
+      },
+      fail: function (res) {
+        // 转发失败
+      }
+    }
+  }
+
+//解密后返回数据格式如下
+{
+ "openGId": "OPENGID"
+}

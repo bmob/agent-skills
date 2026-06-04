@@ -1,0 +1,10 @@
+BmobQuery *query = [BmobQuery queryWithClassName:@"test"];
+[query getObjectInBackgroundWithId:@"1783521c59" block:^(BmobObject *object, NSError *error) {
+if (error) {
+NSLog(@"%@",error);
+} else {
+NSLog(@"%@",object);
+BmobFile *file = (BmobFile *)[object objectForKey:@"filetype"];
+NSLog(@"%@",file.url);
+}
+}];

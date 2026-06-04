@@ -1,0 +1,17 @@
+///添加用户到已存在的角色中
+_addUserToSavedRole() {
+  if (currentBmobRole == null) {
+    showError(context, "请先创造角色");
+    return;
+  }
+  User user = User();
+  user.setObjectId("f06590e3c2");
+  BmobRelation bmobRelation = BmobRelation();
+  bmobRelation.add(user);
+  currentBmobRole.setUsers(bmobRelation);
+  currentBmobRole.update().then((BmobUpdated bmobUpdated) {
+    DataPlugin.toast(bmobUpdated.updatedAt);
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

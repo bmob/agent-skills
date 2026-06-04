@@ -1,0 +1,12 @@
+///下载文件，直接使用dio下载，下载文件涉及到android的文件访问权限，调用此方法前需要开发者们先适配好应用在各个android版本的权限管理。
+_downloadFile(String url, String path) async {
+  if (url == null) {
+    DataPlugin.toast("请先上传文件");
+    return;
+  }
+  Dio dio = Dio();
+  Response<dynamic> response = await dio.download(url, path);
+  print(response.toString());
+  print(response.data);
+  DataPlugin.toast("下载结束");
+}

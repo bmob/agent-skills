@@ -1,0 +1,23 @@
+///查询关联数据
+_queryPointer() {
+  BmobQuery<Blog> query = BmobQuery();
+  query.setInclude("author");
+  query.queryObjects().then((data) {
+    DataPlugin.toast("查询成功${data.length}");
+
+    List<Blog> blogs = data.map((i) => Blog.fromJson(i)).toList();
+    for (Blog blog in blogs) {
+      if (blog != null) {
+        print(blog.objectId);
+        print(blog.title);
+        print(blog.content);
+        if (blog.author != null) {
+          print(blog.author.objectId);
+          print(blog.author.username);
+        }
+      }
+    }
+  }).catchError((e) {
+    DataPlugin.toast(BmobError.convert(e).error);
+  });
+}

@@ -1,0 +1,5 @@
+BmobQuery *bquery = [BmobQuery queryWithClassName:@"GameScore"];
+[bquery whereKey:@"playerName" equalTo:@"Barbie"];
+[bquery countObjectsInBackgroundWithBlock:^(int number,NSError  *error){
+NSLog(@"%d",num);
+}];

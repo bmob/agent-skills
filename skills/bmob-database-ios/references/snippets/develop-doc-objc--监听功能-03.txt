@@ -1,0 +1,10 @@
+//可以进行监听或者取消监听事件
+-(void)bmobEventCanStartListen:(BmobEvent *)event{
+//监听Post表更新
+[_bmobEvent listenTableChange:BmobActionTypeUpdateTable tableName:@"Post"];
+}
+//接收到得数据
+-(void)bmobEvent:(BmobEvent *)event didReceiveMessage:(NSString *)message{
+//打印数据
+NSLog(@"didReceiveMessage:%@",message);
+}

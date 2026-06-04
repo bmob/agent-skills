@@ -1,0 +1,27 @@
+[Bmob getAllTableSchemasWithCallBack:^(NSArray *tableSchemasArray, NSError *error) {
+if (error) {
+NSLog(@"%@",error);
+} else {
+for (BmobTableSchema* bmobTableSchema in tableSchemasArray) {
+//直接用description来查看表结构
+NSLog(@"%@",bmobTableSchema.description);
+
+/*
+分别打印表结构
+*/
+//打印表名
+NSLog(@"表名:%@",bmobTableSchema.className);
+//打印表结构
+NSDictionary *fields = bmobTableSchema.fields;
+NSArray *allKey = [fields allKeys];
+for (NSString *key in allKey) {
+NSLog(@"列名:%@",key);
+NSDictionary *fieldStrcut = [fields objectForKey:key];
+NSLog(@"列类型:%@",[fieldStrcut objectForKey:@"type"] );
+if ([[fieldStrcut objectForKey:@"type"] isEqualToString:@"Pointer"]) {
+NSLog(@"关联关系指向的表名:%@",[fieldStrcut objectForKey:@"targetClass"]);
+}
+}
+}
+}
+}];

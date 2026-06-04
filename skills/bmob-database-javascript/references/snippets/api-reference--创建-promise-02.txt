@@ -1,0 +1,2 @@
+var successful = Bmob.Promise.as("The good result.");
+var failed = Bmob.Promise.error("An error message.");

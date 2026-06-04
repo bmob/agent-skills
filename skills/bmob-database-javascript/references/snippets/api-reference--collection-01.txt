@@ -1,0 +1,18 @@
+// A Collection containing all instances of TestObject.
+var TestCollection = Bmob.Collection.extend({
+  model: TestObject
+});
+var collection = new TestCollection();
+
+// A Collection of TestObjects whose temperature is "hot".
+var HotCollection = Bmob.Collection.extend({
+  model: TestObject,
+  query: (new Bmob.Query(TestObject)).equalTo("temperature", "hot")
+});
+var collection = new HotCollection();
+
+// The Collection of TestObjects that match a complex query.
+var query = new Bmob.Query(TestObject);
+query.equalTo("temperature", "hot");
+query.greaterThan("degreesF", 100);
+var collection = query.collection();

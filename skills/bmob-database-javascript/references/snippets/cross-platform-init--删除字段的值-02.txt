@@ -1,0 +1,3 @@
+{
+	updatedAt: "YYYY-mm-dd HH:ii:ss"
+}

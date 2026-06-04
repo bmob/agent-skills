@@ -1,0 +1,1 @@
+let BmobSocketIo =new Bmob.Socket("你的Application ID")

@@ -21,5 +21,3 @@ coverage/
 .nyc_output/
 
 vendor/BmobDocs/
-
-skills/*/references/snippets/

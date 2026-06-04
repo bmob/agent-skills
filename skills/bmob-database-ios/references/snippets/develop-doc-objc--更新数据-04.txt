@@ -1,0 +1,25 @@
+2015-12-14 20:45:55.417 BmobSDKDemo[16867:1430005] 创建成功,以下为对象值
+2015-12-14 20:45:55.418 BmobSDKDemo[16867:1430005]
+className = GameScore;
+objectId = 0f3d45dbc5;
+createdAt = 2015-12-14 12:45:55 +0000;
+updatedAt = 2015-12-14 12:45:55 +0000;
+date = {
+userAttibute =     {
+gender = man;
+name = John;
+};
+};
+2015-12-14 20:45:55.419 BmobSDKDemo[16867:1430005] 上传前的gameScore对象值
+
+className = GameScore;
+objectId = 0f3d45dbc5;
+createdAt = 2015-12-14 12:45:55 +0000;
+updatedAt = 2015-12-14 12:45:55 +0000;
+date = {
+userAttibute =     {
+gender = man;
+name = John;
+};
+"userAttibute.gender" = women;
+};

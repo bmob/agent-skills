@@ -1,0 +1,1 @@
+query.whereKey("author", doesNotMatchQuery: inQuery)

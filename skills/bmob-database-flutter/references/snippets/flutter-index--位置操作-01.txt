@@ -1,0 +1,15 @@
+///添加地理位置信息
+_addGeoPoint() {
+  Blog blog = Blog();
+  BmobGeoPoint bmobGeoPoint = BmobGeoPoint();
+  bmobGeoPoint.latitude = 12.4445;
+  bmobGeoPoint.longitude = 124.122;
+  blog.addr = bmobGeoPoint;
+  blog.save().then((BmobSaved bmobSaved) {
+    String message =
+        "创建一条数据成功：${bmobSaved.objectId} - ${bmobSaved.createdAt}";
+    showSuccess(context, message);
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

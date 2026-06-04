@@ -1,0 +1,6 @@
+BmobQuery<BmobInstallation> query = BmobQuery();
+query.queryInstallation("3795adbcad").then((data) {
+  showSuccess(context, BmobInstallation.fromJson(data).installationId);
+}).catchError((e) {
+  showError(context, BmobError.convert(e).error);
+});

@@ -1,0 +1,11 @@
+let params = {
+	username: 'bmob2018',
+	password: 'bmob2018',
+	email: 'bmob2018@bmobapp.com',
+	phone: '13711166567',
+}
+Bmob.User.register(params).then(res => {
+  console.log(res)
+}).catch(err => {
+ console.log(err)
+});

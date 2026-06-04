@@ -1,0 +1,8 @@
+const query = Bmob.Query('tableName');
+query.get('objectId').then(res => {
+  console.log(res)
+  res.unset('cover')
+  res.save()
+}).catch(err => {
+  console.log(err)
+})

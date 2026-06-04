@@ -1,0 +1,18 @@
+/**
+ * sequence小于10的类别
+ */
+private void less() {
+    BmobQuery<Category> categoryBmobQuery = new BmobQuery<>();
+    categoryBmobQuery.addWhereLessThan("sequence", 10);
+    categoryBmobQuery.findObjects(new FindListener<Category>() {
+        @Override
+        public void done(List<Category> object, BmobException e) {
+            if (e == null) {
+                Snackbar.make(mBtnEqual, "查询成功：" + object.size(), Snackbar.LENGTH_LONG).show();
+            } else {
+                Log.e("BMOB", e.toString());
+                Snackbar.make(mBtnEqual, e.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        }
+    });
+}

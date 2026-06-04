@@ -1,0 +1,1 @@
+-(void)saveInBackgroundByDataSharding:(BmobBooleanResultBlock)block;

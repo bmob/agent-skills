@@ -1,0 +1,5 @@
+const query = Bmob.Query("tableName");
+query.equalTo("title","==", "hello");
+query.find().then(res => {
+    console.log(res)
+});

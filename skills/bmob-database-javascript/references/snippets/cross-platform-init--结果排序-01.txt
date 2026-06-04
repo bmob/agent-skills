@@ -1,0 +1,8 @@
+// 对score字段升序排列
+query.order("score");
+
+// 对score字段降序排列
+query.order("-score");
+
+// 多个字段进行排序
+query.order("-score","name");

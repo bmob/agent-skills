@@ -1,0 +1,5 @@
+obj.save().then(function(obj) {
+  // the object was saved successfully.
+}, function(error) {
+  // the save failed.
+});

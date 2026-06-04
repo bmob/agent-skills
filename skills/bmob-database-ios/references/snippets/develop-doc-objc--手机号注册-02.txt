@@ -1,0 +1,12 @@
+BmobUser *buser = [[BmobUser alloc] init];
+buser.mobilePhoneNumber = @"15123456789";
+buser.password = @"123";
+buser.email = @"xxx@gmail.com";
+[buser signUpOrLoginInbackgroundWithSMSCode:@"6位验证码" block:^(BOOL isSuccessful, NSError *error) {
+if (error) {
+NSLog(@"%@",error);
+} else {
+BmobUser *user = [BmobUser getCurrentUser];
+NSLog(@"%@",[BmobUser getCurrentUser]);
+}
+}];

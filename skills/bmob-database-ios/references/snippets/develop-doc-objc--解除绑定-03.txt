@@ -1,0 +1,8 @@
+//当前用户取消关联微信账号
+NSDictionary *responseDictionary = @{@"access_token": accessToken,@"uid":openId,@"expirationDate":expirationDate};
+BmobUser *user = [BmobUser getCurrentUser];
+[user cancelLinkedInBackgroundWithAuthorDictionary:responseDictionary
+platform:BmobSNSPlatformWeiXin
+block:^(BOOL isSuccessful, NSError *error) {
+NSLog(@"error%@",[error description]);
+}];

@@ -1,0 +1,7 @@
+BmobQuery *testQuery = [Test query];
+[testQuery findObjectsInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+for (BmobObject *obj in array) {
+Test *t = [[Test alloc] initFromBmobObject:obj];
+
+}
+}];

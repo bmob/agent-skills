@@ -1,0 +1,11 @@
+BmobUser *bUser = [[BmobUser alloc] init];
+[bUser setUsername:@"小明"];
+[bUser setPassword:@"123456"];
+[bUser setObject:@18 forKey:@"age"];
+[bUser signUpInBackgroundWithBlock:^ (BOOL isSuccessful, NSError *error){
+if (isSuccessful){
+NSLog(@"Sign up successfully");
+} else {
+NSLog(@"%@",error);
+}
+}];

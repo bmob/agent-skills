@@ -1,0 +1,1 @@
+query.whereKey("playerName", containedIn: ["小明", "小红", "小白"])

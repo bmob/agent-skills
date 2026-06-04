@@ -1,0 +1,3 @@
+BmobObject *gameScore = [BmobObject objectWithoutDataWithClassName:@"GameScore" objectId:@"xxxxxxxx"];
+[gameScore removeObjectsInArray:@[@"P3"] forKey:@"skill"];
+[gameScore updateInBackground];

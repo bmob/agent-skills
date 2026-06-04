@@ -1,0 +1,10 @@
+var Team = Bmob.Object.extend("Team");
+var teamQuery = new Bmob.Query(Team);
+teamQuery.greaterThan("winPct", 0.5);
+var userQuery = new Bmob.Query(Bmob.User);
+userQuery.doesNotMatchKeyInQuery("hometown", "city", teamQuery);
+userQuery.find({
+  success: function(results) {
+    // results has the list of users with a hometown team with a winning record
+  }
+});

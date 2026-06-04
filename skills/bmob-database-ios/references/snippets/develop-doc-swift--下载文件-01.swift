@@ -1,0 +1,1 @@
+let file = obj.objectForKey("file") as? BmobFile

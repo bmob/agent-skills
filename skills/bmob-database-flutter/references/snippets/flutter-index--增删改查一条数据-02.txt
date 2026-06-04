@@ -1,0 +1,16 @@
+///查询一条数据
+_querySingle(BuildContext context) {
+  if (currentObjectId != null) {
+    BmobQuery<Blog> bmobQuery = BmobQuery();
+    bmobQuery.setInclude("author");
+    bmobQuery.queryObject(currentObjectId).then((data) {
+      Blog blog = Blog.fromJson(data);
+      showSuccess(context,
+          "查询一条数据成功：${blog.title} - ${blog.content} - ${blog.author.username}");
+    }).catchError((e) {
+      showError(context, BmobError.convert(e).error);
+    });
+  } else {
+    showError(context, "请先新增一条数据");
+  }
+}

@@ -1,0 +1,13 @@
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//设置时区
+[dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Shanghai"]];
+//时间格式
+[dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+//调用获取服务器时间接口，返回的是时间戳
+NSString  *timeString = [Bmob getServerTimestamp];
+//时间戳转化成时间
+NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timeString intValue]];
+NSString *dateStr = [dateFormatter stringFromDate:date];
+NSLog(@"北京时间:%@",dateStr);
+});

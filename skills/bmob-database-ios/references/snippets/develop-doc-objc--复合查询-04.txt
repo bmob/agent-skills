@@ -1,0 +1,3 @@
+//查询score列中值大于150或者小于5的数据
+NSArray *array =  @[@{@"score":@{@"$gt":@150}},@{@"score":@{@"$lt":@5}}];
+[bquery addTheConstraintByOrOperationWithArray:array];

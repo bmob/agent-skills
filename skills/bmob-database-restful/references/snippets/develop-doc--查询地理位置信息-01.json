@@ -1,0 +1,9 @@
+{
+    "<key>": {
+        "$nearSphere": {
+            "__type": "GeoPoint",
+            "latitude": <latitudeValue>,
+            "longitude": <longitudeValue>
+        }
+    }
+}

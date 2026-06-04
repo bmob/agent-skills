@@ -42,6 +42,10 @@ const SOURCES: DocSource[] = [
     ],
   },
   {
+    skill: "bmob-database-flutter",
+    files: [{ repoPath: "mds/data/flutter/index.md", alias: "flutter-index" }],
+  },
+  {
     skill: "bmob-database-restful",
     files: [{ repoPath: "mds/data/restful/develop_doc.md", alias: "develop-doc" }],
   },

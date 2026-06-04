@@ -1,0 +1,8 @@
+//得到的新浪微博授权信息，请按照例子来生成NSDictionary
+NSDictionary *dic = @{@"access_token":token,@"uid":uid,@"expirationDate":date};
+//通过授权信息注册登录
+[BmobUser loginInBackgroundWithAuthorDictionary:dic
+platform:BmobSNSPlatformSinaWeibo
+block:^(BmobUser *user, NSError *error) {
+NSLog(@"user objectid is :%@",user.objectId);
+}];

@@ -29,11 +29,12 @@
 </p>
 
 - Router skill: `bmob` (entrypoint for all Bmob-related prompts)
-- MCP operations: `bmob-mcp` (7 live tools)
+- MCP operations: `bmob-mcp` (8 tools on server; 7 callable by agents, including `deploy_static_site`)
 - SDK/REST implementation skills:
   - `bmob-database-javascript`
   - `bmob-database-android`
   - `bmob-database-ios`
+  - `bmob-database-flutter`
   - `bmob-database-restful`
 - Troubleshooting skill: `bmob-error-codes`
 
@@ -95,10 +96,11 @@ The agent should call `get_project_tables` and return live schema.
 | Skill | Purpose |
 |---|---|
 | [`bmob`](skills/bmob/SKILL.md) | Routing entrypoint for all Bmob prompts |
-| [`bmob-mcp`](skills/bmob-mcp/SKILL.md) | Live MCP operations: `get_project_tables`, `create_table`, `add_single_data`, `update_single_data`, `delete_single_data`, `generate_code`, `mcp_endpoint_mcp_post` |
+| [`bmob-mcp`](skills/bmob-mcp/SKILL.md) | Live MCP: 7 agent-callable tools (`get_project_tables`, `create_table`, `add_single_data`, `update_single_data`, `delete_single_data`, `generate_code`, `deploy_static_site`); do not call internal `mcp_endpoint_mcp_post` |
 | [`bmob-database-javascript`](skills/bmob-database-javascript/SKILL.md) | Cross-platform `hydrogen-js-sdk` for Web, Node.js, mini programs, Cocos Creator JS, Electron, Tauri, hybrid apps |
 | [`bmob-database-android`](skills/bmob-database-android/SKILL.md) | Android native SDK (Java / Kotlin) |
 | [`bmob-database-ios`](skills/bmob-database-ios/SKILL.md) | iOS native SDK (Objective-C / Swift) |
+| [`bmob-database-flutter`](skills/bmob-database-flutter/SKILL.md) | Flutter / Dart SDK (`bmob_plugin` on pub.dev) |
 | [`bmob-database-restful`](skills/bmob-database-restful/SKILL.md) | REST API integration for backend languages and scripts |
 | [`bmob-error-codes`](skills/bmob-error-codes/SKILL.md) | Error-code lookup and diagnostics guidance |
 
@@ -109,6 +111,7 @@ The agent should call `get_project_tables` and return live schema.
 | “Add a GameScore row in Next.js with Bmob” | `bmob` + `bmob-database-javascript` |
 | “How to query Bmob in Android Kotlin?” | `bmob` + `bmob-database-android` |
 | “Swift login with Bmob” | `bmob` + `bmob-database-ios` |
+| “Save a row with Bmob in Flutter” | `bmob` + `bmob-database-flutter` |
 | “Give me curl for Bmob CRUD” | `bmob` + `bmob-database-restful` |
 | “Create a Player table for me” | `bmob` + `bmob-mcp` |
 | “What does error 9015 mean?” | `bmob` + `bmob-error-codes` |
@@ -141,9 +144,9 @@ Useful scripts:
 
 ## Roadmap
 
-- **P0 (current)**: bmob, bmob-mcp, database x 4 platforms, error-codes
+- **P0 (current)**: bmob, bmob-mcp, database x 5 platforms (incl. Flutter), error-codes; shared FAQ / anti-patterns / recipes
 - **P1**: auth x 4, storage x 4, cloud-function x 5, acl-and-roles, bql
-- **P2**: push x 4, sms x 2, pay-restful, data-hooks, scheduled-tasks, best-practices
+- **P2**: push x 4, sms x 2, pay-restful, data-hooks, scheduled-tasks; `best-practices` partly covered by [`shared/faq.md`](shared/faq.md), [`shared/anti-patterns.md`](shared/anti-patterns.md), [`shared/recipes/`](shared/recipes/)
 
 ## FAQ
 

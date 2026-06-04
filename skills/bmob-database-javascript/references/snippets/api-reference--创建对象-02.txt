@@ -1,0 +1,17 @@
+// 为Bmob.Object的子类添加实例方法和类方法
+var GameScore = Bmob.Object.extend("GameScore", {
+  //实例方法
+  gleaterThanOneHundred: function() {
+    return this.get("score") > 100;
+  }
+}, {
+  //类方法
+  spawn: function(score) {
+    var gameScore = new GameScore();
+    gameScore.set("score", score);
+    return gameScore;
+  }
+});
+
+var gameScore = GameScore.spawn(200);
+alert(gameScore.gleaterThanOneHundred());

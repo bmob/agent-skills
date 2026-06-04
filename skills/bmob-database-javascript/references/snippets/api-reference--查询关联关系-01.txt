@@ -1,0 +1,5 @@
+relation.query().find({
+  success: function(list) {
+    // list contains the posts that the current user likes.
+  }
+});

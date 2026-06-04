@@ -1,0 +1,7 @@
+image：原图路径
+watermark：水印图路径
+dissolve:透明度，0-255
+distanceX：横轴边距，单位:像素(px)，缺省值为10
+distanceY：纵轴边距，单位:像素(px)，缺省值为10
+outType：输出类型，0:默认，输出url；1:输出base64编码的字符串流
+gravity:水印位置，见下图

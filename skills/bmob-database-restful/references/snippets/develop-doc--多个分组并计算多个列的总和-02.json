@@ -1,0 +1,20 @@
+[
+    {
+        "_sumScore1": 399,
+        "_sumScore2": 120,
+        "playerName": "John",
+        "createdAt": "2014-02-05"
+    },
+    {
+        "_sumScore1": 299,
+        "_sumScore2": 250,
+        "playerName": "Bily",
+        "createdAt": "2014-02-05"
+    },
+    {
+        "_sumScore1": 99,
+        "_sumScore2": 450,
+        "playerName": "John",
+        "createdAt": "2014-02-01"
+    }
+]

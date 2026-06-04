@@ -1,0 +1,2 @@
+// 第一个参数是字段名称，第二个参数是数组
+query.containedIn("playerName", ["Bmob", "Codenow", "JS"]);

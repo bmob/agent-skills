@@ -1,0 +1,7 @@
+const query = Bmob.Query('tableName')
+query.get('ObjectId').then(res => {
+  res.add("DiaryType", ["public"]);
+  res.addUnique("DiaryType", ["secret"]);
+  res.save();
+})
+

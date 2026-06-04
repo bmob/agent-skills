@@ -1,0 +1,26 @@
+//创建公司某用户的工资对象
+BmobObject *wageinfo  = [[BmobObject alloc] initWithClassName:@"wageinfo"];
+[wageinfo setObject:[NSNumber numberWithUnsignedInteger:100000] forKey:@"wage"];
+//这里创建四个用户对象，分别为老板、人事小张、出纳小谢和自己
+BmobUser *boss        = [BmobUser objectWithoutDataWithClassName:@"User" objectId:@"xxxxxx"];
+BmobUser *hr_zhang    = [BmobUser objectWithoutDataWithClassName:@"User" objectId:@"xxxxxx"];
+BmobUser *cashier_xie = [BmobUser objectWithoutDataWithClassName:@"User" objectId:@"xxxxxx"];
+BmobUser *me          = [BmobUser objectWithoutDataWithClassName:@"User" objectId:@"xxxxxx"];
+//创建ACL对象
+BmobACL *acl = [BmobACL ACL];
+//4个用户对象均可读
+[acl setReadAccessForUser:boss];
+[acl setReadAccessForUser:hr_zhang];
+[acl setReadAccessForUser:cashier_xie];
+[acl setReadAccessForUser:me];
+//设置boss跟hr_zhang 写的权限
+[acl setWriteAccessForUser:boss];
+[acl setWriteAccessForUser:hr_zhang];
+wageinfo.ACL= acl;
+[wageinfo saveInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+//进行操作
+}else{
+//进行操作
+}
+}];

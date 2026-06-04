@@ -1,0 +1,15 @@
+成功：
+{
+  "username": username,
+  "mobilePhoneNumber": mobilePhoneNumber,
+  "mobilePhoneVerified": boolValue,
+  "createdAt": YYYY-mm-dd HH:ii:ss,
+  "updatedAt": YYYY-mm-dd HH:ii:ss,
+  "objectId": objectId,
+  "sessionToken": sessionToekn,
+  key1:value1,
+  key2:value2,
+  ...
+}
+失败：
+{"code":207,"error":"code error."}

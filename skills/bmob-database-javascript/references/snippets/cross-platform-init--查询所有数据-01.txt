@@ -1,0 +1,4 @@
+const query = Bmob.Query("tableName");
+query.find().then(res => {
+    console.log(res)
+});

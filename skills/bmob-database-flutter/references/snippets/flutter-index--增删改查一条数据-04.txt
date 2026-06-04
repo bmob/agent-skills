@@ -1,0 +1,15 @@
+///删除一条数据
+_deleteSingle(BuildContext context) {
+  if (currentObjectId != null) {
+    Blog blog = Blog();
+    blog.objectId = currentObjectId;
+    blog.delete().then((BmobHandled bmobHandled) {
+      currentObjectId = null;
+      showSuccess(context, "删除一条数据成功：${bmobHandled.msg}");
+    }).catchError((e) {
+      showError(context, BmobError.convert(e).error);
+    });
+  } else {
+    showError(context, "请先新增一条数据");
+  }
+}

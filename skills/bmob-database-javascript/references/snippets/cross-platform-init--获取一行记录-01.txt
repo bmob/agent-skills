@@ -1,0 +1,6 @@
+const query = Bmob.Query('tableName');
+query.get('objectId').then(res => {
+  console.log(res)
+}).catch(err => {
+  console.log(err)
+})

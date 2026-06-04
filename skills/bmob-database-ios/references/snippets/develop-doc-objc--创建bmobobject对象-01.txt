@@ -1,0 +1,28 @@
+/**
+*    创建一个带有className的BmobObject对象
+*
+*    @param    className    表示对象名称(类似数据库表名)
+*
+*    @return    BmobObject
+*/
++(instancetype )objectWithClassName:(NSString*)className;
+
+
+/**
+*  创建一个带有className 和objectId的BmobObject对象
+*
+*  @param className 表名
+*  @param objectId  对象的id
+*
+*  @return BmobObject对象
+*/
++(instancetype)objectWithoutDataWithClassName:(NSString*)className objectId:(NSString *)objectId;
+
+/**
+*  从字典创建BmobObject
+*
+*  @param dictionary 字典
+*
+*  @return BmobObject 对象
+*/
+-(instancetype)initWithDictionary:(NSDictionary *)dictionary;

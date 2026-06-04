@@ -1,0 +1,2 @@
+relation.add([post1, post2, post3]);
+user.save();

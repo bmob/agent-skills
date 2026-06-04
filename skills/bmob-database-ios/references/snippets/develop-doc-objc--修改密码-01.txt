@@ -1,0 +1,15 @@
+BmobUser *user = [BmobUser getCurrentUser];
+[user updateCurrentUserPasswordWithOldPassword:@"old password" newPassword:@"new password" block:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+//用新密码登录
+[BmobUser loginInbackgroundWithAccount:@"name" andPassword:@"new password" block:^(BmobUser *user, NSError *error) {
+if (error) {
+NSLog(@"login error:%@",error);
+} else {
+NSLog(@"user:%@",user);
+}
+}];
+} else {
+NSLog(@"change password error:%@",error);
+}
+}];

@@ -1,0 +1,6 @@
+        var fileUploadControl = $("#profilePhotoFileUpload")[0];
+        if (fileUploadControl.files.length > 0) {
+        var file = fileUploadControl.files[0];
+        var name = "logo.jpg";
+        var file = new Bmob.File(name, file);
+        file.save();

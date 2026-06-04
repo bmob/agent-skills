@@ -1,0 +1,5 @@
+// 对score字段升序排列
+query.ascending("score");
+
+// 对score字段降序排列
+query.descending("score");

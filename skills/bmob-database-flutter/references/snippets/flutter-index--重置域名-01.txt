@@ -1,0 +1,2 @@
+Bmob.resetDomain("http://api.abc.com");
+Bmob.initialize(secretKey, apiSafe,[masterKey]);

@@ -1,0 +1,16 @@
+BmobQuery   *bquery = [BmobQuery queryWithClassName:@"Post"];
+//获得objectId查找出先前添加的文章
+[bquery getObjectInBackgroundWithId:@"ZqQ7KKKx" block:^(BmobObject *object,NSError *error){
+if (error){
+NSLog(@"%@",error);
+}else if (object) {
+BmobObject *post = object;
+//获得BmobUser对象
+BmobUser *user = [BmobUser objectWithoutDataWithClassName:@"_User" objectId:@"qXZeCCCX"];
+//设置post的author值为新获得的BmobUser对象
+[post setObject:user forKey:@"author"];
+
+//进行更新
+[post updateInBackground];
+}
+}];

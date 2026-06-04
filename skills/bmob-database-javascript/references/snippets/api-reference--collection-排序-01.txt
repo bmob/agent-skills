@@ -1,0 +1,4 @@
+var collection = new TestCollection();
+collection.comparator = function(object) {
+  return object.get("temperature");
+};

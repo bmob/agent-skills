@@ -1,0 +1,7 @@
+[BmobUser loginInbackgroundWithAccount:account andPassword:password block:^(BmobUser *user, NSError *error) {
+if (user) {
+NSLog(@"%@",user);
+} else {
+NSLog(@"%@",error);
+}
+}];

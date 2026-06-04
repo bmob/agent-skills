@@ -1,0 +1,1 @@
+var Bmob = require('./src/lib/app.js');

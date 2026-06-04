@@ -1,0 +1,2 @@
+//查询表中score列没有值的数据
+[bquery whereKeyDoesNotExist:@"score"];

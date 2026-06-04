@@ -1,0 +1,20 @@
+var user = Bmob.User.current();
+
+// Make a new post
+var Post = Bmob.Object.extend("Post");
+var post = new Post();
+post.set("title", "My New Post");
+post.set("body", "This is some great content.");
+post.set("user", user);
+post.save(null, {
+  success: function(post) {
+    // Find all posts by the current user
+    var query = new Bmob.Query(Post);
+    query.equalTo("user", user);
+    query.find({
+      success: function(usersPosts) {
+        // userPosts contains all of the posts by the current user.
+      }
+    });
+  }
+});

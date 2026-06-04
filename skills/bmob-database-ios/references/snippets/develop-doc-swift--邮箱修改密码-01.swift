@@ -1,0 +1,1 @@
+BmobUser.requestPasswordResetInBackgroundWithEmail("xxxxxxx@qq.com")

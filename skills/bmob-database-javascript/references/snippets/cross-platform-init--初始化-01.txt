@@ -1,0 +1,1 @@
+Bmob.initialize("你的Secret Key", "你的API 安全码");

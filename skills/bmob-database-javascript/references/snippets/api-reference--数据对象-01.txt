@@ -1,0 +1,1 @@
+score: 1337, playerName: "bmob", cheatMode: false

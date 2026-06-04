@@ -1,0 +1,4 @@
+var roleACL = new Bmob.ACL();
+roleACL.setPublicReadAccess(true);
+var role = new Bmob.Role("test", roleACL);
+role.save();

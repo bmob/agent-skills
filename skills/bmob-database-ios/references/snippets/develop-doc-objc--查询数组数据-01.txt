@@ -1,0 +1,12 @@
+//查询数组中包含某个元素的记录
+BmobQuery *query = [BmobQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"skill" equalTo:@"P1"];
+[query findObjectsInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+if (error) {
+NSLog(@"%@",error);
+} else {
+for (BmobObject *obj in array) {
+NSLog(@"%@",obj);
+}
+}
+}];

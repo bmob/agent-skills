@@ -1,0 +1,5 @@
+Bmob.User.requestEmailVerify('bmob2018@bmobapp.com').then(res => {
+  console.log(res)
+}).catch(err => {
+ console.log(err)
+});

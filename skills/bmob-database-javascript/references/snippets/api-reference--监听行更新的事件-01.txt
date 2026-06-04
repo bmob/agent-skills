@@ -1,0 +1,3 @@
+   BmobSocketIo.onUpdateRow = function(tablename,objectId,data) {
+      //业务逻辑的代码
+   };

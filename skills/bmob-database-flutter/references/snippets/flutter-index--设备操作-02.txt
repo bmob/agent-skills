@@ -1,0 +1,9 @@
+//初始化设备，与原生交互
+///初始化设备
+_initInstallation(BuildContext context) {
+  BmobInstallationManager.init().then((BmobInstallation bmobInstallation) {
+    showSuccess(context, bmobInstallation.toJson().toString());
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

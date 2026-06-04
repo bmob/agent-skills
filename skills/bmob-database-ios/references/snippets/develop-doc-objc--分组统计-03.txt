@@ -1,0 +1,1 @@
+bquery.isGroupcount = YES;

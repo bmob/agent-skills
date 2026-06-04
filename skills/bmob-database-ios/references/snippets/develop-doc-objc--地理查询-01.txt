@@ -1,0 +1,7 @@
+BmobGeoPoint  *point = [[BmobGeoPoint alloc] initWithLongitude:116.39727786183357 WithLatitude:39.913768382429105];
+BmobQuery *bquery = [BmobQuery queryWithClassName:@"GameScore"];
+[bquery whereKey:@"location" nearGeoPoint:point];
+[bquery setLimit:10];
+[bquery findObjectsInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+//进行操作
+}];

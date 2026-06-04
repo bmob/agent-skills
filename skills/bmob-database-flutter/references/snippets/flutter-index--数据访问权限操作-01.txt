@@ -1,0 +1,17 @@
+///设置数据公共访问权限
+_saveDataAndPublicAcl() {
+  Blog blog = Blog();
+  blog.title = "帖子标题";
+  User user = User();
+  user.setObjectId("f06590e3c2");
+  blog.author = user;
+  blog.content = "帖子内容";
+  BmobAcl bmobAcl = BmobAcl();
+  bmobAcl.setPublicReadAccess(true);
+  blog.setAcl(bmobAcl);
+  blog.save().then((BmobSaved bmobSaved) {
+    DataPlugin.toast(bmobSaved.objectId);
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

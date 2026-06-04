@@ -1,0 +1,6 @@
+/**
+*  异步请求删除文件
+*
+*  @param block 返回删除结果与信息，如果删除成功，则无返回信息
+*/
+-(void)deleteInBackground:(BmobBooleanResultBlock)block;

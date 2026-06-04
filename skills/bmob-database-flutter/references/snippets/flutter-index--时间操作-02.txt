@@ -1,0 +1,8 @@
+///获取服务器时间
+_getServerTime() {
+  BmobDateManager.getServerTimestamp().then((ServerTime serverTime) {
+    showSuccess(context, "${serverTime.timestamp}\n${serverTime.datetime}");
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

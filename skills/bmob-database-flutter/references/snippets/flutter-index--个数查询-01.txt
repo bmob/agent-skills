@@ -1,0 +1,9 @@
+///查询数据个数
+void _queryCount(BuildContext context) {
+  BmobQuery<Blog> query = BmobQuery();
+  query.queryCount().then((int count) {
+    showSuccess(context, "个数： $count");
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

@@ -1,0 +1,11 @@
+var GameScore = Bmob.Object.extend("GameScore");
+var query = new Bmob.Query(GameScore);
+query.count({
+  success: function(count) {
+    // 查询成功，返回记录数量
+    alert("共有 " + count + " 条记录");
+  },
+  error: function(error) {
+    // 查询失败
+  }
+});

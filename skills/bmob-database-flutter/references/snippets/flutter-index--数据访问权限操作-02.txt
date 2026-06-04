@@ -1,0 +1,17 @@
+///设置某用户对该数据的访问权限
+_saveDataAndUserAcl() {
+  Blog blog = Blog();
+  blog.title = "帖子标题";
+  User user = User();
+  user.setObjectId("f06590e3c2");
+  blog.author = user;
+  blog.content = "帖子内容";
+  BmobAcl bmobAcl = BmobAcl();
+  bmobAcl.addRoleReadAccess(user.getObjectId(), true);
+  blog.setAcl(bmobAcl);
+  blog.save().then((BmobSaved bmobSaved) {
+    DataPlugin.toast(bmobSaved.objectId);
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

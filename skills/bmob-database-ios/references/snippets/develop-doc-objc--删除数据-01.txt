@@ -1,0 +1,11 @@
+BmobObject *bmobObject = [BmobObject objectWithoutDataWithClassName:@"GameScore"  objectId:@"baaf9cfa1b"];
+[bmobObject deleteInBackgroundWithBlock:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+//删除成功后的动作
+NSLog(@"successful");
+} else if (error){
+NSLog(@"%@",error);
+} else {
+NSLog(@"UnKnow error");
+}
+}];

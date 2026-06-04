@@ -1,0 +1,3 @@
+BmobQuery   *bquery = [BmobUser query]; //用户表
+BmobQuery   *bquery = [BmobInstallation query]; //设备表
+BmobQuery   *bquery = [BmobRole query]; //角色表

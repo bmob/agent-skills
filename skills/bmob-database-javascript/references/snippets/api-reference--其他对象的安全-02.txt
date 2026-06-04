@@ -1,0 +1,12 @@
+var Message = Bmob.Object.extend("Message");
+var groupMessage = new Message();
+var groupACL = new Bmob.ACL();
+
+// userList is an array with the users we are sending this message to.
+for (var i = 0; i < userList.length; i++) {
+  groupACL.setReadAccess(userList[i], true);
+  groupACL.setWriteAccess(userList[i], true);
+}
+
+groupMessage.setACL(groupACL);
+groupMessage.save();

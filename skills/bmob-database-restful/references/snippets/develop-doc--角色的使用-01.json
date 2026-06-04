@@ -1,0 +1,11 @@
+{
+    "f1766d0b42": {
+        "write": true
+    },
+    "role:Members": {
+        "read": true
+    },
+    "role:Moderators": {
+        "write": true
+    }
+}

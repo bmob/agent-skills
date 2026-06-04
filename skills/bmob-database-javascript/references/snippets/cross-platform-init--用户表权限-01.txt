@@ -1,0 +1,2 @@
+//初始化时，多传入一个参数
+Bmob.initialize("你的Application ID", "你的REST API Key", "你的MasterKey");

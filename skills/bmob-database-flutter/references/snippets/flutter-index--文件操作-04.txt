@@ -1,0 +1,12 @@
+///删除文件
+_deleteFile(String url) {
+  if (url == null) {
+    DataPlugin.toast("请先上传文件");
+    return;
+  }
+  BmobFileManager.delete(url).then((BmobHandled bmobHandled) {
+    DataPlugin.toast("删除成功：" + bmobHandled.msg);
+  }).catchError((e) {
+    DataPlugin.toast(BmobError.convert(e).error);
+  });
+}

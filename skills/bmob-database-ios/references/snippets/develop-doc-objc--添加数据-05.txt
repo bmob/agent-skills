@@ -1,0 +1,15 @@
+BmobObject  *gameScore = [BmobObject objectWithClassName:@"GameScore"];
+//设置playerName列的值为小黑和age列的值18
+NSDictionary *dic = @{@"playerName":@"小黑",@"score":@18};
+[gameScore saveAllWithDictionary:dic];
+//异步保存
+[gameScore saveInBackgroundWithResultBlock:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+//创建成功后的动作
+} else if (error){
+//发生错误后的动作
+NSLog(@"%@",error);
+} else {
+NSLog(@"Unknow error");
+}
+}];

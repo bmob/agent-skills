@@ -1,0 +1,14 @@
+NSString *bql = [NSString stringWithFormat:@"select * from %@ where %@ = ?",TABLENAME,COLPLAYERNAME];
+NSArray *placeholder = @[@"name1"];
+
+BmobQuery *bmobQueryWriteCache = [[BmobQuery alloc] init];
+bmobQueryWriteCache.cachePolicy = kBmobCachePolicyNetworkOnly;
+[bmobQueryWriteCache setBQL:bql];
+[bmobQueryWriteCache setPlaceholder:placeholder];
+[bmobQueryWriteCache queryBQLCanCacheInBackgroundWithblock:^(BQLQueryResult *result, NSError *error) {
+if (error) {
+NSLog(@"%@",error);
+} else if (result){
+NSLog(@"actual:%@",result);
+}
+}];

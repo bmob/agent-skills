@@ -1,0 +1,5 @@
+ChatAi.onClose((c) => {
+    console.log("连接被关闭");
+    //重新连接
+    ChatAi.connect()
+})

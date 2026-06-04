@@ -1,0 +1,12 @@
+BmobQuery   *bquery = [BmobQuery queryWithClassName:@"GameScore"];
+//查找GameScore表的数据
+[bquery findObjectsInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+for (BmobObject *obj in array) {
+//打印playerName
+NSLog(@"obj.playerName = %@", [obj objectForKey:@"playerName"]);
+//打印objectId,createdAt,updatedAt
+NSLog(@"obj.objectId = %@", [obj objectId]);
+NSLog(@"obj.createdAt = %@", [obj createdAt]);
+NSLog(@"obj.updatedAt = %@", [obj updatedAt]);
+}
+}];

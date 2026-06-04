@@ -1,0 +1,3 @@
+Bmob.User.logOut();
+
+var currentUser = Bmob.User.current();  // this will now be null

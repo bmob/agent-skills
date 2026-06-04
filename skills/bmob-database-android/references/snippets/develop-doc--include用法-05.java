@@ -1,0 +1,1 @@
+query.include("post[likes].author[username|email]");

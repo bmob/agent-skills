@@ -1,0 +1,1 @@
+query.setMaxCacheAge(TimeUnit.DAYS.toMillis(1));//此表示缓存一天

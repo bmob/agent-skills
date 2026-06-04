@@ -1,0 +1,16 @@
+BmobQuery   *bquery = [BmobQuery queryWithClassName:@"GameScore_LT"];
+[bquery whereKey:@"score" equalTo:[NSNumber numberWithDouble:10.3]];
+BmobQuery   *bquery1 = [BmobQuery queryWithClassName:@"GameScore_LT"];
+[bquery1 whereKey:@"playerName" equalTo:@"test"];
+
+BmobQuery   *main = [BmobQuery queryWithClassName:@"GameScore_LT"];
+[main add:bquery];
+[main add:bquery1];
+[main andOperation];
+[main findObjectsInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+for (BmobObject *obj in array) {
+//打印playerName
+NSLog(@"%@",obj);
+NSLog(@"obj.playerName = %@", [obj objectForKey:@"playerName"]);
+}
+}];

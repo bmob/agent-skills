@@ -1,0 +1,1 @@
+query.maxCacheAge = 10000

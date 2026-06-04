@@ -1,0 +1,14 @@
+NSData *data = UIImagePNGRepresentation([UIImage imageNamed:@"58f0222bd82ac"]);
+BmobFile *file = [[BmobFile alloc]initWithFileName:@"test.png" withFileData:data];
+BmobObject *obj = [[BmobObject alloc] initWithClassName:@"GameScore"];
+[file saveInBackground:^(BOOL isSuccessful, NSError *error) {
+//如果文件保存成功，则把文件添加到filetype列
+if (isSuccessful) {
+//上传文件的URL地址
+[obj setObject:file.url  forKey:@"filetypeurl"];
+//此处相当于新建一条记录,         //关联至已有的记录请使用 [obj updateInBackground];
+[obj saveInBackground];
+}else{
+//进行处理
+}
+}];

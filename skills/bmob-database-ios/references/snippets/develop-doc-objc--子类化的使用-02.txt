@@ -1,0 +1,9 @@
+
+@implementation Test
+
+@synthesize title;
+@synthesize name;
+@synthesize isStudent;
+@synthesize age;
+
+@end

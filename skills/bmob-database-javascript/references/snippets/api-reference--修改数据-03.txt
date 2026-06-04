@@ -1,0 +1,5 @@
+ //假设gamescore是已经存在的对象
+    gameScore.fetchWhenSave(true);
+    gameScore.set("cheatMode", true);
+    gameScore.set("score", 1338);
+    gameScore.save();

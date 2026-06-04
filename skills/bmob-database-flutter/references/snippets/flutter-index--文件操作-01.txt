@@ -1,0 +1,18 @@
+///上传文件，上传文件涉及到android的文件访问权限，调用此方法前需要开发者们先适配好应用在各个android版本的权限管理。
+_uploadFile(String path) {
+  if (path == null) {
+    DataPlugin.toast("请先选择文件");
+    return;
+  }
+  DataPlugin.toast("上传中，请稍候……");
+  File file = new File(path);
+  BmobFileManager.upload(file).then((BmobFile bmobFile) {
+    _bmobFile = bmobFile;
+    _url = bmobFile.url;
+    print("${bmobFile.cdn}\n${bmobFile.url}\n${bmobFile.filename}");
+    DataPlugin.toast(
+        "上传成功：${bmobFile.cdn}\n${bmobFile.url}\n${bmobFile.filename}");
+  }).catchError((e) {
+    DataPlugin.toast(BmobError.convert(e).error);
+  });
+}

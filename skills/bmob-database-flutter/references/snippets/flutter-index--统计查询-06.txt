@@ -1,0 +1,22 @@
+///统计某些列的最小值
+void _queryMin(BuildContext context) {
+  BmobQuery<Blog> query = BmobQuery();
+  query.minKeys("like");
+  query.queryObjects().then((data) {
+    List<Blog> blogs = data.map((i) => Blog.fromJson(i)).toList();
+    showSuccess(context, data.toString());
+    for (Blog blog in blogs) {
+      if (blog != null) {
+        print(blog.objectId);
+        print(blog.title);
+        print(blog.content);
+        if (blog.author != null) {
+          print(blog.author.objectId);
+          print(blog.author.username);
+        }
+      }
+    }
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

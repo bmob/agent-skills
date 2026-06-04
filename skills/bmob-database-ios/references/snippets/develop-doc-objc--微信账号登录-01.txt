@@ -1,0 +1,6 @@
+NSDictionary *responseDictionary = @{@"access_token": accessToken,@"uid":openId,@"expirationDate":expirationDate};
+[BmobUser loginInBackgroundWithAuthorDictionary:responseDictionary
+platform:BmobSNSPlatformWeiXin
+block:^(BmobUser *user, NSError *error) {
+NSLog(@"error%@",[error description]);
+}];

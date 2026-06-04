@@ -1,0 +1,20 @@
+wx.getWeRunData({
+      success(res) {
+        wx.Bmob.User.decryption(res).then(res => {
+          console.log(res)
+        })
+      }
+    })
+//解密后返回数据格式如下
+{
+  "stepInfoList": [
+    {
+      "timestamp": 1445866601,
+      "step": 100
+    },
+    {
+      "timestamp": 1445876601,
+      "step": 120
+    }
+  ]
+}

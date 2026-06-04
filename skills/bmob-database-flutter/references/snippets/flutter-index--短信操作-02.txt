@@ -1,0 +1,10 @@
+///验证短信验证码：需要手机号码和验证码
+_verifySmsCode(BuildContext context) {
+  BmobSms bmobSms = BmobSms();
+  bmobSms.mobilePhoneNumber = _phoneNumber;
+  bmobSms.verifySmsCode(_smsCode).then((BmobHandled bmobHandled) {
+    showSuccess(context, "验证成功：" + bmobHandled.msg);
+  }).catchError((e) {
+    showError(context, BmobError.convert(e).error);
+  });
+}

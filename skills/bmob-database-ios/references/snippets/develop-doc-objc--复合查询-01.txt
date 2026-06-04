@@ -1,0 +1,4 @@
+//并查询
+-(void)addTheConstraintByAndOperationWithArray:(NSArray*)array;
+//或查询
+-(void)addTheConstraintByOrOperationWithArray:(NSArray *)array;

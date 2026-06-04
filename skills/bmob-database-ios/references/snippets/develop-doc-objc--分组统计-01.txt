@@ -1,0 +1,16 @@
+BmobQuery *bquery = [BmobQuery queryWithClassName:@"GameScore_LT"];
+NSArray *groupbyArray = [NSArray arrayWithObject:@"playerName"];
+[bquery groupbyKeys:groupbyArray];
+[bquery calcInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+if (error) {
+NSLog(@"error is:%@",error);
+} else{
+if (array) {
+NSLog(@"%@",array);
+for (NSDictionary *dic in array) {
+NSString *playerName = [dic objectForKey:@"playerName"];
+NSLog(@"player:%@",playerName);
+}
+}
+}
+}];

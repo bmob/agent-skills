@@ -1,0 +1,7 @@
+[BmobUser resetPasswordInbackgroundWithSMSCode:smsCode andNewPassword:newPassword block:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+NSLog(@"%@",@"重置密码成功");
+} else {
+NSLog(@"%@",error);
+}
+}];

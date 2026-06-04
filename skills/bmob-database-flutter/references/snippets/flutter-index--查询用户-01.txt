@@ -1,0 +1,6 @@
+BmobQuery<User> query = BmobQuery();
+query.queryUser("8e64dd60d2").then((data) {
+  showSuccess(context, User.fromJson(data).username);
+}).catchError((e) {
+  showError(context, BmobError.convert(e).error);
+});

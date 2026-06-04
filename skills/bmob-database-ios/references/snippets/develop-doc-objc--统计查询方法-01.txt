@@ -1,0 +1,4 @@
+- (void)sumKeys:(NSArray *)keys
+- (void)averageKeys:(NSArray *)keys
+- (void)maxKeys:(NSArray *)keys
+- (void)minKeys:(NSArray *)keys

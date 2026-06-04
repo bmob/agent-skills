@@ -1,0 +1,4 @@
+X-Bmob-Application-Id: Your Application ID
+X-Bmob-REST-API-Key: Your REST API Key
+X-Bmob-Session-Token: Your Session Token
+Content-Type: application/json

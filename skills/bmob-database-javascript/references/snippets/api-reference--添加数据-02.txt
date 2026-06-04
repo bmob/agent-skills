@@ -1,0 +1,15 @@
+var GameScore = Bmob.Object.extend("GameScore");
+var gameScore = new GameScore();
+// 添加数据，第一个入口参数是Json数据
+gameScore.save({
+  score: 1337,
+  playerName: "bmob",
+  cheatMode: false
+}, {
+  success: function(gameScore) {
+    // 添加成功
+  },
+  error: function(gameScore, error) {
+    // 添加失败
+  }
+});

@@ -1,0 +1,7 @@
+var query = new Bmob.Query(Bmob.User);
+query.equalTo(gender, "female");  // find all the women
+query.find({
+  success: function(women) {
+    // Do stuff
+  }
+});

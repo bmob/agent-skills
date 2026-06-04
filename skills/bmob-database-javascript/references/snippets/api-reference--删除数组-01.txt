@@ -1,0 +1,11 @@
+var GameScoretest = Bmob.Object.extend("GameScoretest");
+var query = new Bmob.Query(GameScoretest);
+query.get("bc5da708dc",{
+  success: function(gameScore) {
+    gameScore.remove("skills","test");
+    gameScore.save();
+  },
+  error: function(error) {
+    alert("Error: " + error.code + " " + error.message);
+  }
+});

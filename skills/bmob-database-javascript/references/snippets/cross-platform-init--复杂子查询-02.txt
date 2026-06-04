@@ -1,0 +1,5 @@
+const query = Bmob.Query("Post");
+query.statTo("where", '{"own":{"$notInQuery":{"where":{"username":"Hello"},"className":"_User"}}}');
+query.find().then(res => {
+  console.log(res)
+});

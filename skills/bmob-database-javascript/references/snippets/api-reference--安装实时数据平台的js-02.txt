@@ -1,0 +1,1 @@
+BmobSocketIo.initialize("你的Application ID");

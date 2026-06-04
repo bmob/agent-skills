@@ -1,0 +1,17 @@
+BmobQuery *bquery = [BmobQuery queryWithClassName:@"Post"];
+
+//构造约束条件
+BmobQuery *inQuery = [BmobQuery queryWithClassName:@"_User"];
+[inQuery whereKey:@"username" equalTo:@"user3"];
+
+//匹配查询
+[bquery whereKey:@"likes" matchesQuery:inQuery];
+[bquery findObjectsInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+if (error) {
+NSLog(@"%@",error);
+} else if (array){
+for (BmobObject *post in array) {
+NSLog(@"%@",[post objectForKey:@"title"]);
+}
+}
+}];

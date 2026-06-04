@@ -1,0 +1,20 @@
+upload:function(){
+    wx.chooseImage({
+      success: function (res) {
+        console.log(res)
+        var tempFilePaths = res.tempFilePaths
+        var file;
+        for (let item of tempFilePaths) {
+          console.log('itemn',item)
+          file = Bmob.File('abc.jpg', item);
+        }
+        file.imgSecCheck().then(res => {
+          console.log(res.length);
+          console.log(res);
+        }).catch(err=>{
+            console.log(err);
+        })
+
+      }
+    })
+  }

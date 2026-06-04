@@ -1,0 +1,5 @@
+// 查询含有score属性的对象
+query.exists("score");
+
+// 查询不含有score属性的对象
+query.doesNotExist("score");

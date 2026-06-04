@@ -1,0 +1,8 @@
+//手机qq账号关联到当前用户
+NSDictionary *responseDictionary = @{@"access_token": _tencentOauth.accessToken,@"uid":_tencentOauth.openId,@"expirationDate":_tencentOauth.expirationDate};
+BmobUser *user = [BmobUser getCurrentUser];
+[user linkedInBackgroundWithAuthorDictionary:responseDictionary
+platform:BmobSNSPlatformQQ
+block:^(BOOL isSuccessful, NSError *error) {
+NSLog(@"error%@",[error description]);
+}];

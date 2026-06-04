@@ -1,0 +1,9 @@
+// 返回消息处理
+let msg = ''
+ChatAi.onMessage((res)=>{
+  if(res=="done"){
+    console.log(msg);
+  }else{
+    msg = msg+res
+  }
+})

@@ -1,0 +1,3 @@
+// 查询在playerName字段中以bm开头的记录
+var query = new Bmob.Query(GameScore);
+query.startsWith("playerName", "bm");

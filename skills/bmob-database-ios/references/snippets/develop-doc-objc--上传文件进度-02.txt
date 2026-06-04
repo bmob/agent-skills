@@ -1,0 +1,13 @@
+NSString *fileString = [[NSBundle mainBundle] pathForResource:@"Android_SDK" ofType:@"mp4"];
+BmobObject *obj = [[BmobObject alloc] initWithClassName:@"gameScoreFile"];
+BmobFile *file1 = [[BmobFile alloc] initWithClassName:@"Asc" withFilePath:fileString];
+[file1 saveInBackground:^(BOOL isSuccessful, NSError *error) {
+if (isSuccessful) {
+[obj setObject:file1  forKey:@"userFile"];
+[obj setObject:file1.url  forKey:@"userFileUrl"];
+[obj saveInBackground];
+NSLog(@"file1 url %@",file1.url);
+}
+} withProgressBlock:^(CGFloat progress) {
+NSLog(@"上传进度%.2f",progress);
+}];

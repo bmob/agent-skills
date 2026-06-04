@@ -1,0 +1,21 @@
+[
+(添加对象返回的信息)
+  {
+    "success": {
+      "createdAt": YYYY-mm-dd HH:ii:ss,
+      "objectId": "d746635d0b"
+    }
+  },
+  (修改对象返回的信息)
+  {
+    "success": {
+      "updatedAt": YYYY-mm-dd HH:ii:ss
+    }
+  },
+  (删除对象返回的信息)
+  {
+    "success": {
+      "msg": "ok"
+    }
+  }
+]

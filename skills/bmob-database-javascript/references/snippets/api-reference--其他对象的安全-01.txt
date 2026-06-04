@@ -1,0 +1,5 @@
+var Note = Bmob.Object.extend("Note");
+var privateNote = new Note();
+privateNote.set("content", "This note is private!");
+privateNote.setACL(new Bmob.ACL(Bmob.User.current()));
+privateNote.save();

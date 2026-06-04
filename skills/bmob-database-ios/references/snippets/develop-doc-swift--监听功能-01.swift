@@ -1,0 +1,1 @@
+listenTableChange(BmobActionType, tableName: String!)

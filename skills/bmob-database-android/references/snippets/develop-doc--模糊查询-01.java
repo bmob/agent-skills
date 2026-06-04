@@ -1,0 +1,1 @@
+query.addWhereMatches(("username", "^[A-Z]\\d");

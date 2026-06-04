@@ -1,0 +1,17 @@
+var query = new Bmob.Query("Student");
+query.descending("gpa");
+query.find().then(function(students) {
+  students[0].set("valedictorian", true);
+  return students[0].save();
+
+}).then(function(valedictorian) {
+  return query.find();
+
+}).then(function(students) {
+  students[1].set("salutatorian", true);
+  return students[1].save();
+
+}).then(function(salutatorian) {
+  // Everything is done!
+
+});

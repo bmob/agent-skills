@@ -1,0 +1,14 @@
+var number = 42;
+var string = "the number is " + number;
+var date = new Date();
+var array = [string, number];
+var object = { number: number, string: string };
+
+var bigObject = new BigObject();
+bigObject.set("myNumber", number);
+bigObject.set("myString", string);
+bigObject.set("myDate", date);
+bigObject.set("myArray", array);
+bigObject.set("myObject", object);
+bigObject.set("myNull", null);
+bigObject.save();

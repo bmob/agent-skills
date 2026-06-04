@@ -1,0 +1,8 @@
+-(void)listen{
+//创建BmobEvent对象
+_bmobEvent          = [BmobEvent defaultBmobEvent];
+//设置代理
+_bmobEvent.delegate = self;
+//启动连接
+[_bmobEvent start];
+}

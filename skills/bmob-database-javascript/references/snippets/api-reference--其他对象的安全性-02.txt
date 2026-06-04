@@ -1,0 +1,5 @@
+var wallPost = new Bmob.Object("WallPost");
+var postACL = new Bmob.ACL();
+postACL.setRoleWriteAccess("Moderators", true);
+wallPost.setACL(postACL);
+wallPost.save();

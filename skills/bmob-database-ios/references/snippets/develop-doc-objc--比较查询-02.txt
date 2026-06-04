@@ -1,0 +1,5 @@
+各种不同的比较查询：
+[bquery whereKey:@"age" lessThan:[NSNumber numberWithInt:18]];//age小于18
+[bquery whereKey:@"age" lessThanOrEqualTo:[NSNumber numberWithInt:18]]; //age小于或等18
+[bquery whereKey:@"age" greaterThan:[NSNumber numberWithInt:18]]; //age大于18
+[bquery whereKey:@"age" greaterThanOrEqualTo:[NSNumber numberWithInt:18]]; //age大于或等于18

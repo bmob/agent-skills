@@ -1,0 +1,2 @@
+gameScore.increment("score");
+gameScore.save();

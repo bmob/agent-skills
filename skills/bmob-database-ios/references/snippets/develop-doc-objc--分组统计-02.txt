@@ -1,0 +1,19 @@
+BmobQuery *bquery = [BmobQuery queryWithClassName:@"GameScore"];
+NSArray *groupbyArray = [NSArray arrayWithObject:@"playerName"];
+NSArray *sumArray = [NSArray arrayWithObject:@"score"];
+[bquery groupbyKeys:groupbyArray];
+[bquery sumKeys:sumArray];
+[bquery calcInBackgroundWithBlock:^(NSArray *array, NSError *error) {
+if (error) {
+NSLog(@"error is:%@",error);
+} else{
+if (array) {
+NSLog(@"%@",array);
+for (NSDictionary *dic in array) {
+NSString *playerName = [dic objectForKey:@"playerName"];
+NSString *sum = [dic objectForKey:@"_sumScore"];
+NSLog(@"player:%@\tsum:%@",playerName,sum);
+}
+}
+}
+}];
