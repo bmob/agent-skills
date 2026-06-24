@@ -51,11 +51,11 @@ TODO: 80% 场景的可运行片段。
 
 ## 常见问题
 
-跨平台问题见 [`shared/faq.md`](../../shared/faq.md)。
+跨平台问题见 [\`shared/faq.md\`](../../shared/faq.md)。
 
 ## 反模式
 
-见 [`shared/anti-patterns.md`](../../shared/anti-patterns.md)。本 skill 特有：
+见 [\`shared/anti-patterns.md\`](../../shared/anti-patterns.md)。本 skill 特有：
 
 - TODO
 

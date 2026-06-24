@@ -66,6 +66,33 @@ url = "http://mcp.bmobapp.com/mcp"
 }
 ```
 
+## CodeBuddy — MCP 配置（IDE / CLI）
+
+CodeBuddy 的 HTTP MCP **必须显式声明 `type: "http"`**，并在 `headers` 中携带 Bmob 凭证：
+
+```json
+{
+  "mcpServers": {
+    "bmob": {
+      "type": "http",
+      "url": "http://mcp.bmobapp.com/mcp",
+      "headers": {
+        "X-Bmob-Application-Id": "<your-application-id>",
+        "X-Bmob-REST-API-Key":   "<your-rest-api-key>"
+      },
+      "description": "Bmob 后端云 MCP"
+    }
+  }
+}
+```
+
+若工具调用返回 `{"error": "unauthorized"}`，请检查：
+1. `headers` 中两个 Key 是否填写正确（控制台 → 应用密钥）。
+2. 是否写了 `"type": "http"`（缺省时部分客户端不会按 HTTP MCP 发送自定义头）。
+3. 服务端 `app.log` 是否有 `auth-missing` 日志（表示请求到达但鉴权头未转发/未携带）。
+
+若返回 `Session not found`（Streamable HTTP 错误），通常是客户端缓存了过期的 `Mcp-Session-Id`。服务端已启用 **stateless** 模式；请在 CodeBuddy 中**禁用并重新启用** bmob MCP 后重试。
+
 ## Gemini CLI / Cline / Continue / OpenHands etc.
 
 它们都使用统一的 MCP 配置语义，把 `url` + `headers` 两段直接放进对应 agent 的 mcp 配置即可，参考其文档中"HTTP MCP server"段落。

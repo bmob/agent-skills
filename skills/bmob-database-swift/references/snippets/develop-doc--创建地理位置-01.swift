@@ -1,0 +1,1 @@
+let location = BmobGeoPoint(latitude: 39.9042, longitude: 116.4074)

@@ -1,6 +1,6 @@
 ---
 name: bmob-mcp
-description: "Use when the user has the Bmob MCP server configured (http://mcp.bmobapp.com/mcp) and wants to perform LIVE operations against their Bmob backend cloud project from the IDE. Triggers: 'list bmob tables', 'show bmob schema', 'create bmob table', 'add a row to bmob', 'update bmob record', 'delete bmob data', '生成 bmob curl', 'design bmob schema', '一键部署网站', '静态托管', '部署静态站点', 'deploy static site', 'deploy website'. Provides 8 tools: get_project_tables (ALWAYS call first to discover schema before any write), create_table (10 field types String/Number/Bool/Date/File/Geo/Array/Object/Pointer/Relation), add_single_data, update_single_data, delete_single_data, generate_code (emits curl for 15 operation types incl. auth/sms/cloud-function/static-site-deploy), deploy_static_site (one-click HTML or dist.zip to CDN), mcp_endpoint_mcp_post. NOT for writing client/SDK code that will ship in the user's app — for that use bmob-database-{javascript,android,ios,flutter,restful}. NOT for ACL / role design (use bmob-acl-and-roles) or cloud function development (use bmob-cloud-function-development)."
+description: "Use when the user has the Bmob MCP server configured (http://mcp.bmobapp.com/mcp) and wants to perform LIVE operations against their Bmob backend cloud project from the IDE. Triggers: 'list bmob tables', 'show bmob schema', 'create bmob table', 'add a row to bmob', 'update bmob record', 'delete bmob data', '生成 bmob curl', 'design bmob schema', '一键部署网站', '静态托管', '部署静态站点', 'deploy static site', 'deploy website'. Provides 8 tools: get_project_tables (ALWAYS call first to discover schema before any write), create_table (10 field types String/Number/Bool/Date/File/Geo/Array/Object/Pointer/Relation), add_single_data, update_single_data, delete_single_data, generate_code (emits curl for 15 operation types incl. auth/sms/cloud-function/static-site-deploy), deploy_static_site (one-click HTML or dist.zip to CDN), mcp_endpoint_mcp_post. NOT for writing client/SDK code that will ship in the user's app — for that use bmob-database-{javascript,android,ios,swift,flutter,restful}. NOT for ACL / role design (use bmob-acl-and-roles) or cloud function development (use bmob-cloud-function-development)."
 metadata:
   author: bmob
   version: "0.1.0"
@@ -28,7 +28,7 @@ Bmob 官方托管的 MCP 服务器，端点 `http://mcp.bmobapp.com/mcp`，传�
 | 在 IDE 里测试增删改查（开发期手工触发） | ✅ `add_single_data` / `update_single_data` / `delete_single_data` | — |
 | **一键部署网站 / 静态托管**（单页 HTML 或 dist.zip 到 CDN） | ✅ `deploy_static_site` 或 `generate_code`（`部署静态站点单页` / `部署静态站点dist`） | — |
 | 想要任意语言的 curl 样板（备份、迁移脚本） | ✅ `generate_code` | — |
-| 写到 app 里要发布的代码（生产代码） | — | ✅ `bmob-database-{javascript,android,ios,flutter,restful}` |
+| 写到 app 里要发布的代码（生产代码） | — | ✅ `bmob-database-{javascript,android,ios,swift,flutter,restful}` |
 | 配 ACL / 权限规则 | — | ✅ `bmob-acl-and-roles` |
 | 写运行在 Bmob 服务器上的云函数 | — | ✅ `bmob-cloud-function-development` |
 

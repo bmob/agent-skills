@@ -13,6 +13,7 @@ const STRUCTURE_SKILLS = new Set([
   "bmob-database-javascript",
   "bmob-database-android",
   "bmob-database-ios",
+  "bmob-database-swift",
   "bmob-database-flutter",
   "bmob-database-restful",
 ]);

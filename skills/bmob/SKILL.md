@@ -1,6 +1,6 @@
 ---
 name: bmob
-description: "Use whenever the user mentions Bmob backend cloud (Bmob, BmobApp, bmobapp.com, Bmob 后端云) for ANY task: design data tables, perform CRUD, sign up / login users, upload files, push notifications, send SMS, accept payments, write or invoke cloud functions, configure ACL / roles, debug error codes, or operate the project via the Bmob MCP server. This is the routing entry — it dispatches to platform-specific skills: bmob-database-{javascript,android,ios,flutter,restful}, bmob-auth-*, bmob-storage-*, bmob-cloud-function-*, bmob-mcp, bmob-error-codes, bmob-bql, bmob-acl-and-roles. For operation-level MCP vs SDK vs REST routing, read shared/operation-routing.md. NOT a substitute for those sub-skills — once the platform and feature are clear, read and follow the matching sub-skill before writing code."
+description: "Use whenever the user mentions Bmob backend cloud (Bmob, BmobApp, bmobapp.com, Bmob 后端云) for ANY task: design data tables, perform CRUD, sign up / login users, upload files, push notifications, send SMS, accept payments, write or invoke cloud functions, configure ACL / roles, debug error codes, or operate the project via the Bmob MCP server. This is the routing entry — it dispatches to platform-specific skills: bmob-database-{javascript,android,ios,swift,flutter,restful}, bmob-auth-*, bmob-storage-*, bmob-cloud-function-*, bmob-mcp, bmob-error-codes, bmob-bql, bmob-acl-and-roles. For operation-level MCP vs SDK vs REST routing, read shared/operation-routing.md. NOT a substitute for those sub-skills — once the platform and feature are clear, read and follow the matching sub-skill before writing code."
 metadata:
   author: bmob
   version: "0.1.0"
@@ -12,13 +12,13 @@ metadata:
 
 # Bmob 后端云 — 总入口
 
-[Bmob](https://www.bmobapp.com/) 是一个 BaaS（Backend as a Service）平台，提供 NoSQL 数据库、用户系统、文件存储、云函数、推送、短信、支付、IM、AI 等开箱即用的后端能力。客户端覆盖 JavaScript / Android / iOS / Flutter / HarmonyOS / 小程序 / Python / Go / PHP / C#，加上语言无关的 [REST API](https://github.com/bmob/BmobDocs/blob/master/mds/data/restful/develop_doc.md) 与 [MCP Server](http://mcp.bmobapp.com/mcp)。
+[Bmob](https://www.bmobapp.com/) 是一个 BaaS（Backend as a Service）平台，提供 NoSQL 数据库、用户系统、文件存储、云函数、推送、短信、支付、IM、AI 等开箱即用的后端能力。客户端覆盖 JavaScript / Android / iOS / Swift / Flutter / HarmonyOS / 小程序 / Python / Go / PHP / C#，加上语言无关的 [REST API](https://github.com/bmob/BmobDocs/blob/master/mds/data/restful/develop_doc.md) 与 [MCP Server](http://mcp.bmobapp.com/mcp)。
 
 **路由顺序**：先走下方 **入口决策树** → 再查 **路由决策表**（选 sub-skill）→ 具体操作查 **[`shared/operation-routing.md`](../../shared/operation-routing.md)**（MCP / curl / SDK·REST 三通道对照）。
 
 ## 核心原则
 
-**1. 永远先确认平台再写代码。** Bmob 各端 SDK 的 API 形态差异很大（JS 是 `Bmob.Query`、Android 是 `extends BmobObject`、iOS 是 `BmobObject objectWithClassName`、REST 是 HTTP `/1/classes/<name>`），不要把 JS 的代码塞进 Android skill 的回答里。先看用户用什么平台 / 框架，再读对应 sub-skill。
+**1. 永远先确认平台再写代码。** Bmob 各端 SDK 的 API 形态差异很大（JS 是 `Bmob.Query`、Android 是 `extends BmobObject`、旧 iOS 是 `BmobObject objectWithClassName`、纯 Swift 是 `try await BmobObject.save()`、REST 是 HTTP `/1/classes/<name>`），不要把 JS 的代码塞进 Android skill 的回答里。先看用户用什么平台 / 框架，再读对应 sub-skill。
 
 **2. 不要在前端泄漏 Master Key。** Bmob 控制台 → 应用密钥里有四个值：
 
@@ -50,12 +50,14 @@ flowchart TD
     Ship -->|是| Plat{平台 / 语言?}
     Plat -->|JS Web Node 小程序 Cocos JS 等| JS[bmob-database-javascript]
     Plat -->|Android Kotlin Java| AND[bmob-database-android]
-    Plat -->|iOS Swift ObjC| IOS[bmob-database-ios]
+    Plat -->|Pure Swift BmobSwiftSDK async/await| SWIFT[bmob-database-swift]
+    Plat -->|Legacy iOS ObjC Swift Bridging Header| IOS[bmob-database-ios]
     Plat -->|Flutter Dart| FLUT[bmob-database-flutter]
     Plat -->|curl Python Go PHP 后端等| REST[bmob-database-restful]
     Plat -->|RN Uni-app JS 桥接| JS
     JS --> Schema{需要真实表字段名?}
     AND --> Schema
+    SWIFT --> Schema
     IOS --> Schema
     FLUT --> Schema
     REST --> Schema
@@ -72,7 +74,8 @@ flowchart TD
 | **一键部署网站 / 静态托管**（HTML 或 dist 到 CDN） | — | `bmob-mcp` → **`deploy_static_site`**（或 `generate_code` 仅生成 curl） |
 | NoSQL 增删改查、条件查询 | JS / TS / Web / Node / 微信/支付宝/字节/QQ/百度小程序 / 快应用 / Cocos Creator JS / Electron / Tauri / 混合 App | `bmob-database-javascript` |
 | NoSQL 增删改查 | Android / Kotlin / Java | `bmob-database-android` |
-| NoSQL 增删改查 | iOS / Swift / Objective-C | `bmob-database-ios` |
+| NoSQL 增删改查 | **纯 Swift SDK** / `BmobSwiftSDK` / SPM / `import BmobSDK` / `async/await` | **`bmob-database-swift`** |
+| NoSQL 增删改查 | 旧 iOS SDK / Objective-C / Swift Bridging Header / `BmobSDK.xcframework` / `saveInBackground` | `bmob-database-ios` |
 | NoSQL 增删改查 | **Flutter / Dart**（`bmob_plugin`） | **`bmob-database-flutter`** |
 | NoSQL 增删改查 / 任意没 SDK 的语言 | curl / Python / Go / PHP / C# / Rust / Ruby / Java 后端 | `bmob-database-restful` |
 | React Native / Uni-app（JS 层接 Bmob） | — | `bmob-database-javascript` 或 REST |
@@ -164,12 +167,14 @@ flowchart LR
     Root -->|"schema / live CRUD / deploy"| McpSkill[bmob-mcp]
     Root -->|JS / Web / Mini Program| JsDb[bmob-database-javascript]
     Root -->|Android / Kotlin| AndDb[bmob-database-android]
-    Root -->|iOS / Swift / ObjC| IosDb[bmob-database-ios]
+    Root -->|Pure Swift SDK| SwiftDb[bmob-database-swift]
+    Root -->|Legacy iOS / ObjC| IosDb[bmob-database-ios]
     Root -->|Flutter / Dart| FlutDb[bmob-database-flutter]
     Root -->|curl / Python / Go| RestDb[bmob-database-restful]
     Root -->|error code| Err[bmob-error-codes]
     McpSkill -.get_project_tables.-> JsDb
     McpSkill -.get_project_tables.-> AndDb
+    McpSkill -.get_project_tables.-> SwiftDb
     McpSkill -.get_project_tables.-> IosDb
     McpSkill -.get_project_tables.-> FlutDb
     McpSkill -.get_project_tables.-> RestDb

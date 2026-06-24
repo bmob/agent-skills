@@ -42,6 +42,14 @@ const SOURCES: DocSource[] = [
     ],
   },
   {
+    skill: "bmob-database-swift",
+    files: [
+      { repoPath: "mds/data/swift/index.md", alias: "quickstart" },
+      { repoPath: "mds/data/swift/develop_doc.md", alias: "develop-doc" },
+      { repoPath: "mds/data/swift/example.md", alias: "todo-example" },
+    ],
+  },
+  {
     skill: "bmob-database-flutter",
     files: [{ repoPath: "mds/data/flutter/index.md", alias: "flutter-index" }],
   },

@@ -16,7 +16,7 @@
 
 ## Why this project
 
-- **Correctness first**: route prompts to the right platform skill (JavaScript, Android, iOS, REST) before code generation.
+- **Correctness first**: route prompts to the right platform skill (JavaScript, Android, iOS, Swift, REST) before code generation.
 - **Operational capability**: integrate the hosted Bmob MCP server for live table introspection and data operations.
 - **Security guardrails**: embed explicit “NOT for” constraints and key-usage boundaries inside skills.
 - **Maintainability**: references are synced from BmobDocs and validated in CI.
@@ -34,6 +34,7 @@
   - `bmob-database-javascript`
   - `bmob-database-android`
   - `bmob-database-ios`
+  - `bmob-database-swift`
   - `bmob-database-flutter`
   - `bmob-database-restful`
 - Troubleshooting skill: `bmob-error-codes`
@@ -99,7 +100,8 @@ The agent should call `get_project_tables` and return live schema.
 | [`bmob-mcp`](skills/bmob-mcp/SKILL.md) | Live MCP: 7 agent-callable tools (`get_project_tables`, `create_table`, `add_single_data`, `update_single_data`, `delete_single_data`, `generate_code`, `deploy_static_site`); do not call internal `mcp_endpoint_mcp_post` |
 | [`bmob-database-javascript`](skills/bmob-database-javascript/SKILL.md) | Cross-platform `hydrogen-js-sdk` for Web, Node.js, mini programs, Cocos Creator JS, Electron, Tauri, hybrid apps |
 | [`bmob-database-android`](skills/bmob-database-android/SKILL.md) | Android native SDK (Java / Kotlin) |
-| [`bmob-database-ios`](skills/bmob-database-ios/SKILL.md) | iOS native SDK (Objective-C / Swift) |
+| [`bmob-database-ios`](skills/bmob-database-ios/SKILL.md) | Legacy iOS native SDK (Objective-C framework / Swift Bridging Header) |
+| [`bmob-database-swift`](skills/bmob-database-swift/SKILL.md) | Pure Swift `BmobSwiftSDK` with SPM / CocoaPods and async/await |
 | [`bmob-database-flutter`](skills/bmob-database-flutter/SKILL.md) | Flutter / Dart SDK (`bmob_plugin` on pub.dev) |
 | [`bmob-database-restful`](skills/bmob-database-restful/SKILL.md) | REST API integration for backend languages and scripts |
 | [`bmob-error-codes`](skills/bmob-error-codes/SKILL.md) | Error-code lookup and diagnostics guidance |
@@ -110,7 +112,8 @@ The agent should call `get_project_tables` and return live schema.
 |---|---|
 | “Add a GameScore row in Next.js with Bmob” | `bmob` + `bmob-database-javascript` |
 | “How to query Bmob in Android Kotlin?” | `bmob` + `bmob-database-android` |
-| “Swift login with Bmob” | `bmob` + `bmob-database-ios` |
+| “Swift async/await login with BmobSwiftSDK” | `bmob` + `bmob-database-swift` |
+| “Swift Bridging Header login with BmobSDK” | `bmob` + `bmob-database-ios` |
 | “Save a row with Bmob in Flutter” | `bmob` + `bmob-database-flutter` |
 | “Give me curl for Bmob CRUD” | `bmob` + `bmob-database-restful` |
 | “Create a Player table for me” | `bmob` + `bmob-mcp` |
@@ -144,7 +147,7 @@ Useful scripts:
 
 ## Roadmap
 
-- **P0 (current)**: bmob, bmob-mcp, database x 5 platforms (incl. Flutter), error-codes; shared FAQ / anti-patterns / recipes
+- **P0 (current)**: bmob, bmob-mcp, database x 6 platforms (incl. pure Swift and Flutter), error-codes; shared FAQ / anti-patterns / recipes
 - **P1**: auth x 4, storage x 4, cloud-function x 5, acl-and-roles, bql
 - **P2**: push x 4, sms x 2, pay-restful, data-hooks, scheduled-tasks; `best-practices` partly covered by [`shared/faq.md`](shared/faq.md), [`shared/anti-patterns.md`](shared/anti-patterns.md), [`shared/recipes/`](shared/recipes/)
 

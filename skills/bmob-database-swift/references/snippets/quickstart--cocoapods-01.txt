@@ -1,0 +1,11 @@
+# Podfile
+
+# 伞式集成
+pod 'BmobSwiftSDK', '~> 1.0.2'
+
+# 按需集成
+pod 'BmobSwiftSDK/Core'    # 仅核心网络层
+pod 'BmobSwiftSDK/Data'    # 数据 CRUD + 查询
+pod 'BmobSwiftSDK/User'    # 用户管理
+pod 'BmobSwiftSDK/File'    # 文件管理
+pod 'BmobSwiftSDK/Cloud'   # 云函数

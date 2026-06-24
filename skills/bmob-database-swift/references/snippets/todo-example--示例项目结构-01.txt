@@ -1,0 +1,16 @@
+TodoApp/
+├── App/
+│   └── TodoApp.swift          # SwiftUI 应用入口
+├── Models/
+│   ├── TodoItem.swift         # 任务模型
+│   └── User.swift             # 用户模型（扩展）
+├── ViewModels/
+│   ├── AuthViewModel.swift    # 认证视图模型
+│   └── TodoViewModel.swift    # 任务视图模型
+├── Views/
+│   ├── ContentView.swift      # 主内容视图
+│   ├── LoginView.swift        # 登录视图
+│   ├── TodoListView.swift     # 任务列表
+│   └── TodoEditorView.swift   # 任务编辑器
+└── Services/
+    └── BmobService.swift      # Bmob 服务封装

@@ -1,6 +1,6 @@
 ---
 name: bmob-error-codes
-description: "Use when the user sees a Bmob error response with a numeric code (e.g. 9015, 101, 105, 206, 211, 9013, 10017, 10076) and needs to know what it means and how to fix it. Triggers: 'bmob error code', 'bmob 报错', 'bmob 9015', 'Bmob 错误', 'object not found', 'invalid field name', 'unique index cannot has duplicate value', 'QPS beyond the limit', 'mobilePhoneNumber already taken'. Covers Android SDK codes (9001-9023), iOS SDK codes (100, 20000-20030), REST API HTTP 401/500/400 + business codes 100-601 + 10001-10210. NOT for runtime debugging without an error code — for that read the platform skill (bmob-database-{javascript,android,ios,flutter,restful}) and check logs."
+description: "Use when the user sees a Bmob error response with a numeric code (e.g. 9015, 101, 105, 206, 211, 9013, 10017, 10076) and needs to know what it means and how to fix it. Triggers: 'bmob error code', 'bmob 报错', 'bmob 9015', 'Bmob 错误', 'object not found', 'invalid field name', 'unique index cannot has duplicate value', 'QPS beyond the limit', 'mobilePhoneNumber already taken'. Covers Android SDK codes (9001-9023), iOS SDK codes (100, 20000-20030), REST API HTTP 401/500/400 + business codes 100-601 + 10001-10210. NOT for runtime debugging without an error code — for that read the platform skill (bmob-database-{javascript,android,ios,swift,flutter,restful}) and check logs."
 metadata:
   author: bmob
   version: "0.1.0"

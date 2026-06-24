@@ -1,0 +1,7 @@
+# Podfile
+platform :ios, '15.0'
+use_frameworks!
+
+target 'YourApp' do
+  pod 'BmobSwiftSDK', '~> 1.0.2'
+end
