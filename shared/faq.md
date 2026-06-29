@@ -72,6 +72,11 @@ objectId 不存在或表名错。见 error-codes REST 表。
 **能直接 update 用户的 password 字段吗？**  
 不能。改密走 `/1/updateUserPassword/<objectId>`。
 
+## 云函数
+
+**云函数里 `request.body` 的参数是什么类型？**  
+Bmob 服务端会把**加密客户端 SDK**（Android、iOS、Swift 等）以 POST 方式调用云函数时传入的**所有参数值转为字符串**后再写入 `request.body`，因此云函数中 `typeof(param)` 始终为 `"string"`（如 `42`→`"42"`、`true`→`"true"`、`[1,2,3]`→`"[1,2,3]"`）。这是后端设计行为，非 SDK bug。需在云函数内手动解析：`parseInt(request.body.score)`、`request.body.flag === "true"`、`JSON.parse(request.body.items)` 等。详见 [云函数开发文档](https://github.com/bmob/BmobDocs/blob/master/mds/cloud_function/web/develop_doc.md#参数类型已知行为) 与 [`bmob-database-swift`](../skills/bmob-database-swift/SKILL.md)。
+
 ## MCP
 
 **写 MCP 数据前为什么要 `get_project_tables`？**  

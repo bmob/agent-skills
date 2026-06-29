@@ -149,6 +149,14 @@ try await file.upload { progress in
 let result = try await BmobCloud.run(function: "hello", params: ["name": "Swift"])
 ```
 
+### 云函数参数（已知行为）
+
+> **已知行为**：Bmob 服务端会将云函数参数的所有值转为字符串后再传入 `request.body`，因此云函数中 `typeof(param)` 始终为 `"string"`。Int/Bool/Array/Dict 等类型均会被序列化为字符串形式（如 `42`→`"42"`、`true`→`"true"`、`[1,2,3]`→`"[1,2,3]"`）。这是 Bmob 后端的设计行为，非 SDK bug。如需在云函数中使用特定类型，请在云函数内手动解析（如 `parseInt(request.body.name)`、`JSON.parse(request.body.items)`）。
+
+客户端 `params` 可传 Swift 原生类型，但云函数侧一律按字符串处理；写云函数或联调时勿假设 `request.body` 中仍是数字 / 布尔 / 对象。
+
+该行为适用于通过 Android、iOS、Swift 等加密客户端 SDK 以 POST 方式调用云函数的场景。
+
 ## 常见问题
 
 跨平台问题见 [`shared/faq.md`](../../shared/faq.md)。Swift 特有判断：
@@ -199,6 +207,7 @@ let result = try await BmobCloud.run(function: "hello", params: ["name": "Swift"
 | 更新 / 删除无效 | `BmobObject(className:data:)` 的 data 里必须有 `objectId` |
 | 关联查询没展开 | 查询时是否 `.includeKey("author")`；Pointer 字段名和目标 objectId 是否存在 |
 | `BmobError.serverError(code, message)` | 取出数字 `code` 后查 [`bmob-error-codes`](../bmob-error-codes/SKILL.md) |
+| 云函数里数字 / 布尔判断不对 | `request.body` 值均为字符串；用 `parseInt`、`=== "true"`、`JSON.parse` 解析，见上文「云函数参数（已知行为）」 |
 | Swift 并发警告或 UI 更新问题 | SDK 调用用 `async/await`；UI 状态更新回到 `@MainActor` / 主线程上下文 |
 
 ## 参考
