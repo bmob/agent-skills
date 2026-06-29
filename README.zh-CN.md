@@ -8,7 +8,7 @@
 
 > 让 Cursor、Claude Code、OpenAI Codex、Gemini CLI、GitHub Copilot 等主流 AI 编码工具能正确使用 [Bmob 后端云](https://www.bmobapp.com/) 的各项能力。
 
-本仓库提供一组遵循 [agentskills.io 开源标准](https://agentskills.io/) 的 Agent Skills，覆盖 Bmob 的数据服务、用户认证、文件存储、云函数、推送、短信、支付、ACL/角色、错误码等模块，并把 [Bmob MCP Server](http://mcp.bmobapp.com/mcp) 集成进来（`tools/list` 共 8 个工具，其中 7 个供 agent 调用，含 `deploy_static_site`），让 AI agent 既能「读会写 SDK 代码」，也能「在 IDE 里直接对你的数据表做实操」。操作级 MCP / SDK / REST 对照见 [`shared/operation-routing.md`](shared/operation-routing.md)。
+本仓库提供一组遵循 [agentskills.io 开源标准](https://agentskills.io/) 的 Agent Skills，覆盖 Bmob 的数据服务、用户认证、文件存储、云函数、推送、短信、支付、ACL/角色、错误码等模块，并把 [Bmob MCP Server](http://mcp.bmobapp.com/mcp) 集成进来（`tools/list` 共 9 个工具，其中 8 个供 agent 调用，含 `invoke_cloud_function`、`deploy_static_site`），让 AI agent 既能「读会写 SDK 代码」，也能「在 IDE 里直接对你的数据表做实操」。操作级 MCP / SDK / REST 对照见 [`shared/operation-routing.md`](shared/operation-routing.md)。
 
 <p align="center">
   <img src="docs/images/how-it-works.zh.png" alt="Bmob Agent Skills 工作原理：提问 → AI 工具 → 路由 → 子 skill / MCP" width="92%"/>
@@ -63,7 +63,7 @@ cp -r agent-skills/skills/bmob-mcp ~/.codex/skills/
 | Skill | 作用 |
 |---|---|
 | [`bmob`](skills/bmob/SKILL.md) | 总入口 / 路由 skill，凡是用户提到 Bmob 都先命中这里，再分流到具体 sub-skill |
-| [`bmob-mcp`](skills/bmob-mcp/SKILL.md) | Bmob MCP：7 个 agent 可调用工具（`get_project_tables` / `create_table` / `add_single_data` / `update_single_data` / `delete_single_data` / `generate_code` / `deploy_static_site`）；另 1 个内部工具 `mcp_endpoint_mcp_post` 勿调用 |
+| [`bmob-mcp`](skills/bmob-mcp/SKILL.md) | Bmob MCP：8 个 agent 可调用工具（`get_project_tables` / `create_table` / `add_single_data` / `update_single_data` / `delete_single_data` / `generate_code` / `invoke_cloud_function` / `deploy_static_site`）；另 1 个内部工具 `mcp_endpoint_mcp_post` 勿调用 |
 | [`bmob-database-javascript`](skills/bmob-database-javascript/SKILL.md) | 跨端 [hydrogen-js-sdk](https://github.com/bmob/hydrogen-js-sdk) — 浏览器 / Node.js / 微信小程序 / 支付宝/字节/QQ/百度小程序 / 快应用 / Cocos Creator JS / Electron / Tauri / 混合 App |
 | [`bmob-database-android`](skills/bmob-database-android/SKILL.md) | Android 原生 SDK（Java / Kotlin） |
 | [`bmob-database-ios`](skills/bmob-database-ios/SKILL.md) | 旧版 iOS 原生 SDK（Objective-C framework / Swift Bridging Header） |

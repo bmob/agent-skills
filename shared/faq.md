@@ -83,7 +83,7 @@ Bmob 服务端会把**加密客户端 SDK**（Android、iOS、Swift 等）以 PO
 避免字段名/类型猜错（schemaless 不报错，脏数据难查）。
 
 **`mcp_endpoint_mcp_post` 能调吗？**  
-**不能。** 服务端内部回环；agent 只用其余 7 个工具。见 [`operation-routing.md`](operation-routing.md)。
+**不能。** 服务端内部回环；agent 只用其余 8 个工具。见 [`operation-routing.md`](operation-routing.md)。
 
 **MCP 能嵌进生产 App 吗？**  
 不能。MCP 是开发期工具；生产用 SDK/REST。且当前端点为 HTTP，勿在公网传 Key。

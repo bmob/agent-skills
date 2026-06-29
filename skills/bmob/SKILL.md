@@ -45,7 +45,7 @@ flowchart TD
     Err -->|是| EC[bmob-error-codes]
     Err -->|否| Ship{代码要写进应用并发版?}
     Ship -->|否| McpCfg{IDE 已配置 Bmob MCP?}
-    McpCfg -->|是| MCP[bmob-mcp<br/>7 个可调用工具]
+    McpCfg -->|是| MCP[bmob-mcp<br/>8 个可调用工具]
     McpCfg -->|否| RestOnly[bmob-database-restful<br/>或 generate_code 需 MCP]
     Ship -->|是| Plat{平台 / 语言?}
     Plat -->|JS Web Node 小程序 Cocos JS 等| JS[bmob-database-javascript]
@@ -99,7 +99,7 @@ flowchart TD
 |---|---|---|
 | 注册 / 登录 / 短信验证码 | `bmob-auth-*` | REST：[`bmob-database-restful/references/users.md`](../bmob-database-restful/references/users.md)；已配 MCP：`generate_code`（`注册` / `用户名密码登录` / `手机号验证码登录` 等） |
 | 文件上传 / CDN URL | `bmob-storage-*` | REST：[`references/files.md`](../bmob-database-restful/references/files.md)；MCP：`generate_code` → `上传文件` |
-| 调用已有云函数 | `bmob-cloud-function-*` | REST `/1/functions/<name>`；MCP：`generate_code` → `调用云函数` |
+| 调用已有云函数 | `bmob-mcp` → **`invoke_cloud_function`**（执行）；`generate_code` → `调用云函数`（curl） | REST `/1/functions/<name>`；各端 SDK |
 | 编写并部署云函数源码 | `bmob-cloud-function-development` | [BmobDocs 云函数](https://github.com/bmob/BmobDocs/tree/master/mds) + 控制台 |
 | ACL / 行级权限 / 9015·9016 | `bmob-acl-and-roles` | REST 创建/更新 body 内 `"ACL":{...}`；[`bmob-error-codes`](../bmob-error-codes/SKILL.md) |
 | BQL / 跨表聚合 | `bmob-bql` | REST `GET /1/cloudQuery`；[`bmob-database-restful`](../bmob-database-restful/SKILL.md) |
@@ -156,7 +156,7 @@ flowchart TD
 
 如果用户在 IDE 里配置了 Bmob MCP Server（见 [`shared/mcp-install-snippets.md`](../../shared/mcp-install-snippets.md)），任何涉及「读真实表结构 / 写测试数据 / 设计 schema / 生成样板 curl / **一键部署网站**」的任务都应 **优先 MCP**，不要凭猜测写字段名。
 
-- **`tools/list` 共 8 个工具**；agent **只调用其中 7 个**（`get_project_tables`、`create_table`、`add_single_data`、`update_single_data`、`delete_single_data`、`generate_code`、`deploy_static_site`）。
+- **`tools/list` 共 9 个工具**；agent **只调用其中 8 个**（`get_project_tables`、`create_table`、`add_single_data`、`update_single_data`、`delete_single_data`、`generate_code`、`invoke_cloud_function`、`deploy_static_site`）。
 - **`mcp_endpoint_mcp_post`** 为服务端内部回环，**不要调用**。
 - 工具参数与话术对照：[`bmob-mcp`](../bmob-mcp/SKILL.md)；操作级三通道表：[`shared/operation-routing.md`](../../shared/operation-routing.md)。
 
