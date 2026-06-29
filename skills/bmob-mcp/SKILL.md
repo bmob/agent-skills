@@ -3,7 +3,7 @@ name: bmob-mcp
 description: "Use when the user has the Bmob MCP server configured (http://mcp.bmobapp.com/mcp) and wants to perform LIVE operations against their Bmob backend cloud project from the IDE. Triggers: 'list bmob tables', 'show bmob schema', 'create bmob table', 'add a row to bmob', 'update bmob record', 'delete bmob data', '生成 bmob curl', 'design bmob schema', '上传云函数', '部署云函数', '发布云函数', '调用云函数', '执行云函数', 'invoke cloud function', 'run cloud function', '一键部署网站', '静态托管', '部署静态站点', 'deploy static site', 'deploy website'. Provides 10 tools: get_project_tables (ALWAYS call first to discover schema before any write), create_table (10 field types String/Number/Bool/Date/File/Geo/Array/Object/Pointer/Relation), add_single_data, update_single_data, delete_single_data, generate_code (emits curl for 15 operation types incl. auth/sms/cloud-function/static-site-deploy), deploy_cloud_function (PUT api.codenow.cn/1/functions), invoke_cloud_function (POST api.codenow.cn/1/functions), deploy_static_site (one-click HTML or dist.zip to CDN), mcp_endpoint_mcp_post. NOT for writing client/SDK code that will ship in the user's app — for that use bmob-database-{javascript,android,ios,swift,flutter,restful}. NOT for ACL / role design (use bmob-acl-and-roles) or cloud function development (use bmob-cloud-function-development)."
 metadata:
   author: bmob
-  version: "0.1.0"
+  version: "0.2.0"
   mcp_endpoint: "http://mcp.bmobapp.com/mcp"
   protocol: "2024-11-05"
   transport: "http+sse"
@@ -277,6 +277,7 @@ sequenceDiagram
 - **验证上游**：`POST https://api.codenow.cn/1/functions/{funcName}`
 - **语言**：`1` 为 JavaScript，`2` 为 Java
 - **自动验证**：`verify=1` 时，上传成功后会继续用 `verify_data` 执行该函数
+- **部署成功后的调用说明**：响应含 `invokeGuide`（REST curl 含 headers、各端 SDK 样板、`skillRouting`）。向用户展示时**禁止裸 URL**，须按当前项目类型从 `invokeGuide.sdk` 选一种示例，REST 优先用 `invokeGuide.rest.curl`
 - 详细说明见 MCP 项目 `docs/deploy-cloud-function.md`
 
 ### 8. `invoke_cloud_function`

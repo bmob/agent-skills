@@ -3,7 +3,7 @@ name: bmob-cloud-function-development
 description: "Write, upload, and verify Bmob server-side cloud functions using the Bmob MCP server when available. Use when the user asks to 编写云函数, 写云函数, 上传云函数, 部署云函数, 发布云函数, 验证云函数结果, or mentions `function onRequest(request, response, modules)`."
 metadata:
   author: bmob
-  version: "0.1.0"
+  version: "0.2.0"
   docs: "https://github.com/bmob/BmobDocs/blob/master/mds/cloud_function/web/develop_doc.md"
   docs_raw: "https://raw.githubusercontent.com/bmob/BmobDocs/master/mds/cloud_function/web/develop_doc.md"
   mcp_docs: "http://mcp.bmobapp.com/mcp"
@@ -65,6 +65,18 @@ function onRequest(request, response, modules) {
 - 如果上传工具已设置 `verify=1`，直接检查返回里的 `verify.response`
 - 如果需要多次验证，单独调用 `invoke_cloud_function`
 - 验证失败时，优先把**上传结果**、**执行返回**、**传入参数**三者一起对照
+
+### 4. 部署成功后：告知用户如何调用
+
+`deploy_cloud_function` 成功时，响应里会带 **`invokeGuide`**。向用户说明调用方式时：
+
+1. **禁止**只写裸 URL（如 `POST https://api.codenow.cn/1/functions/xxx`）——REST 必须带完整 headers 与 body
+2. **优先**直接使用 `invokeGuide.rest.curl`（已含 `X-Bmob-Application-Id`、`X-Bmob-REST-API-Key`、`Content-Type` 与示例 body）
+3. **按当前项目类型**只展示一种最匹配的 SDK 示例（从 `invokeGuide.sdk` 选取）：
+   - 读代码库判断：`package.json` / Vue / React → `javascript`；`app.json` / 小程序 → `wechat_miniprogram`；`build.gradle` / Android SDK → `android`；`Podfile` / ObjC → `ios`；`BmobCloud.run` / SwiftPM → `swift`；`pubspec.yaml` / `bmob_plugin` → `flutter`；无 SDK 或用户要 curl → `restful`
+   - 不确定时：REST curl + 说明「你的项目若是 XX 平台可参考 invokeGuide.sdk.XX」
+4. IDE 内试跑：用 MCP `invoke_cloud_function`，参数见 `invokeGuide.mcp`
+5. 需要更详细的 curl 样板：可再调 `generate_code` → `type=调用云函数`
 
 ## 推荐验证方式
 
