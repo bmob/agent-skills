@@ -1,6 +1,6 @@
 {
   "name": "@bmob/agent-skills",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": false,
   "description": "Open-standard Agent Skills for Bmob backend cloud (https://www.bmobapp.com/) — usable in Cursor, Claude Code, OpenAI Codex, Gemini CLI, GitHub Copilot and any other agentskills.io-compatible AI tool.",
   "homepage": "https://github.com/bmob/agent-skills",
