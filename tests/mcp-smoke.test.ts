@@ -1,6 +1,6 @@
 /**
  * Smoke test: confirms the upstream Bmob MCP server still exposes the 9
- * agent-callable tools documented in skills/bmob-mcp/SKILL.md (10 total on
+ * agent-callable tools documented in skills/bmob-mcp/SKILL.md (12 total on
  * tools/list; mcp_endpoint_mcp_post is internal). Uses anonymous demo creds —
  * accepts auth header but tools/list works without app-scoped data.
  *
@@ -19,6 +19,8 @@ const EXPECTED = [
   "generate_code",
   "deploy_cloud_function",
   "invoke_cloud_function",
+  "list_cloud_functions",
+  "get_cloud_function",
   "deploy_static_site",
 ];
 

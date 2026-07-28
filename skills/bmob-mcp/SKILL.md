@@ -1,9 +1,9 @@
 ---
 name: bmob-mcp
-description: "Use when the user has the Bmob MCP server configured (http://mcp.bmobapp.com/mcp) and wants to perform LIVE operations against their Bmob backend cloud project from the IDE. Triggers: 'list bmob tables', 'show bmob schema', 'create bmob table', 'add a row to bmob', 'update bmob record', 'delete bmob data', '生成 bmob curl', 'design bmob schema', '上传云函数', '部署云函数', '发布云函数', '调用云函数', '执行云函数', 'invoke cloud function', 'run cloud function', '一键部署网站', '静态托管', '部署静态站点', 'deploy static site', 'deploy website'. Provides 10 tools: get_project_tables (ALWAYS call first to discover schema before any write), create_table (10 field types String/Number/Bool/Date/File/Geo/Array/Object/Pointer/Relation), add_single_data, update_single_data, delete_single_data, generate_code (emits curl for 15 operation types incl. auth/sms/cloud-function/static-site-deploy), deploy_cloud_function (PUT api.codenow.cn/1/functions), invoke_cloud_function (POST api.codenow.cn/1/functions), deploy_static_site (one-click HTML or dist.zip to CDN), mcp_endpoint_mcp_post. NOT for writing client/SDK code that will ship in the user's app — for that use bmob-database-{javascript,android,ios,swift,flutter,restful}. NOT for ACL / role design (use bmob-acl-and-roles) or cloud function development (use bmob-cloud-function-development)."
+description: "Use when the user has the Bmob MCP server configured (http://mcp.bmobapp.com/mcp) and wants to perform LIVE operations against their Bmob backend cloud project from the IDE. Triggers: 'list bmob tables', 'show bmob schema', 'create bmob table', 'add a row to bmob', 'update bmob record', 'delete bmob data', '生成 bmob curl', 'design bmob schema', '上传云函数', '部署云函数', '发布云函数', '同步云函数', '同步函数', '拉取云函数', '下载云函数', '调用云函数', '执行云函数', 'invoke cloud function', 'run cloud function', '一键部署网站', '静态托管', '部署静态站点', 'deploy static site', 'deploy website'. Provides 12 tools: get_project_tables (ALWAYS call first to discover schema before any write), create_table, add_single_data, update_single_data, delete_single_data, generate_code, deploy_cloud_function, invoke_cloud_function, list_cloud_functions, get_cloud_function, deploy_static_site, mcp_endpoint_mcp_post. NOT for writing client/SDK code that will ship in the user's app — for that use bmob-database-{javascript,android,ios,swift,flutter,restful}. NOT for ACL / role design (use bmob-acl-and-roles) or cloud function development (use bmob-cloud-function-development)."
 metadata:
   author: bmob
-  version: "0.2.0"
+  version: "0.3.0"
   mcp_endpoint: "http://mcp.bmobapp.com/mcp"
   protocol: "2024-11-05"
   transport: "http+sse"
@@ -15,7 +15,7 @@ metadata:
 Bmob 官方托管的 MCP 服务器，端点 `http://mcp.bmobapp.com/mcp`，传输是 MCP 2024-11-05 的 HTTP+SSE。通过 `X-Bmob-Application-Id` + `X-Bmob-REST-API-Key` 两个 HTTP 头部鉴权，agent 配置好后即可在 IDE 内对你的真实 Bmob 项目进行增删改查、设计 schema、生成 curl 样板。
 
 > **操作级路由**：MCP 工具 vs `generate_code` vs SDK/REST 的对照表见 [`shared/operation-routing.md`](../../shared/operation-routing.md)。  
-> **工具数量**：`tools/list` 返回 **10 个**；agent **调用 9 个**（不含内部工具 `mcp_endpoint_mcp_post`）。
+> **工具数量**：`tools/list` 返回 **12 个**；agent **调用 11 个**（不含内部工具 `mcp_endpoint_mcp_post`）。
 
 > **HTTP 明文警告**：当前 MCP 端点是 HTTP（非 HTTPS）。仅建议在本机开发环境使用；请勿把含真实 Key 的 `.cursor/mcp.json` / `.mcp.json` 提交进公开 git 仓库。
 
@@ -27,6 +27,7 @@ Bmob 官方托管的 MCP 服务器，端点 `http://mcp.bmobapp.com/mcp`，传�
 | 设计新表 / 增字段 / 改 schema | ✅ `create_table` | — |
 | 在 IDE 里测试增删改查（开发期手工触发） | ✅ `add_single_data` / `update_single_data` / `delete_single_data` | — |
 | **上传 / 部署云函数源码并验证** | ✅ `deploy_cloud_function`；单独执行 → `invoke_cloud_function` | — |
+| **同步 / 拉取线上云函数到本地** | ✅ `list_cloud_functions` → `get_cloud_function`（agent 写本地文件） | — |
 | **执行 / 试跑云函数**（REST `POST /1/functions/<name>`） | ✅ `invoke_cloud_function`；生成 curl → `generate_code`（`调用云函数`） | — |
 | **一键部署网站 / 静态托管**（单页 HTML 或 dist.zip 到 CDN） | ✅ `deploy_static_site` 或 `generate_code`（`部署静态站点单页` / `部署静态站点dist`） | — |
 | 想要任意语言的 curl 样板（备份、迁移脚本） | ✅ `generate_code` | — |
@@ -77,9 +78,9 @@ sequenceDiagram
     A->>U: 写入成功，objectId=...
 ```
 
-## 10 个工具的真实 schema（9 个供 agent 调用）
+## 12 个工具的真实 schema（11 个供 agent 调用）
 
-`tools/list` 共 10 个；**不要调用**第 10 个 `mcp_endpoint_mcp_post`（服务端内部回环）。下方 1–9 为 agent 可用工具。
+`tools/list` 共 12 个；**不要调用**第 12 个 `mcp_endpoint_mcp_post`（服务端内部回环）。下方 1–11 为 agent 可用工具。
 
 ### 1. `get_project_tables`
 
@@ -305,7 +306,50 @@ sequenceDiagram
 - 仅需 curl 样板、不自动执行时，用 `generate_code` → `调用云函数`
 - 详细说明见 MCP 项目 `docs/invoke-cloud-function.md`
 
-### 9. `deploy_static_site`
+### 9. `list_cloud_functions`
+
+**列出线上云函数**：获取当前项目已部署的全部云函数名称。同步流程的第一步。
+
+**触发词**：`同步云函数`、`同步函数`、`拉取云函数`、`下载云函数`、`列出云函数`。
+
+```json
+{
+  "inputSchema": {
+    "type": "object",
+    "properties": {},
+    "title": "list_cloud_functionsArguments"
+  }
+}
+```
+
+- **上游**：`GET https://api.codenow.cn/1/functions`
+- **返回**：`functions`（名称数组）、`count`、`raw`
+- 详细说明见 MCP 项目 `docs/sync-cloud-function.md`
+
+### 10. `get_cloud_function`
+
+**拉取单个云函数源码**：按名称获取线上函数的源码与元信息；`code` 已解码为明文。
+
+**触发词**：`同步云函数`、`下载云函数 hello`、`拉取函数 rsync_img`。
+
+```json
+{
+  "inputSchema": {
+    "type": "object",
+    "required": ["funcName"],
+    "properties": {
+      "funcName": { "type": "string", "description": "云函数名称，如 hello" }
+    }
+  }
+}
+```
+
+- **上游**：`GET https://api.codenow.cn/1/functions/{funcName}`
+- **返回**：`funcName`、`code`（明文）、`language`、`languageName`、`suggestedFileName`（如 `hello.js`）
+- **本地同步**：MCP 只拉取数据；agent 负责创建 `cloudfunctions/` 目录并写入文件（见 `bmob-cloud-function-development`）
+- 详细说明见 MCP 项目 `docs/sync-cloud-function.md`
+
+### 11. `deploy_static_site`
 
 **一键部署网站 / 静态托管**：将单页 HTML 或 dist 压缩包部署到 Bmob CDN。
 
@@ -329,7 +373,7 @@ sequenceDiagram
 - 非法后缀返回 `{"code": 158, "error": "file must be zip or html"}`
 - 详细说明见 MCP 项目 `docs/deploy-static-site.md`
 
-### 10. `mcp_endpoint_mcp_post`
+### 12. `mcp_endpoint_mcp_post`
 
 服务器内部回环端点，**不要主动调用**。
 

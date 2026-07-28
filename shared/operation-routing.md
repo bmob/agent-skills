@@ -13,7 +13,7 @@
 
 **写操作前**：已配 MCP 时，**必须先** `get_project_tables`（MCP 与写 SDK 代码均适用）。
 
-**MCP 工具数量**：`tools/list` 共 **10 个**；其中 **`mcp_endpoint_mcp_post` 为服务端内部回环，agent 不要调用**。agent 应使用的是其余 **9 个**（见下表「MCP 工具」列）。
+**MCP 工具数量**：`tools/list` 共 **12 个**；其中 **`mcp_endpoint_mcp_post` 为服务端内部回环，agent 不要调用**。agent 应使用的是其余 **11 个**（见下表「MCP 工具」列）。
 
 ---
 
@@ -49,6 +49,7 @@ REST 路径与 curl 细节：[`skills/bmob-database-restful/references/url-cheat
 | 验证短信验证码 | — | `验证短信验证码` | 见 REST 文档 |
 | 上传 / 部署云函数源码 | **`deploy_cloud_function`** | — | `PUT /1/functions/<name>` |
 | 执行 / 试跑云函数 | **`invoke_cloud_function`** | — | `POST /1/functions/<name>` |
+| **同步 / 拉取线上云函数到本地** | **`list_cloud_functions` → `get_cloud_function`** | — | `GET /1/functions` + `GET /1/functions/<name>` |
 | 生成云函数 curl | — | `调用云函数` | `POST /1/functions/<name>` |
 | 上传文件 | — | `上传文件` | `POST /2/files/<fileName>` → [`files.md`](../skills/bmob-database-restful/references/files.md) |
 
@@ -66,7 +67,7 @@ P1 专用 skill（`bmob-auth-*`、`bmob-storage-*`、`bmob-cloud-function-*`）�
 
 ---
 
-## MCP 9 个可调用工具 × 用户话术
+## MCP 11 个可调用工具 × 用户话术
 
 | 用户大概会说… | 调用 |
 |---------------|------|
@@ -77,6 +78,7 @@ P1 专用 skill（`bmob-auth-*`、`bmob-storage-*`、`bmob-cloud-function-*`）�
 | 删一条 | `get_project_tables` → `delete_single_data`（需二次确认） |
 | 给我 curl / 生成请求样板 | `get_project_tables` → `generate_code` |
 | 上传云函数 / 部署云函数 / 发布云函数 | `deploy_cloud_function` |
+| 同步云函数 / 同步函数 / 拉取云函数 / 下载云函数 | `list_cloud_functions` → `get_cloud_function`（agent 写 `cloudfunctions/`） |
 | 执行云函数 / 跑一下 rsync_img / 测试云函数 | `invoke_cloud_function` |
 | 部署网站 / 静态托管 / 上传 dist | `deploy_static_site` |
 

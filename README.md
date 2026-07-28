@@ -29,7 +29,7 @@
 </p>
 
 - Router skill: `bmob` (entrypoint for all Bmob-related prompts)
-- MCP operations: `bmob-mcp` (10 tools on server; 9 callable by agents, including `deploy_cloud_function`, `invoke_cloud_function`, `deploy_static_site`)
+- MCP operations: `bmob-mcp` (12 tools on server; 11 callable by agents, including `deploy_cloud_function`, `invoke_cloud_function`, `list_cloud_functions`, `get_cloud_function`, `deploy_static_site`)
 - SDK/REST implementation skills:
   - `bmob-database-javascript`
   - `bmob-database-android`
@@ -97,7 +97,7 @@ The agent should call `get_project_tables` and return live schema.
 | Skill | Purpose |
 |---|---|
 | [`bmob`](skills/bmob/SKILL.md) | Routing entrypoint for all Bmob prompts |
-| [`bmob-mcp`](skills/bmob-mcp/SKILL.md) | Live MCP: 9 agent-callable tools (`get_project_tables`, `create_table`, `add_single_data`, `update_single_data`, `delete_single_data`, `generate_code`, `deploy_cloud_function`, `invoke_cloud_function`, `deploy_static_site`); do not call internal `mcp_endpoint_mcp_post` |
+| [`bmob-mcp`](skills/bmob-mcp/SKILL.md) | Live MCP: 11 agent-callable tools (`get_project_tables`, `create_table`, `add_single_data`, `update_single_data`, `delete_single_data`, `generate_code`, `deploy_cloud_function`, `invoke_cloud_function`, `list_cloud_functions`, `get_cloud_function`, `deploy_static_site`); do not call internal `mcp_endpoint_mcp_post` |
 | [`bmob-cloud-function-development`](skills/bmob-cloud-function-development/SKILL.md) | Write Bmob server-side cloud functions and auto-upload / verify them via MCP when available |
 | [`bmob-database-javascript`](skills/bmob-database-javascript/SKILL.md) | Cross-platform `hydrogen-js-sdk` for Web, Node.js, mini programs, Cocos Creator JS, Electron, Tauri, hybrid apps |
 | [`bmob-database-android`](skills/bmob-database-android/SKILL.md) | Android native SDK (Java / Kotlin) |
