@@ -61,7 +61,7 @@ P1 专用 skill（`bmob-auth-*`、`bmob-storage-*`、`bmob-cloud-function-*`）�
 
 | 用户意图 | 首选 MCP | 备选 |
 |----------|----------|------|
-| 一键把 `index.html` 或 `dist.zip` 部署到 CDN | **`deploy_static_site`**（`fileName` = `index.html` 或 `dist.zip`） | `generate_code` → `部署静态站点单页` / `部署静态站点dist`（仅生成 curl，不自动上传） |
+| 一键把 `index.html` 或 `dist.zip` 部署到 CDN | **HTML**：`deploy_static_site`（`fileName` + `content` 原文）。**zip**：`deploy_static_site` 只传 `fileName`，再执行返回的 `curl --data-binary`（禁止 Base64） | `generate_code` → `部署静态站点单页` / `部署静态站点dist` |
 
 说明见 [`bmob-mcp`](../skills/bmob-mcp/SKILL.md) 的 `deploy_static_site` 章节。
 

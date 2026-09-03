@@ -361,15 +361,16 @@ sequenceDiagram
     "type": "object",
     "required": ["fileName"],
     "properties": {
-      "fileName": { "type": "string", "description": "仅允许 .zip / .html / .htm，如 index.html 或 dist.zip" }
+      "fileName": { "type": "string", "description": "仅允许 .zip / .html / .htm，如 index.html 或 dist.zip" },
+      "content":  { "type": "string", "description": "仅单页 HTML 传文件原文。zip 不要传 content，不要 Base64。" },
+      "filePath": { "type": "string", "description": "本地文件路径，用于生成 curl --data-binary @路径。远程 MCP 读不到磁盘。" }
     }
   }
 }
 ```
 
-- **方法**：`POST`，请求体为文件二进制
-- **单页 HTML**：`fileName=index.html`，`Content-Type: text/html`
-- **整站 dist**：`fileName=dist.zip`，`Content-Type: application/zip`
+- **单页 HTML**：`fileName=index.html`，`content` 为 HTML 原文，本工具直接部署
+- **zip / 大文件**：**禁止**把 zip 转 Base64 传入 MCP（慢，且 macOS `base64` 默认换行会损坏）。只传 `fileName` + 可选 `filePath`。工具返回 `needLocalUpload` + `curl`，Agent **必须立刻用本机 Shell 执行** `curl --data-binary @文件`
 - 非法后缀返回 `{"code": 158, "error": "file must be zip or html"}`
 - 详细说明见 MCP 项目 `docs/deploy-static-site.md`
 
@@ -402,6 +403,8 @@ sequenceDiagram
 
 | 表现 | 原因 | 修复 |
 |---|---|---|
+| `deploy_static_site` 对 zip 返回 `needLocalUpload` | MCP 不能传二进制，这是正常流程 | 立刻用本地 Shell 执行返回的 `curl`（`--data-binary`），不要 Base64 |
+| zip 经 MCP Base64 又慢又损坏 | 内容进了模型上下文；macOS `base64` 默认换行 | 不要转 Base64。`deploy_static_site` 只传 fileName，再跑返回的 curl |
 | `tools/list` 报 `-32602 Invalid request parameters` | 没有先 `initialize` + `notifications/initialized` 握手 | MCP client 默认会做，手测可参考下方诊断片段 |
 | Header 401 / 403 | App ID 或 REST API Key 写错；或者 App ID 与 Key 不属于同一应用 | 控制台重取，注意"测试环境 / 生产环境"密钥不同 |
 | `add_single_data` 成功但数据不出现 | 字段名拼错（schemaless 不报错） | 先 `get_project_tables` 拿真实字段名 |

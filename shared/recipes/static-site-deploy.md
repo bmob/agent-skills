@@ -9,11 +9,10 @@
 
 ## 流程
 
-1. Agent 调用 **`deploy_static_site`**
-   - 单页：`fileName` = `index.html`，上传该文件
-   - 整站：`fileName` = `dist.zip`，打包 dist 目录
-2. 返回 CDN 访问 URL，浏览器打开验证
-3. 仅需 curl 样板、不自动上传时：`generate_code` → `部署静态站点单页` / `部署静态站点dist`
+1. **单页 HTML**：读取本地文件，调用 **`deploy_static_site`**，`fileName=index.html`，`content` 为 HTML 原文
+2. **zip / dist**：**不要**把 zip 读进 MCP。调用 `deploy_static_site`（`fileName=dist.zip`，可选 `filePath`），拿到返回的 `curl` 后，用本机 Shell 执行 `--data-binary` 直传
+3. 返回 CDN 访问 URL，浏览器打开验证
+4. 仅需 curl 样板：`generate_code` → `部署静态站点单页` / `部署静态站点dist`
 
 ## 文档
 
