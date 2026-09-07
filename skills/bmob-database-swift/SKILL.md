@@ -44,7 +44,7 @@ Swift Package Manager:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/bmob/BmobSwiftSDK", from: "1.0.2")
+    .package(url: "https://github.com/bmob/BmobSwiftSDK", from: "1.0.6")
 ],
 targets: [
     .target(name: "YourApp", dependencies: [
@@ -60,7 +60,7 @@ platform :ios, '15.0'
 use_frameworks!
 
 target 'YourApp' do
-  pod 'BmobSwiftSDK', '~> 1.0.2'
+  pod 'BmobSwiftSDK', '~> 1.0.6'
 end
 ```
 
@@ -139,11 +139,14 @@ user.password = "password123"
 try await user.signUp()
 let loggedIn = try await BmobUser.login(username: "testuser", password: "password123")
 
-// 文件
+// 文件（上传走加密客户端协议 POST /8/files；成功后可读 file.url / file.cdn）
 let file = BmobFile(data: imageData, filename: "avatar.jpg", mimeType: "image/jpeg")
 try await file.upload { progress in
     print("上传进度: \(Int(progress * 100))%")
 }
+// 删除：上传后的实例可直接 delete()；仅凭 URL 重建时请传入上传响应里的 cdn（如 "aliyun"）
+// let again = BmobFile(url: file.url!, cdn: file.cdn)
+// try await again?.delete()
 
 // 云函数
 let result = try await BmobCloud.run(function: "hello", params: ["name": "Swift"])

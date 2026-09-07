@@ -1,5 +1,5 @@
 dependencies: [
-    .package(url: "https://github.com/bmob/BmobSwiftSDK", from: "1.0.2")
+    .package(url: "https://github.com/bmob/BmobSwiftSDK", from: "1.0.6")
 ],
 targets: [
     .target(name: "YourApp", dependencies: [

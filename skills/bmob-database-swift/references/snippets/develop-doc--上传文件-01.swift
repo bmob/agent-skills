@@ -11,6 +11,7 @@ do {
         print("上传进度: \(Int(progress * 100))%")
     }
     print("文件 URL: \(file.url!)")
+    print("CDN: \(file.cdn ?? "")")  // 删除时需要；常见 aliyun / upyun
 } catch {
     print("上传失败: \(error)")
 }
