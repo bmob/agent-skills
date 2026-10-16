@@ -41,21 +41,40 @@
 
 ## Quick start
 
-### 1) Install all skills (recommended)
+### 1) Install all skills for a specific AI tool (recommended)
+
+Choose the command for your tool. `-g` installs at user scope, `-y` skips confirmation, and `--agent` explicitly selects the target so the CLI does not automatically include tools that only support project-level installation.
 
 ```bash
-npx skills add bmob/agent-skills -y -g
+# Cursor
+npx skills add bmob/agent-skills -y -g --agent cursor
+# Claude Code
+npx skills add bmob/agent-skills -y -g --agent claude-code
+# OpenAI Codex
+npx skills add bmob/agent-skills -y -g --agent codex
+# Gemini CLI
+npx skills add bmob/agent-skills -y -g --agent gemini-cli
+# GitHub Copilot
+npx skills add bmob/agent-skills -y -g --agent github-copilot
 ```
 
-This copies all `skills/*` into your AI tool’s skills directory (for example: `.cursor/skills/`, `.claude/skills/`, `~/.codex/skills/`, `~/.gemini/skills/`).
+Repeat `--agent` to install for multiple tools:
+
+```bash
+npx skills add bmob/agent-skills -y -g --agent cursor --agent claude-code
+```
+
+These commands install all `skills/*`. Depending on the targets, the CLI uses shared storage, symlinks, or copies; check its output for the actual installation paths. See the [`skills` CLI supported agents](https://github.com/vercel-labs/skills#supported-agents) for more tool identifiers.
 
 ### 2) Install specific skills
 
 ```bash
-npx skills add bmob/agent-skills --skill bmob
-npx skills add bmob/agent-skills --skill bmob-database-javascript
-npx skills add bmob/agent-skills --skill bmob-mcp
+npx skills add bmob/agent-skills -y -g --agent cursor --skill bmob
+npx skills add bmob/agent-skills -y -g --agent cursor --skill bmob-database-javascript
+npx skills add bmob/agent-skills -y -g --agent cursor --skill bmob-mcp
 ```
+
+Replace `cursor` with your tool identifier. For project-level installation, omit `-g` and run the command from the target project directory.
 
 ### 3) Manual install
 
@@ -68,6 +87,18 @@ cp -r agent-skills/skills/bmob ~/.claude/skills/
 # OpenAI Codex
 cp -r agent-skills/skills/bmob-mcp ~/.codex/skills/
 ```
+
+### 4) Troubleshooting: `PromptScript does not support global skill installation`
+
+This is an installation target/scope mismatch: PromptScript only supports project-level installation. Without `--agent`, the CLI's automatic selection can include it as a universal target even when you have not installed PromptScript. `Failed to install 10` means the ten skills each failed for the PromptScript target; check the preceding `Installed` list for other tools. The final `Done!` does not mean every target succeeded.
+
+For Cursor, Claude Code, or another tool, retry with an explicit `--agent` as shown above. Avoid `--all -g`, which also selects targets without global installation support. If you use PromptScript, run this from your target project directory:
+
+```bash
+npx skills add bmob/agent-skills -y --agent promptscript
+```
+
+This installs into the project's `.agents/skills/`. See the [upstream scope support table](https://github.com/vercel-labs/skills#supported-agents).
 
 ## Configure Bmob MCP (optional, recommended)
 

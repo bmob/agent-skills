@@ -20,21 +20,40 @@
   <img src="docs/images/supported-tools.zh.svg" alt="兼容的 AI 编码工具及 skills 安装路径" width="92%"/>
 </p>
 
-### 1. 一键安装全部 skill（推荐）
+### 1. 为指定 AI 工具安装全部 skill（推荐）
+
+按你使用的工具选择一条命令。`-g` 表示用户级全局安装，`-y` 跳过确认，`--agent` 明确指定安装目标，避免 CLI 自动选择不支持全局安装的工具。
 
 ```bash
-npx skills add bmob/agent-skills -y -g
+# Cursor
+npx skills add bmob/agent-skills -y -g --agent cursor
+# Claude Code
+npx skills add bmob/agent-skills -y -g --agent claude-code
+# OpenAI Codex
+npx skills add bmob/agent-skills -y -g --agent codex
+# Gemini CLI
+npx skills add bmob/agent-skills -y -g --agent gemini-cli
+# GitHub Copilot
+npx skills add bmob/agent-skills -y -g --agent github-copilot
 ```
 
-这会把所有 `skills/*` 自动复制到你当前 AI 工具的 skills 目录（Cursor 是 `.cursor/skills/`、Claude Code 是 `.claude/skills/`、Codex 是 `~/.codex/skills/`、Gemini CLI 是 `~/.gemini/skills/` 等）。
+同时使用多个工具时，可以重复传入 `--agent`：
+
+```bash
+npx skills add bmob/agent-skills -y -g --agent cursor --agent claude-code
+```
+
+这会安装全部 `skills/*`。CLI 会根据安装目标使用共享目录、符号链接或复制，实际安装路径以输出为准。更多工具标识见 [`skills` CLI 支持列表](https://github.com/vercel-labs/skills#supported-agents)。
 
 ### 2. 仅安装指定 skill
 
 ```bash
-npx skills add bmob/agent-skills --skill bmob
-npx skills add bmob/agent-skills --skill bmob-database-javascript
-npx skills add bmob/agent-skills --skill bmob-mcp
+npx skills add bmob/agent-skills -y -g --agent cursor --skill bmob
+npx skills add bmob/agent-skills -y -g --agent cursor --skill bmob-database-javascript
+npx skills add bmob/agent-skills -y -g --agent cursor --skill bmob-mcp
 ```
+
+把 `cursor` 换成你的工具标识；项目级安装时去掉 `-g`，并在目标项目目录运行。
 
 ### 3. 手动安装
 
@@ -50,7 +69,19 @@ cp -r agent-skills/skills/bmob ~/.claude/skills/
 cp -r agent-skills/skills/bmob-mcp ~/.codex/skills/
 ```
 
-### 4. 配置 Bmob MCP Server（可选但强推荐）
+### 4. 安装排错：`PromptScript does not support global skill installation`
+
+这是 CLI 的安装目标与作用域不兼容：PromptScript 仅支持项目级安装。未指定 `--agent` 时，CLI 的自动选择可能把它加入通用目标，即使你没有安装 PromptScript。`Failed to install 10` 表示 10 个 skill 各自在 PromptScript 这个目标上失败；其他工具的结果请查看前面的 `Installed` 列表，末尾的 `Done!` 不代表所有目标都成功。
+
+如果使用 Cursor、Claude Code 等工具，按上面的命令明确指定 `--agent` 后重试。不要用 `--all -g` 规避这个问题，因为 `--all` 同样会选中不支持全局安装的目标。如果确实使用 PromptScript，请在目标项目目录运行：
+
+```bash
+npx skills add bmob/agent-skills -y --agent promptscript
+```
+
+该命令会安装到项目的 `.agents/skills/`。CLI 的作用域支持见[上游说明](https://github.com/vercel-labs/skills#supported-agents)。
+
+### 5. 配置 Bmob MCP Server（可选但强推荐）
 
 复制 [`shared/mcp-install-snippets.md`](shared/mcp-install-snippets.md) 中对应你工具的片段到 mcp 配置文件里。配置后，向 agent 说「列出我 bmob 项目里的所有数据表」应当返回真实表结构。
 
