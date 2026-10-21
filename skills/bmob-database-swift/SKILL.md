@@ -1,6 +1,6 @@
 ---
 name: bmob-database-swift
-description: "Use when implementing Bmob NoSQL database CRUD with the pure Swift BmobSwiftSDK for iOS 15+ / macOS 12+ using Swift Package Manager or CocoaPods, import BmobSDK, async/await, Bmob.initialize(appKey:), BmobObject, BmobQuery, BmobUser, BmobFile, BmobPointer, BmobRelation, BmobGeoPoint, BmobACL, CloudFunction. NOT for legacy Objective-C BmobSDK / Bridging Header projects (use bmob-database-ios), JavaScript / WeChat Mini Program (use bmob-database-javascript), Android (use bmob-database-android), Flutter / Dart (use bmob-database-flutter), or raw HTTP from other languages (use bmob-database-restful). If Bmob MCP is configured, call get_project_tables via bmob-mcp before writing code."
+description: "Use when implementing Bmob NoSQL database CRUD or realtime data listening with the pure Swift BmobSwiftSDK for iOS 15+ / macOS 12+ using Swift Package Manager or CocoaPods, import BmobSDK, async/await, Bmob.initialize(appKey:), BmobObject, BmobQuery, BmobUser, BmobFile, BmobPointer, BmobRelation, BmobGeoPoint, BmobACL, CloudFunction, BmobEvent, BmobActionType, resetIODomain, 实时数据监听. NOT for legacy Objective-C BmobSDK / Bridging Header projects (use bmob-database-ios), JavaScript / WeChat Mini Program (use bmob-database-javascript), Android (use bmob-database-android), Flutter / Dart (use bmob-database-flutter), or raw HTTP from other languages (use bmob-database-restful). If Bmob MCP is configured, call get_project_tables via bmob-mcp before writing code."
 metadata:
   author: bmob
   version: "0.1.0"
@@ -25,7 +25,7 @@ metadata:
 3. **初始化是异步的**：启动早期 `try await Bmob.initialize(appKey:)`；业务请求前必要时检查 `await Bmob.isReady`。
 4. **数据表默认用 `BmobObject(className:)`**：字段通过下标读写，更新 / 删除必须带 `objectId`。
 5. **查询用链式 `BmobQuery`**：`whereKey`、`order`、`limit`、`skip`、`includeKey` 都返回 query，最后 `try await find()` / `get(objectId:)`。
-6. **上线域名必须在初始化前设置**：私有云或备案域名用 `Bmob.resetDomain(...)`，顺序在 `initialize` 之前。
+6. **区分 API 与监听域名**：API 域名用 `Bmob.resetDomain(...)`，在 `initialize` 前设置；实时监听域名用 `try await Bmob.resetIODomain(...)`，可在初始化前后设置，连接前等待设置完成。
 
 ## 安全清单
 
@@ -160,6 +160,16 @@ let result = try await BmobCloud.run(function: "hello", params: ["name": "Swift"
 
 该行为适用于通过 Android、iOS、Swift 等加密客户端 SDK 以 POST 方式调用云函数的场景。
 
+### 实时数据监听（尚未发布）
+
+当前源码已修复 `BmobEvent`，支持 `.updateTable`、`.deleteTable`、`.updateRow`、`.deleteRow`。
+这些修复和 `resetIODomain` 尚未发布，勿假设上面的 `1.0.6` 安装版本包含它们；集成前核对所用 SDK 源码或发布记录。
+编写监听代码时读取 [`references/realtime.md`](references/realtime.md)，包含订阅、退订、事件流、代理和域名切换示例。
+
+- 初始化完成后再连接；持有 `BmobEvent` 实例，可在连接前登记订阅。
+- 地址优先级：用户自定义地址 → 初始化响应的 `io` → `http://io.codenow.cn:3010`；`try await Bmob.resetIODomain(nil)` 清除用户配置。
+- 默认自动重连并恢复有效订阅；主动 `disconnect()` 结束事件流，重新连接时需创建新事件流。断线期间的变更不会补发。
+
 ## 常见问题
 
 跨平台问题见 [`shared/faq.md`](../../shared/faq.md)。Swift 特有判断：
@@ -179,6 +189,7 @@ let result = try await BmobCloud.run(function: "hello", params: ["name": "Swift"
 
 | 主题 | 路径 |
 |---|---|
+| 实时监听、退订、重连与监听域名重置 | [`references/realtime.md`](references/realtime.md) |
 | BmobDocs 同步代码片段 | [`references/snippets/`](references/snippets/) |
 | 完整 API 文档 | `metadata.docs_raw` |
 | 完整 Todo 示例 | `metadata.docs_example` |
@@ -211,6 +222,7 @@ let result = try await BmobCloud.run(function: "hello", params: ["name": "Swift"
 | 关联查询没展开 | 查询时是否 `.includeKey("author")`；Pointer 字段名和目标 objectId 是否存在 |
 | `BmobError.serverError(code, message)` | 取出数字 `code` 后查 [`bmob-error-codes`](../bmob-error-codes/SKILL.md) |
 | 云函数里数字 / 布尔判断不对 | `request.body` 值均为字符串；用 `parseInt`、`=== "true"`、`JSON.parse` 解析，见上文「云函数参数（已知行为）」 |
+| 监听无消息或域名切换未生效 | 核对 SDK 是否包含监听修复；等待初始化及服务端就绪，确认订阅 action；`resetIODomain` 需 await，新地址在下次连接时生效，详见 [`realtime.md`](references/realtime.md) |
 | Swift 并发警告或 UI 更新问题 | SDK 调用用 `async/await`；UI 状态更新回到 `@MainActor` / 主线程上下文 |
 
 ## 参考
