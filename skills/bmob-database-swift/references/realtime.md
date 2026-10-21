@@ -1,6 +1,6 @@
 # Swift 实时数据监听
 
-> 实时监听修复及 `Bmob.resetIODomain` 自 1.0.7 起提供。使用 1.0.7 或更新版本；先核对用户实际使用的 SDK。
+> 使用 1.0.8 或更新版本，包含 WebSocket 握手 403 / -1011 及空 objectId 回退修复。`Bmob.resetIODomain` 自 1.0.7 起提供。
 
 完整用户文档：[BmobSwift SDK 开发文档 · 实时数据监听](https://github.com/bmob/BmobDocs/blob/master/mds/data/swift/develop_doc.md#实时数据监听)。
 
@@ -46,7 +46,15 @@ event.disconnect() // stop() 等效；connect() / start() 等效
 相同订阅去重；删除事件需单独订阅。表级 action 不可传给行级接口，反之亦然。
 
 消息类型为 `BmobEventMessage`：`className` 对应服务端 `tableName`（也兼容 `className`），
-`objectId` 优先读顶层，再读 `data.objectId`；`data` 为可选字典，`rawValue` 保留原始字段。读取可选值前做判断。
+`objectId` 优先读非空的顶层值，缺失或为空字符串时读取 `data.objectId`；`data` 为可选字典，`rawValue` 保留原始字段。读取可选值前做判断。
+
+## 握手流程及 -1011 排查
+
+先用 HTTP/HTTPS 请求 `/socket.io/1/?t=<timestamp>` 获取 SID，再连接对应的
+`ws://` / `wss://` 地址 `/socket.io/1/websocket/<sid>`，主机和端口不变。
+SDK 1.0.8 显式使用 WebSocket URLRequest，并自动添加匹配 HTTP/HTTPS 的同源 `Origin`。
+旧服务端缺少 Origin 时可能返回 HTTP 403，表现为 `NSURLErrorDomain -1011`；先确认用户已升级到 1.0.8+。
+不要仅凭错误日志中的 HTTP URL 就认定业务层传错协议，也不要把 WebSocket 路径传给 `resetIODomain`。
 
 ## 自定义监听域名
 
@@ -96,3 +104,18 @@ for await message in nextMessages {
 主动断开保留订阅，重新连接时创建新的事件流。取消单个流不会停止连接、订阅或其他消费者。
 
 监听不会补发断线期间的事件；需完整状态时重新查询。不要把实时事件流当作可靠消息队列。
+
+## 线上 Chat 验证
+
+在 SDK 源码目录使用 [Chat 端到端测试](https://github.com/bmob/BmobSwiftSDK/blob/v1.0.8/Tests/BmobCoreTests/BmobEventChatIntegrationTests.swift)：
+
+```bash
+export BMOB_EVENT_CHAT_LIVE_TEST=1
+export BMOB_EVENT_APP_KEY="YOUR_APP_KEY"
+export BMOB_EVENT_REST_KEY="YOUR_REST_API_KEY"
+swift test --filter BmobEventChatIntegrationTests
+```
+
+默认跳过。显式开启会向测试应用的 Chat 表新增一条带唯一标记的记录，核对更新事件并删除本次记录。
+测试会验证 SDK 初始化、订阅就绪、action、表名、objectId 和字段内容；清理失败也会报错。
+凭证从环境读取，不要将真实密钥写入示例或提交到仓库。

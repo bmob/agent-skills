@@ -1,7 +1,7 @@
 # Podfile
 
 # 伞式集成
-pod 'BmobSwiftSDK', '~> 1.0.7'
+pod 'BmobSwiftSDK', '~> 1.0.8'
 
 # 按需集成
 pod 'BmobSwiftSDK/Core'    # 仅核心网络层

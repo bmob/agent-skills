@@ -3,7 +3,7 @@ name: bmob-database-swift
 description: "Use when implementing Bmob NoSQL database CRUD or realtime data listening with the pure Swift BmobSwiftSDK for iOS 15+ / macOS 12+ using Swift Package Manager or CocoaPods, import BmobSDK, async/await, Bmob.initialize(appKey:), BmobObject, BmobQuery, BmobUser, BmobFile, BmobPointer, BmobRelation, BmobGeoPoint, BmobACL, CloudFunction, BmobEvent, BmobActionType, resetIODomain, 实时数据监听. NOT for legacy Objective-C BmobSDK / Bridging Header projects (use bmob-database-ios), JavaScript / WeChat Mini Program (use bmob-database-javascript), Android (use bmob-database-android), Flutter / Dart (use bmob-database-flutter), or raw HTTP from other languages (use bmob-database-restful). If Bmob MCP is configured, call get_project_tables via bmob-mcp before writing code."
 metadata:
   author: bmob
-  version: "0.2.0"
+  version: "0.2.1"
   sdk: "BmobSwiftSDK (Swift Package Manager / CocoaPods)"
   sdk_repo: "https://github.com/bmob/BmobSwiftSDK"
   docs: "https://github.com/bmob/BmobDocs/blob/master/mds/data/swift/develop_doc.md"
@@ -44,7 +44,7 @@ Swift Package Manager:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/bmob/BmobSwiftSDK", from: "1.0.7")
+    .package(url: "https://github.com/bmob/BmobSwiftSDK", from: "1.0.8")
 ],
 targets: [
     .target(name: "YourApp", dependencies: [
@@ -60,7 +60,7 @@ platform :ios, '15.0'
 use_frameworks!
 
 target 'YourApp' do
-  pod 'BmobSwiftSDK', '~> 1.0.7'
+  pod 'BmobSwiftSDK', '~> 1.0.8'
 end
 ```
 
@@ -160,10 +160,10 @@ let result = try await BmobCloud.run(function: "hello", params: ["name": "Swift"
 
 该行为适用于通过 Android、iOS、Swift 等加密客户端 SDK 以 POST 方式调用云函数的场景。
 
-### 实时数据监听（1.0.7+）
+### 实时数据监听（推荐 1.0.8+）
 
-1.0.7 已修复 `BmobEvent`，支持 `.updateTable`、`.deleteTable`、`.updateRow`、`.deleteRow`。
-实时监听修复和 `resetIODomain` 需要 1.0.7 或更新版本；集成前核对用户实际使用的 SDK 版本。
+`BmobEvent`，支持 `.updateTable`、`.deleteTable`、`.updateRow`、`.deleteRow`。
+`resetIODomain` 自 1.0.7 提供；正确兼容旧服务端的 WS/WSS 握手及空 objectId 回退需要 1.0.8 或更新版本，集成前核对所用 SDK。
 编写监听代码时读取 [`references/realtime.md`](references/realtime.md)，包含订阅、退订、事件流、代理和域名切换示例。
 
 - 初始化完成后再连接；持有 `BmobEvent` 实例，可在连接前登记订阅。
@@ -222,7 +222,7 @@ let result = try await BmobCloud.run(function: "hello", params: ["name": "Swift"
 | 关联查询没展开 | 查询时是否 `.includeKey("author")`；Pointer 字段名和目标 objectId 是否存在 |
 | `BmobError.serverError(code, message)` | 取出数字 `code` 后查 [`bmob-error-codes`](../bmob-error-codes/SKILL.md) |
 | 云函数里数字 / 布尔判断不对 | `request.body` 值均为字符串；用 `parseInt`、`=== "true"`、`JSON.parse` 解析，见上文「云函数参数（已知行为）」 |
-| 监听无消息或域名切换未生效 | 核对 SDK 是否包含监听修复；等待初始化及服务端就绪，确认订阅 action；`resetIODomain` 需 await，新地址在下次连接时生效，详见 [`realtime.md`](references/realtime.md) |
+| 监听无消息、报 -1011 或域名切换未生效 | 使用 1.0.8+（WS/WSS URLRequest + Origin，修复握手 403）；等待初始化及服务端就绪，确认订阅 action；`resetIODomain` 需 await，新地址在下次连接时生效，详见 [`realtime.md`](references/realtime.md) |
 | Swift 并发警告或 UI 更新问题 | SDK 调用用 `async/await`；UI 状态更新回到 `@MainActor` / 主线程上下文 |
 
 ## 参考
