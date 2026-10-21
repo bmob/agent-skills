@@ -3,7 +3,7 @@ name: bmob-database-swift
 description: "Use when implementing Bmob NoSQL database CRUD or realtime data listening with the pure Swift BmobSwiftSDK for iOS 15+ / macOS 12+ using Swift Package Manager or CocoaPods, import BmobSDK, async/await, Bmob.initialize(appKey:), BmobObject, BmobQuery, BmobUser, BmobFile, BmobPointer, BmobRelation, BmobGeoPoint, BmobACL, CloudFunction, BmobEvent, BmobActionType, resetIODomain, 实时数据监听. NOT for legacy Objective-C BmobSDK / Bridging Header projects (use bmob-database-ios), JavaScript / WeChat Mini Program (use bmob-database-javascript), Android (use bmob-database-android), Flutter / Dart (use bmob-database-flutter), or raw HTTP from other languages (use bmob-database-restful). If Bmob MCP is configured, call get_project_tables via bmob-mcp before writing code."
 metadata:
   author: bmob
-  version: "0.1.0"
+  version: "0.2.0"
   sdk: "BmobSwiftSDK (Swift Package Manager / CocoaPods)"
   sdk_repo: "https://github.com/bmob/BmobSwiftSDK"
   docs: "https://github.com/bmob/BmobDocs/blob/master/mds/data/swift/develop_doc.md"
@@ -44,7 +44,7 @@ Swift Package Manager:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/bmob/BmobSwiftSDK", from: "1.0.6")
+    .package(url: "https://github.com/bmob/BmobSwiftSDK", from: "1.0.7")
 ],
 targets: [
     .target(name: "YourApp", dependencies: [
@@ -60,7 +60,7 @@ platform :ios, '15.0'
 use_frameworks!
 
 target 'YourApp' do
-  pod 'BmobSwiftSDK', '~> 1.0.6'
+  pod 'BmobSwiftSDK', '~> 1.0.7'
 end
 ```
 
@@ -160,10 +160,10 @@ let result = try await BmobCloud.run(function: "hello", params: ["name": "Swift"
 
 该行为适用于通过 Android、iOS、Swift 等加密客户端 SDK 以 POST 方式调用云函数的场景。
 
-### 实时数据监听（尚未发布）
+### 实时数据监听（1.0.7+）
 
-当前源码已修复 `BmobEvent`，支持 `.updateTable`、`.deleteTable`、`.updateRow`、`.deleteRow`。
-这些修复和 `resetIODomain` 尚未发布，勿假设上面的 `1.0.6` 安装版本包含它们；集成前核对所用 SDK 源码或发布记录。
+1.0.7 已修复 `BmobEvent`，支持 `.updateTable`、`.deleteTable`、`.updateRow`、`.deleteRow`。
+实时监听修复和 `resetIODomain` 需要 1.0.7 或更新版本；集成前核对用户实际使用的 SDK 版本。
 编写监听代码时读取 [`references/realtime.md`](references/realtime.md)，包含订阅、退订、事件流、代理和域名切换示例。
 
 - 初始化完成后再连接；持有 `BmobEvent` 实例，可在连接前登记订阅。

@@ -59,7 +59,7 @@ git submodule update --init --depth 1 --recursive
 ## 提交前必查
 
 ```bash
-pnpm run validate     # 校验所有 SKILL.md 的 frontmatter 与相对链接
+pnpm run validate     # frontmatter、相对链接、MCP 会话回归测试和 TypeScript 类型检查
 ```
 
 CI 也会跑同一份校验，加上一个针对 `http://mcp.bmobapp.com/mcp` 的 tools/list smoke 测试（需要在 GitHub secrets 里配 `BMOB_MCP_APP_ID` 与 `BMOB_MCP_REST_KEY`，否则自动跳过）。

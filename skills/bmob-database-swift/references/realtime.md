@@ -1,6 +1,6 @@
 # Swift 实时数据监听
 
-> 适用于本次源码中的监听修复及 `Bmob.resetIODomain`，尚未发布。不要假设已发布的 1.0.6 包含这些接口或修复；先核对用户实际使用的 SDK。
+> 实时监听修复及 `Bmob.resetIODomain` 自 1.0.7 起提供。使用 1.0.7 或更新版本；先核对用户实际使用的 SDK。
 
 完整用户文档：[BmobSwift SDK 开发文档 · 实时数据监听](https://github.com/bmob/BmobDocs/blob/master/mds/data/swift/develop_doc.md#实时数据监听)。
 

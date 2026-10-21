@@ -156,7 +156,7 @@ The agent should call `get_project_tables` and return live schema.
 
 - **Skill users**: install and use skills directly in AI tools
 - **Maintainers**: update skill logic and extract snippets from BmobDocs
-- **CI**: validates frontmatter and links, and runs MCP smoke checks when secrets are configured
+- **CI**: validates frontmatter and links, runs MCP transport regression tests and TypeScript checks, and runs live MCP smoke checks when secrets are configured
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development workflow.
 
@@ -173,7 +173,7 @@ pnpm run validate
 
 Useful scripts:
 
-- `pnpm run validate` — frontmatter + relative link checks
+- `pnpm run validate` — frontmatter, relative links, MCP transport regression tests, and TypeScript checks
 - `pnpm run extract:local` — extract snippets from local `vendor/BmobDocs`
 - `pnpm run extract:remote` — extract snippets from remote raw docs
 - `pnpm run new:skill` — scaffold a new skill

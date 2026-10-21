@@ -1,16 +1,11 @@
-/**
- * Smoke test: confirms the upstream Bmob MCP server still exposes the 9
- * agent-callable tools documented in skills/bmob-mcp/SKILL.md (12 total on
- * tools/list; mcp_endpoint_mcp_post is internal). Uses anonymous demo creds —
- * accepts auth header but tools/list works without app-scoped data.
- *
- * Skipped automatically if BMOB_MCP_APP_ID / BMOB_MCP_REST_KEY are not set.
+/** Read-only tools/list smoke check using one MCP HTTP+SSE session.
+ * Skipped when BMOB_MCP_APP_ID / BMOB_MCP_REST_KEY are not set.
+ * There are 11 agent-callable tools; mcp_endpoint_mcp_post is internal.
  */
-const APP_ID = process.env.BMOB_MCP_APP_ID;
-const REST_KEY = process.env.BMOB_MCP_REST_KEY;
-const ENDPOINT = process.env.BMOB_MCP_ENDPOINT ?? "http://mcp.bmobapp.com/mcp";
+import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 
-const EXPECTED = [
+export const EXPECTED = [
   "get_project_tables",
   "create_table",
   "add_single_data",
@@ -24,88 +19,97 @@ const EXPECTED = [
   "deploy_static_site",
 ];
 
-if (!APP_ID || !REST_KEY) {
-  console.log("[mcp-smoke] BMOB_MCP_APP_ID / BMOB_MCP_REST_KEY not set, skipping.");
-  process.exit(0);
-}
-
-const headers = {
-  "X-Bmob-Application-Id": APP_ID,
-  "X-Bmob-REST-API-Key": REST_KEY,
-};
-
-async function readSseUntil(url: string, predicate: (e: { event: string; data: string }) => boolean, ms = 12000) {
+export async function listMcpTools(
+  endpoint: string,
+  headers: Record<string, string>,
+  timeoutMs = 12000,
+  fetchImpl: typeof fetch = fetch,
+): Promise<string[]> {
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), ms);
-  const res = await fetch(url, { headers: { Accept: "text/event-stream", ...headers }, signal: ctrl.signal });
-  if (!res.ok || !res.body) throw new Error(`SSE GET ${url} -> ${res.status}`);
-  const reader = res.body.getReader();
-  const dec = new TextDecoder();
-  let buf = "";
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    buf += dec.decode(value, { stream: true });
-    let idx;
-    while ((idx = buf.indexOf("\n\n")) >= 0) {
-      const block = buf.slice(0, idx);
-      buf = buf.slice(idx + 2);
-      const event = (block.match(/^event:\s*(.+)$/m) ?? [, ""])[1];
-      const data = (block.match(/^data:\s*(.+)$/m) ?? [, ""])[1];
-      const e = { event, data };
-      if (predicate(e)) {
-        clearTimeout(timer);
-        ctrl.abort();
-        return e;
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+  let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
+  try {
+    const response = await fetchImpl(endpoint, {
+      headers: { Accept: "text/event-stream", ...headers }, signal: ctrl.signal,
+    });
+    if (!response.ok || !response.body) throw new Error(`SSE GET failed: ${response.status}`);
+    reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let messagesUrl: string | undefined;
+    let initialized = false;
+    const post = async (body: unknown) => {
+      const result = await fetchImpl(messagesUrl!, {
+        method: "POST", signal: ctrl.signal,
+        headers: { "Content-Type": "application/json", ...headers },
+        body: JSON.stringify(body),
+      });
+      // Consume the response to release its connection before continuing.
+      await result.text();
+      if (!result.ok) throw new Error(`MCP POST failed: ${result.status}`);
+    };
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) throw new Error("SSE ended before tools/list response");
+      buffer += decoder.decode(value, { stream: true });
+      let boundary: RegExpExecArray | null;
+      while ((boundary = /\r?\n\r?\n/.exec(buffer))) {
+        const block = buffer.slice(0, boundary.index);
+        buffer = buffer.slice(boundary.index + boundary[0].length);
+        const lines = block.split(/\r?\n/);
+        const event = lines.find((line) => line.startsWith("event:"))?.slice(6).trim();
+        const data = lines.filter((line) => line.startsWith("data:"))
+          .map((line) => line.slice(5).replace(/^ /, "")).join("\n");
+        if (event === "endpoint" && !messagesUrl) {
+          const url = new URL(data, endpoint);
+          if (url.origin !== new URL(endpoint).origin) throw new Error("Cross-origin MCP endpoint rejected");
+          messagesUrl = url.toString();
+          await post({
+            jsonrpc: "2.0", id: 1, method: "initialize",
+            params: { protocolVersion: "2024-11-05", capabilities: {}, clientInfo: { name: "smoke", version: "1.0.0" } },
+          });
+        } else if (event === "message" && data) {
+          const payload = JSON.parse(data);
+          if (payload.id === 1 && !initialized) {
+            if (payload.error) throw new Error("MCP initialize returned an error");
+            initialized = true;
+            await post({ jsonrpc: "2.0", method: "notifications/initialized" });
+            await post({ jsonrpc: "2.0", id: 2, method: "tools/list", params: {} });
+          } else if (payload.id === 2 && initialized) {
+            if (payload.error || !Array.isArray(payload.result?.tools)) {
+              throw new Error("Invalid MCP tools/list response");
+            }
+            return payload.result.tools.map((tool: { name: string }) => tool.name);
+          }
+        }
       }
     }
+  } finally {
+    clearTimeout(timer);
+    ctrl.abort();
+    await reader?.cancel().catch(() => {});
   }
-  clearTimeout(timer);
-  throw new Error("SSE ended without match");
-}
-
-async function postJson(url: string, body: unknown) {
-  const r = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...headers },
-    body: JSON.stringify(body),
-  });
-  if (!r.ok) throw new Error(`POST ${url} -> ${r.status}`);
 }
 
 async function main() {
-  const sseUrl = ENDPOINT;
-  let sessionPath = "";
-  const sse = fetch(sseUrl, { headers: { Accept: "text/event-stream", ...headers } });
-
-  const endpointEvent = await readSseUntil(sseUrl, (e) => e.event === "endpoint");
-  sessionPath = endpointEvent.data;
-  const messagesUrl = new URL(sessionPath, sseUrl).toString();
-
-  await postJson(messagesUrl, {
-    jsonrpc: "2.0",
-    id: 1,
-    method: "initialize",
-    params: { protocolVersion: "2024-11-05", capabilities: {}, clientInfo: { name: "smoke", version: "0.0.1" } },
-  });
-  await postJson(messagesUrl, { jsonrpc: "2.0", method: "notifications/initialized" });
-  await postJson(messagesUrl, { jsonrpc: "2.0", id: 2, method: "tools/list", params: {} });
-
-  const toolsEvent = await readSseUntil(sseUrl, (e) => e.event === "message" && e.data.includes("\"id\":2"));
-  const payload = JSON.parse(toolsEvent.data);
-  const names: string[] = (payload.result?.tools ?? []).map((t: { name: string }) => t.name);
-
-  const missing = EXPECTED.filter((n) => !names.includes(n));
-  if (missing.length) {
-    console.error("[mcp-smoke] missing tools:", missing);
-    console.error("[mcp-smoke] got:", names);
-    process.exit(1);
+  const appId = process.env.BMOB_MCP_APP_ID;
+  const restKey = process.env.BMOB_MCP_REST_KEY;
+  if (!appId || !restKey) {
+    console.log("[mcp-smoke] BMOB_MCP_APP_ID / BMOB_MCP_REST_KEY not set, skipping.");
+    return;
   }
-  console.log(`[mcp-smoke] ok — ${names.length} tools, all expected present.`);
-  void sse;
+  const names = await listMcpTools(process.env.BMOB_MCP_ENDPOINT ?? "http://mcp.bmobapp.com/mcp", {
+    "X-Bmob-Application-Id": appId, "X-Bmob-REST-API-Key": restKey,
+  });
+  const missing = EXPECTED.filter((name) => !names.includes(name));
+  if (missing.length) throw new Error(`[mcp-smoke] missing tools: ${missing.join(", ")}`);
+  console.log(`[mcp-smoke] ok — ${names.length} tools, all ${EXPECTED.length} expected present.`);
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}
